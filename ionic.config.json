@@ -1,0 +1,7 @@
+{
+  "name": "azen-devolutions",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
