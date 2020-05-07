@@ -43,21 +43,30 @@ export interface ITicket {
 export interface IFraction {
 
     /**
-     * Fraction itself: { 1 | 2 | 3... }
+     * Fraction itself: { 001 | 002 | 003... }
      */
-    id: number;
+    codigo: string;
 
     /** 
      * count
      */
-    tickets: number[]
+    tickets: string[]
 }
 
 
 /**
  * lottery tickets state
  */
-export default interface IState {
+export interface IState {
     fractions: INormalizedEntity<IFraction>;
     tickets: INormalizedEntity<ITicket>;
 }
+
+/**
+ * Context contract
+ */
+export interface ILoteryTicketsContext {
+    state: IState;
+    dispatch: React.Dispatch<any>;
+}
+  

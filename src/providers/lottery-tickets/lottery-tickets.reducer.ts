@@ -1,22 +1,20 @@
-import IState from "./lottery-tickets.contracts";
-import { ActionType, ADD_LOTTERY_TICKET } from "./lottery-tickets.actions";
+import { IState } from "./lottery-tickets.contracts";
+import ActionType, * as Actions from "./lottery-tickets.types";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 
-    console.log('debbug: comes to reducer');
-
     switch (action.type) {
-        case ADD_LOTTERY_TICKET:
+        case Actions.ADD_LOTTERY_TICKET:
 
             const newTicket = action.payload;
             const ticket = state.tickets.byId[newTicket.codigo];
-            
+
             if (ticket) {
                 return state;
             }
-            
+
             const fraction = state.fractions.byId[newTicket.fraccion];
-            
+
             return {
                 fractions: {
                     byId: fraction
@@ -31,7 +29,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
                         {
                             ...state.fractions.byId,
                             [newTicket.fraccion]: {
-                                id: newTicket.fraccion,
+                                codigo: newTicket.fraccion,
                                 tickets: [newTicket.codigo]
                             }
                         },

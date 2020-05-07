@@ -1,26 +1,22 @@
 import React, { createContext, useReducer } from "react";
 
-import IState, { IFraction, ITicket } from "./lottery-tickets.contracts";
+import { IState, ILoteryTicketsContext } from "./lottery-tickets.contracts";
 import { reducer } from "./lottery-tickets.reducer";
-import { INormalizedEntity } from "../../shared/contracts/shared.contracts";
+import ActionType from "./lottery-tickets.types";
 
-export interface ILoteryTicketsContext {
-  state: IState;
-  dispatch: any;
-}
+export const initialState = {
+  fractions: {
+    byId: {},
+    allIds: [],
+  },
+  tickets: {
+    byId: {},
+    allIds: [],
+  },
+} as IState;
 
 let initialContext = {
-  state: {
-    ticketsCount: 0,
-    fractions: {
-      byId: {},
-      allIds: []
-    },
-    tickets: {
-      byId: {},
-      allIds: []
-    }
-  },
+  state: initialState,
   dispatch: () => {},
 } as ILoteryTicketsContext;
 
