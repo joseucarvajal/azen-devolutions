@@ -1,9 +1,8 @@
-import { ITicket } from "./lottery-tickets.contracts";
 
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
 interface IAddLotteryTicket {
     type: typeof ADD_LOTTERY_TICKET
-    payload: ITicket
+    payload: string
 }
 
 export const REMOVE_LOTTERY_TICKET_SET = "REMOVE_LOTTERY_TICKET_SET";

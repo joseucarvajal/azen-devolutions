@@ -2,14 +2,16 @@ import React, { createContext, useReducer } from "react";
 
 import { IState, ILoteryTicketsContext } from "./lottery-tickets.contracts";
 import { reducer } from "./lottery-tickets.reducer";
-import ActionType from "./lottery-tickets.types";
 
 export const initialState = {
-  fractions: {
+  ticketsCounter:0,
+  codigoLoteria: '',
+  sorteo: '',
+  ticketsCountCollection: {
     byId: {},
     allIds: [],
   },
-  tickets: {
+  ticketsCollection: {
     byId: {},
     allIds: [],
   },

@@ -1,10 +1,9 @@
-import { ITicket } from "./lottery-tickets.contracts";
 import ActionType, * as Actions from "./lottery-tickets.types";
 
-export const addLotteryTicket = (ticket: ITicket): ActionType => {
+export const addLotteryTicket = (codigo: string): ActionType => {
     return ({
         type: Actions.ADD_LOTTERY_TICKET,
-        payload: ticket
+        payload: codigo
     });
 }
 

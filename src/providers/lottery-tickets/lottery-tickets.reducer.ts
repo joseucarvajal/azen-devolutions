@@ -1,45 +1,48 @@
-import { IState } from "./lottery-tickets.contracts";
+import { IState, ITicketCount } from "./lottery-tickets.contracts";
 import ActionType, * as Actions from "./lottery-tickets.types";
+
+import { getTicketFromCode } from "./lottery-tickets.utils";
+import { INumericIndexable } from "../../shared/contracts/shared.contracts";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 
     switch (action.type) {
         case Actions.ADD_LOTTERY_TICKET:
+            
+            const ticket = state.ticketsCollection.byId[action.payload];
 
-            const newTicket = action.payload;
-            const ticket = state.tickets.byId[newTicket.codigo];
+            const ticketsCounter = state.ticketsCounter + 1;
+            const newTicket = getTicketFromCode(action.payload, ticketsCounter);
 
-            if (ticket) {
-                return state;
-            }
-
-            const fraction = state.fractions.byId[newTicket.fraccion];
+            const counterObj = state.ticketsCountCollection.byId[newTicket.cantidadFracciones];
 
             return {
-                fractions: {
-                    byId: fraction
+                ...state,
+                ticketsCounter,
+                ticketsCountCollection: {
+                    byId: counterObj
                         ? {
-                            ...state.fractions.byId,
-                            [newTicket.fraccion]: {
-                                ...fraction,
-                                tickets: [...fraction.tickets, newTicket.codigo]
+                            ...state.ticketsCountCollection.byId,
+                            [newTicket.cantidadFracciones]: {
+                                ...counterObj,
+                                tickets: [...counterObj.tickets, newTicket.codigo]
                             }
                         }
                         :
                         {
-                            ...state.fractions.byId,
-                            [newTicket.fraccion]: {
-                                codigo: newTicket.fraccion,
+                            ...state.ticketsCountCollection.byId,
+                            [newTicket.cantidadFracciones]: {
+                                count: newTicket.cantidadFracciones,
                                 tickets: [newTicket.codigo]
                             }
                         },
-                    allIds: fraction ? state.fractions.allIds : [...state.fractions.allIds, newTicket.fraccion]
+                    allIds: counterObj ? state.ticketsCountCollection.allIds : [...state.ticketsCountCollection.allIds, newTicket.cantidadFracciones]
                 },
-                tickets: {
-                    byId: { ...state.tickets.byId, [newTicket.codigo]: newTicket },
-                    allIds: [...state.tickets.allIds, newTicket.codigo]
+                ticketsCollection: {
+                    byId: { ...state.ticketsCollection.byId, [newTicket.codigo]: newTicket },
+                    allIds: [...state.ticketsCollection.allIds, newTicket.codigo]
                 }
-            } as IState;
+            };
 
         default:
             return state;

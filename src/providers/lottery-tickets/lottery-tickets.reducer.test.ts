@@ -11,124 +11,128 @@ describe('Add tickets', () => {
     it('Should add new Fraction and new ticket', () => {
 
         const initialState = {
-            fractions: {
+            codigoLoteria: '',
+            sorteo: '',
+            ticketsCounter: 0,
+            ticketsCountCollection: {
                 byId: {},
                 allIds: [],
             },
-            tickets: {
+            ticketsCollection: {
                 byId: {},
                 allIds: [],
             },
         } as IState;
 
-        const newTicket = { codigo: "90150004641830216701", fraccion: "001", numero: "4409" } as ITicket;
+        const codigo = "90150004641830216701";
+        const codigoWithoutFraccion = "901500046418302167";
+
+        let expectedTicket = {
+            codigo: codigoWithoutFraccion,
+            cantidadFracciones: 1,
+            fraccion: '01',
+            numero: '8302',
+            serie: '167',
+            readingOrder: 1
+        } as ITicket;
 
         const expectedState = {
-            fractions: {
+            codigoLoteria: '',
+            sorteo: '',
+            ticketsCounter: 1,
+            ticketsCountCollection: {
                 byId: {
-                    [newTicket.fraccion]: {
-                        codigo: newTicket.fraccion,
-                        tickets: [newTicket.codigo]
+                    [expectedTicket.cantidadFracciones]: {
+                        count: expectedTicket.cantidadFracciones,
+                        tickets: [expectedTicket.codigo]
                     }
                 },
-                allIds: [newTicket.fraccion],
+                allIds: [expectedTicket.cantidadFracciones],
             },
-            tickets: {
+            ticketsCollection: {
                 byId: {
-                    [newTicket.codigo]: newTicket
+                    [expectedTicket.codigo]: expectedTicket
                 },
-                allIds: [newTicket.codigo],
+                allIds: [expectedTicket.codigo],
             },
         } as IState;
 
-        const resultState = reducer(initialState, addLotteryTicket(newTicket));
-        expect(resultState).toEqual(expectedState);
+        const receivedState = reducer(initialState, addLotteryTicket(codigo));
 
-        //Fraction added
+        expect(receivedState).toEqual(expectedState);
+
+        expect(receivedState.ticketsCountCollection.allIds).toContain(expectedTicket.cantidadFracciones);
+        expect(receivedState.ticketsCountCollection.byId[expectedTicket.cantidadFracciones].tickets).toContain(expectedTicket.codigo);
+
+        // //Ticket added
         expect(
-            resultState.fractions.byId
-        ).toHaveProperty(newTicket.fraccion);
-
-        expect(resultState.fractions.allIds).toContain(newTicket.fraccion);
-        expect(resultState.fractions.byId[newTicket.fraccion].tickets).toContain(newTicket.codigo);
-
-        //Ticket added
-        expect(
-            resultState.tickets.byId
-        ).toHaveProperty(newTicket.codigo);
-        expect(resultState.tickets.allIds).toContain(newTicket.codigo);
+            receivedState.ticketsCollection.byId
+        ).toHaveProperty(expectedTicket.codigo);
+        expect(receivedState.ticketsCollection.byId[expectedTicket.codigo]).toEqual(expectedTicket);
+        expect(receivedState.ticketsCollection.allIds).toContain(expectedTicket.codigo);
 
     });
 
-    it('Should NOT add new repeated ticket', () => {
+    // it('Should increment quantity with a repeated ticket', () => {
 
-        const existingTicket = { codigo: "90150004641830216701", fraccion: "001", numero: "4409" } as ITicket;
+    //     const codigo = "90150004641830216701";
 
-        const initialState = {
-            fractions: {
-                byId: {
-                    [existingTicket.fraccion]: {
-                        codigo: existingTicket.fraccion,
-                        tickets: [existingTicket.codigo]
-                    }
-                },
-                allIds: [existingTicket.fraccion],
-            },
-            tickets: {
-                byId: {
-                    [existingTicket.codigo]: existingTicket
-                },
-                allIds: [existingTicket.codigo],
-            },
-        } as IState;
+    //     let initialTicket = {
+    //         codigo,
+    //         cantidadFracciones:1,
+    //         fraccion: '01',
+    //         numero: '8302',
+    //         serie: '167'
+    //     } as ITicket;
 
-        const newTicket = { ...existingTicket } as ITicket;
+    //     const initialState = {
+    //         codigoLoteria: '',
+    //         sorteo: '',
+    //         ticketsCounter: 1,
+    //         ticketsCountCollection: {
+    //             byId: {
+    //                 [initialTicket.fraccion]: {
+    //                     count: initialTicket.fraccion,
+    //                     tickets: [initialTicket.codigo]
+    //                 }
+    //             },
+    //             allIds: [initialTicket.fraccion],
+    //         },
+    //         ticketsCollection: {
+    //             byId: {
+    //                 [initialTicket.codigo]: initialTicket
+    //             },
+    //             allIds: [initialTicket.codigo],
+    //         },
+    //     } as IState;
 
-        const resultState = reducer(initialState, addLotteryTicket(newTicket));
-        
-        expect(resultState).toEqual(initialState);
-    });
 
+    //     let expectecTicket = { ...initialTicket, cantidad:2 };
 
-    it('Should add new ticket but NOT new fraction', () => {
+    //     const expectedState = {
+    //         codigoLoteria: '',
+    //         sorteo: '',
+    //         ticketsCounter: 2,
+    //         ticketsCountCollection: {
+    //             byId: {
+    //                 [expectecTicket.fraccion]: {
+    //                     count: expectecTicket.fraccion,
+    //                     tickets: [expectecTicket.codigo]
+    //                 }
+    //             },
+    //             allIds: [expectecTicket.fraccion],
+    //         },
+    //         ticketsCollection: {
+    //             byId: {
+    //                 [expectecTicket.codigo]: expectecTicket
+    //             },
+    //             allIds: [expectecTicket.codigo],
+    //         },
+    //     } as IState;
 
-        const sameFraction = "001";
+    //     const resultState = reducer(initialState, addLotteryTicket(codigo));
 
-        const existingTicket = { 
-            codigo: "90150004641830216701", 
-            fraccion: sameFraction, 
-            numero: "8302", 
-            serie: "167" } as ITicket;
+    //     expect(resultState).toEqual(expectedState);
+    // });
 
-        const initialState = {
-            fractions: {
-                byId: {
-                    [existingTicket.fraccion]: {
-                        codigo: existingTicket.fraccion,
-                        tickets: [existingTicket.codigo]
-                    }
-                },
-                allIds: [existingTicket.fraccion],
-            },
-            tickets: {
-                byId: {
-                    [existingTicket.codigo]: existingTicket
-                },
-                allIds: [existingTicket.codigo],
-            },
-        } as IState;
-
-        const newTicket = { 
-            codigo: "90150004635259409303", 
-            fraccion: sameFraction, 
-            numero: "2594", 
-            serie: "093" } as ITicket;
-
-        const resultState = reducer(initialState, addLotteryTicket(newTicket));
-
-        expect(resultState.tickets.byId).toHaveProperty(newTicket.codigo);
-        expect(resultState.tickets.allIds).toContain(newTicket.codigo);        
-        expect(resultState.fractions.byId[sameFraction].tickets).toContain(newTicket.codigo);
-        expect(resultState.fractions.allIds.length).toEqual(1);
-    });
 });
