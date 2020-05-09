@@ -23,7 +23,6 @@ export const reducer = (state: IState, action: ActionType): IState => {
 
             let existingTicketToRemoveFromCounterIndex = -1;
             let existingFractionTickets: string[] = [];
-            let ticketsCollection: ISTringIndexEntity<ITicket> = state.ticketsCollection.byId;
 
             const existingTicket = state.ticketsCollection.byId[action.payload.codigo.substr(0, action.payload.codigo.length - 2)];
 
@@ -34,8 +33,8 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 }
 
                 //Removes existing item from state
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                let { [existingTicket.codigo]: removedItems, ...ticketsCollection } = state.ticketsCollection.byId;
+                //let { [existingTicket.codigo]: removedItems, ...updatedTicketsCollection } = state.ticketsCollection.byId;
+
                 existingTicketToRemoveFromCounterIndex = state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones].tickets.indexOf(existingTicket.codigo);
                 existingFractionTickets = state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones].tickets;
             }
@@ -44,18 +43,40 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 newTicket.readingOrder = ticketsCounter;
             }
 
-            const counterObj = state.ticketsCounterCollection.byId[newTicket.cantidadFracciones];
+            //console.log('newticket', newTicket);
+            let existingCounter = state.ticketsCounterCollection.byId[newTicket.cantidadFracciones];
+
+            //Scanning repeated ticket into existing counter
+            let existingTicketIndex = -1;
+            if (existingTicket && existingCounter) {
+                existingCounter = state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones];
+                existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);
+                console.log('existing counter items', existingCounter.tickets);
+            }
+
+            //Falta el viejo en el nuevo
 
             return {
                 ...state,
                 ticketsCounter,
                 ticketsCounterCollection: {
-                    byId: counterObj
-                        ? {  //Counter already exists
+                    byId: existingCounter
+                        ? {  //Counter already exists                            
                             ...state.ticketsCounterCollection.byId,
                             [newTicket.cantidadFracciones]: {
-                                ...counterObj,
-                                tickets: [...counterObj.tickets, newTicket.codigo]
+                                ...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones],
+                                tickets: existingTicketIndex === -1
+                                    ?   //repeated ticket doesn't exists
+                                        [...existingCounter.tickets, existingTicket.codigo] //ticket doesn't exists
+                                    :   //repeated ticket already exists
+                                        [...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones].tickets, existingTicket.codigo] //ticket exists
+                            },
+                            [existingCounter.codigo]: {
+                                ...state.ticketsCounterCollection.byId[existingCounter.codigo],
+                                tickets: [
+                                    ...state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.slice(0, existingTicketIndex),
+                                    ...state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.slice(existingTicketIndex + 1, state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.length)                                    
+                                ]
                             }
                         }
                         : //Counter doesn't exist
@@ -67,7 +88,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
                                     codigo: newTicket.cantidadFracciones,
                                     tickets: [newTicket.codigo]
                                 },
-                                [existingTicket?.cantidadFracciones]: {
+                                [existingTicket.cantidadFracciones]: {
                                     ...state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones],
                                     tickets: [...existingFractionTickets.slice(0, existingTicketToRemoveFromCounterIndex),
                                     ...existingFractionTickets.slice(existingTicketToRemoveFromCounterIndex + 1, existingFractionTickets.length)]
@@ -81,20 +102,14 @@ export const reducer = (state: IState, action: ActionType): IState => {
                                     tickets: [newTicket.codigo]
                                 }
                             },
-                    allIds: counterObj ? state.ticketsCounterCollection.allIds : [...state.ticketsCounterCollection.allIds, newTicket.cantidadFracciones]
+                    allIds: existingCounter ? state.ticketsCounterCollection.allIds : [...state.ticketsCounterCollection.allIds, newTicket.cantidadFracciones]
                 },
                 ticketsCollection: {
-                    byId: existingTicket
-                        ? //Ticket exists
-                        {
-                            ...ticketsCollection,
-                            [newTicket.codigo]: newTicket
-                        }
-                        : //Ticket doesn't exist
-                        { 
-                            ...state.ticketsCollection.byId, 
-                            [newTicket.codigo]: newTicket 
-                        },
+                    byId:
+                    {
+                        ...state.ticketsCollection.byId,
+                        [newTicket.codigo]: newTicket
+                    },
                     allIds: existingTicket ? state.ticketsCollection.allIds : [...state.ticketsCollection.allIds, newTicket.codigo]
                 }
             };

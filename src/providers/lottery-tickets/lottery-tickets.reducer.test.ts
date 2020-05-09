@@ -18,50 +18,51 @@ describe('Add tickets', () => {
             ticketsCounter: 1,
             ticketsCounterCollection: {
                 byId: {
-                    [_ticket_1_frac_1.cantidadFracciones]: {
-                        codigo: _ticket_1_frac_1.cantidadFracciones,
-                        tickets: [_ticket_1_frac_1.codigo]
+                    [_ticket_1_1.cantidadFracciones]: {
+                        codigo: _ticket_1_1.cantidadFracciones,
+                        tickets: [_ticket_1_1.codigo]
                     }
                 },
-                allIds: [_ticket_1_frac_1.cantidadFracciones],
+                allIds: [_ticket_1_1.cantidadFracciones],
             },
             ticketsCollection: {
                 byId: {
-                    [_ticket_1_frac_1.codigo]: _ticket_1_frac_1
+                    [_ticket_1_1.codigo]: _ticket_1_1
                 },
-                allIds: [_ticket_1_frac_1.codigo],
+                allIds: [_ticket_1_1.codigo],
             },
         } as IState;
 
         const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_1_frac_1_codigo
+            codigo: _ticket_1_1_codigo
         }));
 
         expect(resultState).toEqual(expectedState);
 
-        expect(resultState.ticketsCounterCollection.allIds).toContain(_ticket_1_frac_1.cantidadFracciones);
-        expect(resultState.ticketsCounterCollection.byId[_ticket_1_frac_1.cantidadFracciones].tickets).toContain(_ticket_1_frac_1.codigo);
+        expect(resultState.ticketsCounterCollection.allIds).toContain(_ticket_1_1.cantidadFracciones);
+        expect(resultState.ticketsCounterCollection.byId[_ticket_1_1.cantidadFracciones].tickets).toContain(_ticket_1_1.codigo);
 
         // //Ticket added
         expect(
             resultState.ticketsCollection.byId
-        ).toHaveProperty(_ticket_1_frac_1.codigo);
-        expect(resultState.ticketsCollection.byId[_ticket_1_frac_1.codigo]).toEqual(_ticket_1_frac_1);
-        expect(resultState.ticketsCollection.allIds).toContain(_ticket_1_frac_1.codigo);
+        ).toHaveProperty(_ticket_1_1.codigo);
+        expect(resultState.ticketsCollection.byId[_ticket_1_1.codigo]).toEqual(_ticket_1_1);
+        expect(resultState.ticketsCollection.allIds).toContain(_ticket_1_1.codigo);
 
     });
 
-    it('ticket exist with diff fraction and should be relocated in a new counter obj', () => {
+    //Reads ticket 1_1, then 1_3
+    it('ticket exist with diff fraction should be relocated in a new counter obj', () => {
 
-        const initialState = _initial_state_with_ticket_1_frac_1;
-        const updatedTicketWithFract3 = _ticket_1_frac_3;
+        const initialState = _state_with_ticket_1_1;
+        const updatedTicketWithFract3 = _ticket_1_3;
 
         const expectedState = {
-            ..._initial_state_with_ticket_1_frac_1,
+            ..._state_with_ticket_1_1,
             ticketsCounterCollection: {
                 byId: {
-                    [_ticket_1_frac_1.cantidadFracciones]: {
-                        codigo: _ticket_1_frac_1.cantidadFracciones,
+                    [_ticket_1_1.cantidadFracciones]: {
+                        codigo: _ticket_1_1.cantidadFracciones,
                         tickets: []
                     },
                     [updatedTicketWithFract3.cantidadFracciones]: {
@@ -69,7 +70,7 @@ describe('Add tickets', () => {
                         tickets: [updatedTicketWithFract3.codigo]
                     }
                 },
-                allIds: [_ticket_1_frac_1.cantidadFracciones, updatedTicketWithFract3.cantidadFracciones],
+                allIds: [_ticket_1_1.cantidadFracciones, updatedTicketWithFract3.cantidadFracciones],
             },
             ticketsCollection: {
                 byId: {
@@ -80,17 +81,53 @@ describe('Add tickets', () => {
         } as IState;
 
         const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_1_frac_3_codigo
+            codigo: _ticket_1_3_codigo
         }));
         
         expect(resultState).toEqual(expectedState);
     });
 
+    //Previous state: 1_3 y ticket 2_1, then reads 2_3
+    it('ticket exist with diff fraction should be replaced with new one in an existing counter obj', () => {
+
+        const initialState = _state_with_tickets_1_3_and_2_1;
+
+        const expectedState = {
+            ..._state_with_tickets_1_3_and_2_1,
+            ticketsCounterCollection: {
+                byId: {
+                    [_ticket_2_1.cantidadFracciones]:{
+                        codigo: _ticket_2_1.cantidadFracciones,
+                        tickets: []
+                    },
+                    [_ticket_2_3.cantidadFracciones]: {
+                        codigo: _ticket_2_3.cantidadFracciones,
+                        tickets: [_ticket_1_3.codigo, _ticket_2_3.codigo]
+                    }            
+                },
+                allIds: [_ticket_1_3.cantidadFracciones, _ticket_2_1.cantidadFracciones],
+            },
+            ticketsCollection: {
+                byId: {
+                    [_ticket_1_3.codigo]: _ticket_1_3,
+                    [_ticket_2_3.codigo]: _ticket_2_3
+                },
+                allIds: [_ticket_1_3.codigo, _ticket_2_3.codigo],
+            },
+        } as IState;
+
+        const resultState = reducer(initialState, addLotteryTicket({
+            codigo: _ticket_2_3_codigo
+        }));
+
+        expect(resultState).toEqual(expectedState);
+    });
+
     it('Should not add the same ticket (same fraction) twice', () => {
 
-        const codigo = _ticket_1_frac_1_codigo;
+        const codigo = _ticket_1_1_codigo;
 
-        const initialState = _initial_state_with_ticket_1_frac_1;
+        const initialState = _state_with_ticket_1_1;
 
         const receivedState = reducer(initialState, addLotteryTicket({
             codigo
@@ -101,7 +138,7 @@ describe('Add tickets', () => {
 
     it('Should not add ticket with barcode length different to 20', () => {       
 
-        const initialState = _initial_state_with_ticket_1_frac_1;
+        const initialState = _state_with_ticket_1_1;
 
         const receivedState = reducer(initialState, addLotteryTicket({
             codigo:"31513513351"
@@ -126,43 +163,90 @@ const _empty_initial_state = {
     },
 } as IState;
 
-const _ticket_1_frac_1_codigo = '90150004641830216701';
-const _ticket_1_frac_1_codigo_nofrac = _ticket_1_frac_1_codigo.substr(0, _ticket_1_frac_1_codigo.length - 2);
-const _ticket_1_frac_1 = {
-    codigo: _ticket_1_frac_1_codigo_nofrac,
+const _ticket_1_1_codigo = '90150004640715402501';
+const _ticket_1_1_codigo_nofrac = _ticket_1_1_codigo.substr(0, _ticket_1_1_codigo.length - 2);
+const _ticket_1_1 = {
+    codigo: _ticket_1_1_codigo_nofrac,
     cantidadFracciones: 1,
     fraccion: '01',
-    numero: '8302',
-    serie: '167',
+    numero: '7154',
+    serie: '025',
     readingOrder: 1
 } as ITicket;
 
 
-const _ticket_1_frac_3_codigo = '90150004641830216703';
-const _ticket_1_frac_3_codigo_nofrac = _ticket_1_frac_3_codigo.substr(0, _ticket_1_frac_3_codigo.length - 2);
-const _ticket_1_frac_3 = {
-    ..._ticket_1_frac_1,
-    codigo: _ticket_1_frac_3_codigo_nofrac,
+const _ticket_1_3_codigo = '90150004640715402503';
+const _ticket_1_3_codigo_nofrac = _ticket_1_3_codigo.substr(0, _ticket_1_3_codigo.length - 2);
+const _ticket_1_3 = {
+    ..._ticket_1_1,
+    codigo: _ticket_1_3_codigo_nofrac,
     cantidadFracciones: 3,
     fraccion: '03',
 };
 
-const _initial_state_with_ticket_1_frac_1 = {
+const _state_with_ticket_1_1 = {
     ...initialState,
     ticketsCounter: 1,
     ticketsCounterCollection: {
         byId: {
-            [_ticket_1_frac_1.cantidadFracciones]: {
-                codigo: _ticket_1_frac_1.cantidadFracciones,
-                tickets: [_ticket_1_frac_1.codigo]
+            [_ticket_1_1.cantidadFracciones]: {
+                codigo: _ticket_1_1.cantidadFracciones,
+                tickets: [_ticket_1_1.codigo]
             }
         },
-        allIds: [_ticket_1_frac_1.cantidadFracciones],
+        allIds: [_ticket_1_1.cantidadFracciones],
     },
     ticketsCollection: {
         byId: {
-            [_ticket_1_frac_1.codigo]: _ticket_1_frac_1
+            [_ticket_1_1.codigo]: _ticket_1_1
         },
-        allIds: [_ticket_1_frac_1.codigo],
+        allIds: [_ticket_1_1.codigo],
+    },
+} as IState;
+
+
+const _ticket_2_1_codigo = '90150004640475102501';
+const _ticket_2_1_codigo_nofrac = _ticket_2_1_codigo.substr(0, _ticket_2_1_codigo.length - 2);
+const _ticket_2_1 = {
+    codigo: _ticket_2_1_codigo_nofrac,
+    cantidadFracciones: 1,
+    fraccion: '01',
+    numero: '4751',
+    serie: '025',
+    readingOrder: 2
+} as ITicket;
+
+const _ticket_2_3_codigo = '90150004640475102503';
+const _ticket_2_3_codigo_nofrac = _ticket_2_3_codigo.substr(0, _ticket_2_3_codigo.length - 2);
+const _ticket_2_3 = {
+    ..._ticket_2_1,
+    codigo: _ticket_2_3_codigo_nofrac,
+    cantidadFracciones: 3,
+    fraccion: '03',
+};
+
+//ticket exist with diff fraction should be relocated in an existing counter obj
+const _state_with_tickets_1_3_and_2_1 = {
+    ...initialState,
+    ticketsCounter: 2,
+    ticketsCounterCollection: {
+        byId: {
+            [_ticket_1_3.cantidadFracciones]: {
+                codigo: _ticket_1_3.cantidadFracciones,
+                tickets: [_ticket_1_3.codigo]
+            },
+            [_ticket_2_1.cantidadFracciones]: {
+                codigo: _ticket_2_1.cantidadFracciones,
+                tickets: [_ticket_2_1.codigo]
+            }            
+        },
+        allIds: [_ticket_1_3.cantidadFracciones, _ticket_2_1.cantidadFracciones],
+    },
+    ticketsCollection: {
+        byId: {
+            [_ticket_1_3.codigo]: _ticket_1_3,
+            [_ticket_2_1.codigo]: _ticket_2_1
+        },
+        allIds: [_ticket_1_3.codigo, _ticket_2_1.codigo],
     },
 } as IState;
