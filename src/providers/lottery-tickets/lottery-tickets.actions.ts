@@ -1,15 +1,25 @@
-import ActionType, * as Actions from "./lottery-tickets.types";
+import { 
+    ActionType,
 
-export const addLotteryTicket = (codigo: string): ActionType => {
-    return ({
-        type: Actions.ADD_LOTTERY_TICKET,
-        payload: codigo
-    });
-}
+    ADD_LOTTERY_TICKET,
+    IAddLotteryTicketParams,
 
-export const removeLotteryTicketSet = (ticketsIds: number[]): ActionType => {
+    REMOVE_LOTTERY_TICKET_SET,
+    IRemoveLotteryTicketSetParams,
+
+ } from "./lottery-tickets.types";
+
+ 
+ export const addLotteryTicket = (payload: IAddLotteryTicketParams): ActionType => {
+     return ({
+         type: ADD_LOTTERY_TICKET,
+         payload
+     });
+ }
+ 
+export const removeLotteryTicketSet = (payload: IRemoveLotteryTicketSetParams): ActionType => {
     return ({
-        type: Actions.REMOVE_LOTTERY_TICKET_SET,
-        payload: ticketsIds
+        type: REMOVE_LOTTERY_TICKET_SET,
+        payload
     });
 }

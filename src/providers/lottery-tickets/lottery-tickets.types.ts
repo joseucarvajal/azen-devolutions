@@ -1,15 +1,19 @@
-
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
-interface IAddLotteryTicket {
+export interface IAddLotteryTicketParams {
+    codigo:string
+}
+export interface IAddLotteryTicket {
     type: typeof ADD_LOTTERY_TICKET
-    payload: string
+    payload: IAddLotteryTicketParams
 }
 
 export const REMOVE_LOTTERY_TICKET_SET = "REMOVE_LOTTERY_TICKET_SET";
-interface IRemoveLotteryTicketSet {
+export interface IRemoveLotteryTicketSetParams {
+    tickets: number[]
+}
+export interface IRemoveLotteryTicket {
     type: typeof REMOVE_LOTTERY_TICKET_SET
-    payload: number[]
+    payload: IRemoveLotteryTicketSetParams
 }
 
-type ActionType = IAddLotteryTicket | IRemoveLotteryTicketSet;
-export default ActionType;
+export type ActionType = IAddLotteryTicket | IRemoveLotteryTicket;

@@ -45,7 +45,7 @@ export interface ITicketCount {
     /**
      * Fraction itself: { 001 | 002 | 003... }
      */
-    count: number;
+    codigo: number;
 
     /** 
      * Tickets
