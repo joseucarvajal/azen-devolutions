@@ -77,7 +77,7 @@ export interface IState {
     /**
      * Fractions collection
      */
-    ticketsCountCollection: INumericIndexable<ITicketCount>;
+    ticketsCounterCollection: INumericIndexable<ITicketCount>;
 
     /**
      * Lottery tickets collection

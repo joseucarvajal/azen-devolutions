@@ -10,7 +10,7 @@ export const initialState = {
   ticketsCounter:0,
   codigoLoteria: '',
   sorteo: '',
-  ticketsCountCollection: {
+  ticketsCounterCollection: {
     byId: {},
     allIds: [],
   },
