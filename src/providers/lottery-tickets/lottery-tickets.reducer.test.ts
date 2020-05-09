@@ -189,6 +189,48 @@ describe('Add tickets', () => {
         }));
 
         expect(receivedState).toEqual(initialState);
-    });
+    });    
+
+    it('Should not add ticket with barcode length different to 20', () => {
+
+        const codigo = "90150004641830216701";
+        const codigoRealTicket = codigo.substr(0, codigo.length - 2);
+
+        const existingTicket = {
+            codigo: codigoRealTicket,
+            cantidadFracciones: 1,
+            fraccion: '01',
+            numero: '8302',
+            serie: '167',
+            readingOrder: 1
+        } as ITicket;
+
+        const initialState = {
+            codigoLoteria: '',
+            sorteo: '',
+            ticketsCounter: 1,
+            ticketsCountCollection: {
+                byId: {
+                    [existingTicket.cantidadFracciones]: {
+                        codigo: existingTicket.cantidadFracciones,
+                        tickets: [existingTicket.codigo]
+                    }
+                },
+                allIds: [existingTicket.cantidadFracciones],
+            },
+            ticketsCollection: {
+                byId: {
+                    [existingTicket.codigo]: existingTicket
+                },
+                allIds: [existingTicket.codigo],
+            },
+        } as IState;
+
+        const receivedState = reducer(initialState, addLotteryTicket({
+            codigo:"31513513351"
+        }));
+
+        expect(receivedState).toEqual(initialState);
+    });    
 
 });

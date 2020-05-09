@@ -14,6 +14,10 @@ export const reducer = (state: IState, action: ActionType): IState => {
     switch (action.type) {
         case ADD_LOTTERY_TICKET: //It receives the entire ticket code
 
+            if(!action.payload.codigo || action.payload.codigo.length !== 20){
+                return state;
+            }
+
             let ticketsCounter = state.ticketsCounter;
             const newTicket = getTicketFromCode(action.payload.codigo, ticketsCounter);
 
@@ -24,6 +28,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
             const existingTicket = state.ticketsCollection.byId[action.payload.codigo.substr(0, action.payload.codigo.length - 2)];
             if (existingTicket) {
                 //Removes existing item from state
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 let { [existingTicket.codigo]: removedItems, ...ticketsCollection } = state.ticketsCollection.byId;
 
                 if (existingTicket.fraccion === newTicket.fraccion) {
