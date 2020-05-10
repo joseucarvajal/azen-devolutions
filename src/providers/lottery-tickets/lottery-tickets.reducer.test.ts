@@ -144,7 +144,7 @@ describe('Add tickets', () => {
             codigo:"31513513351"
         }));
 
-        expect(receivedState).toEqual(initialState);
+        expect(receivedState).toBe(initialState);
     }); 
 
 });
