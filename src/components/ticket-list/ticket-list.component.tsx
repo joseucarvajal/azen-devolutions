@@ -1,26 +1,34 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 
-import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
-
-import { addLotteryTicket } from "../../providers/lottery-tickets/lottery-tickets.actions";
-
-import { useTest } from "../../providers/lottery-tickets/lottery-tickets.provider";
+import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
 
 const TicketList: React.FC = () => {
-  const { state, dispatch } = useContext(LotteryTicketsContext);
+  
+  const [code, setCode] = useState("");
 
-  const [ addTicket ] = useTest();
+  const {state, addTicket} = useLotteryTickets();
 
-  console.log("state in list component", state);  
+  console.log("state in list component", state);
 
   return (
     <>
       <div>
         <input
+          type="text"
+          value={code}
+          onChange={(e) => {
+            setCode(e.target.value);
+          }}
+        />
+
+        <span>Cant: {state.ticketsCollection.allIds.length}</span>
+
+        <input
           type="button"
           value="add btn"
           onClick={() => {
-            addTicket();
+            addTicket(code);
+            setCode("");
           }}
         />
       </div>

@@ -163,19 +163,19 @@ const _empty_initial_state = {
     },
 } as IState;
 
-const _ticket_1_1_codigo = '90150004640715402501';
+const _ticket_1_1_codigo = '90150004640715400101';
 const _ticket_1_1_codigo_nofrac = _ticket_1_1_codigo.substr(0, _ticket_1_1_codigo.length - 2);
 const _ticket_1_1 = {
     codigo: _ticket_1_1_codigo_nofrac,
     cantidadFracciones: 1,
     fraccion: '01',
     numero: '7154',
-    serie: '025',
+    serie: '001',
     readingOrder: 1
 } as ITicket;
 
 
-const _ticket_1_3_codigo = '90150004640715402503';
+const _ticket_1_3_codigo = '90150004640715400103';
 const _ticket_1_3_codigo_nofrac = _ticket_1_3_codigo.substr(0, _ticket_1_3_codigo.length - 2);
 const _ticket_1_3 = {
     ..._ticket_1_1,
@@ -205,18 +205,18 @@ const _state_with_ticket_1_1 = {
 } as IState;
 
 
-const _ticket_2_1_codigo = '90150004640475102501';
+const _ticket_2_1_codigo = '90150004640475119901';
 const _ticket_2_1_codigo_nofrac = _ticket_2_1_codigo.substr(0, _ticket_2_1_codigo.length - 2);
 const _ticket_2_1 = {
     codigo: _ticket_2_1_codigo_nofrac,
     cantidadFracciones: 1,
     fraccion: '01',
     numero: '4751',
-    serie: '025',
+    serie: '199',
     readingOrder: 2
 } as ITicket;
 
-const _ticket_2_3_codigo = '90150004640475102503';
+const _ticket_2_3_codigo = '90150004640475119903';
 const _ticket_2_3_codigo_nofrac = _ticket_2_3_codigo.substr(0, _ticket_2_3_codigo.length - 2);
 const _ticket_2_3 = {
     ..._ticket_2_1,

@@ -1,4 +1,4 @@
-import { IState, ITicket } from "./lottery-tickets.contracts";
+import { IState } from "./lottery-tickets.contracts";
 import {
 
     ActionType,
@@ -7,7 +7,6 @@ import {
 } from "./lottery-tickets.types";
 
 import { getTicketFromCode as buildTicketFromCode } from "./lottery-tickets.utils";
-import { ISTringIndexEntity } from "../../shared/contracts/shared.contracts";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 
@@ -50,11 +49,8 @@ export const reducer = (state: IState, action: ActionType): IState => {
             let existingTicketIndex = -1;
             if (existingTicket && existingCounter) {
                 existingCounter = state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones];
-                existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);
-                console.log('existing counter items', existingCounter.tickets);
+                existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);            
             }
-
-            //Falta el viejo en el nuevo
 
             return {
                 ...state,
@@ -63,21 +59,21 @@ export const reducer = (state: IState, action: ActionType): IState => {
                     byId: existingCounter
                         ? {  //Counter already exists                            
                             ...state.ticketsCounterCollection.byId,
-                            [newTicket.cantidadFracciones]: {
-                                ...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones],
-                                tickets: existingTicketIndex === -1
-                                    ?   //repeated ticket doesn't exists
-                                        [...existingCounter.tickets, existingTicket.codigo] //ticket doesn't exists
-                                    :   //repeated ticket already exists
-                                        [...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones].tickets, existingTicket.codigo] //ticket exists
-                            },
                             [existingCounter.codigo]: {
                                 ...state.ticketsCounterCollection.byId[existingCounter.codigo],
                                 tickets: [
                                     ...state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.slice(0, existingTicketIndex),
-                                    ...state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.slice(existingTicketIndex + 1, state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.length)                                    
+                                    ...state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.slice(existingTicketIndex + 1, state.ticketsCounterCollection.byId[existingCounter.codigo].tickets.length)
                                 ]
-                            }
+                            },
+                            [newTicket.cantidadFracciones]: {
+                                ...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones],
+                                tickets: existingTicketIndex === -1
+                                    ?   //repeated ticket doesn't exists
+                                        [...existingCounter.tickets, newTicket.codigo] //ticket doesn't exists
+                                    :   //repeated ticket already exists
+                                        [...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones].tickets, existingTicket.codigo] //ticket exists
+                            },
                         }
                         : //Counter doesn't exist
                         existingTicket
