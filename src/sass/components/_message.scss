@@ -1,0 +1,16 @@
+.warning_message {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+
+    margin-top: 1rem;
+    
+    &__icon{        
+        color: orangered;
+    }
+    
+    &__text{
+        font-size: 0.8rem;
+        margin-left: .5rem;        
+    }
+}

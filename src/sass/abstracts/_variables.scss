@@ -1,0 +1,41 @@
+:root {
+    --zn-color-font-family: "Lato", sans-serif;
+
+    --zn-color-grey-light-rgb-1: red;
+
+    --zn-color-grey-dark-rgb-1: #ebebeb;
+    --zn-color-grey-dark-rgb-2: #646665;
+    --zn-color-grey-dark-rgb-3: #e1e2e3;
+    --zn-color-grey-dark-rgb-4: #888;
+    --zn-color-grey-dark-rgb-5: #e5e5e8;
+    --zn-color-grey-dark-rgb-2: #343334;
+
+    --zn-color-light-rgb-1: 240, 240, 240;
+
+    --azn-border-1: 1px solid var(--zn-color-grey-dark-rgb-3);
+
+    //SHADOWS
+    --azn-shadow-style-1: 2px 3px 9px 0px rgba(179,189,180,1);
+
+    //GRADIENTS:
+    --azn-gradient-style-1: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(241, 241, 241, 1) 50%,
+        rgba(225, 225, 225, 1) 51%,
+        rgba(246, 246, 246, 1) 100%
+    );
+
+
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#d8e0de+0,aebfbc+22,99afab+33,8ea6a2+50,829d98+67,4e5c5a+82,0e0e0e+100;Grey+3D */
+    --azn-gradient-style-2: linear-gradient(
+        135deg,
+        rgba(216, 224, 222, 1) 0%,
+        rgba(174, 191, 188, 1) 22%,
+        rgba(153, 175, 171, 1) 33%,
+        rgba(142, 166, 162, 1) 50%,
+        rgba(130, 157, 152, 1) 67%,
+        rgba(78, 92, 90, 1) 82%,
+        rgba(14, 14, 14, 1) 100%
+    );
+}

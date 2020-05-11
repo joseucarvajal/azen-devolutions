@@ -1,9 +1,8 @@
 import { IState } from "./lottery-tickets.contracts";
-import {
 
+import {
     ActionType,
     ADD_LOTTERY_TICKET,
-
 } from "./lottery-tickets.types";
 
 import { getTicketFromCode as buildTicketFromCode } from "./lottery-tickets.utils";
@@ -49,7 +48,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
             let existingTicketIndex = -1;
             if (existingTicket && existingCounter) {
                 existingCounter = state.ticketsCounterCollection.byId[existingTicket.cantidadFracciones];
-                existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);            
+                existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);
             }
 
             return {
@@ -70,9 +69,9 @@ export const reducer = (state: IState, action: ActionType): IState => {
                                 ...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones],
                                 tickets: existingTicketIndex === -1
                                     ?   //repeated ticket doesn't exists
-                                        [...existingCounter.tickets, newTicket.codigo] //ticket doesn't exists
+                                    [...existingCounter.tickets, newTicket.codigo] //ticket doesn't exists
                                     :   //repeated ticket already exists
-                                        [...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones].tickets, existingTicket.codigo] //ticket exists
+                                    [...state.ticketsCounterCollection.byId[newTicket.cantidadFracciones].tickets, existingTicket.codigo] //ticket exists
                             },
                         }
                         : //Counter doesn't exist
