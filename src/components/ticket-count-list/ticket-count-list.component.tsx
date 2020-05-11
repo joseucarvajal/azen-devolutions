@@ -1,8 +1,5 @@
 import React from "react";
 
-import { IonIcon } from "@ionic/react";
-import { warningOutline } from "ionicons/icons";
-
 import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
 
 import TicketCountItem from "../ticket-count-item/ticket-count-item.component";
@@ -27,20 +24,7 @@ const TicketCountList: React.FC = () => {
               ticketCountObj={currentTicketCounter}
             />
           );
-        })}
-        
-        {state.ticketsCollection.allIds.length === 0 && (
-          <div className="warning_message">
-            <IonIcon
-              className="warning_message__icon"
-              slot="start"
-              icon={warningOutline}
-            />
-            <span className="warning_message__text">
-              Aún no hay billetes escaneados
-            </span>
-          </div>
-        )}
+        })}               
       </div>
     </>
   );

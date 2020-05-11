@@ -27,7 +27,7 @@ const TicketCountItem: React.FC<TicketCountItemProps> = ({ticketCountObj}) => {
       </div>
       <div className="ticket-count-item__data">
         <div className="ticket-count-item__lbl">
-          {nroFraction} Fracción - {ticketsCount} billetes
+          {nroFraction} Fracción: <span className="azn-bolder-1"> {ticketsCount} billetes</span>
         </div>
         <div className="ticket-count-item__actions">
           <IonButton
@@ -42,7 +42,7 @@ const TicketCountItem: React.FC<TicketCountItemProps> = ({ticketCountObj}) => {
             size="small"
             className="ticket-count-item__btn"
           >
-            Escanear de nuevo
+            Reiniciar
           </IonButton>
         </div>
       </div>

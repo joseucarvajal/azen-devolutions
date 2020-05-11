@@ -1,15 +1,15 @@
 .ticket-count-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;    
 
     &:not(:first-child) {
-        margin-top: 1.5rem;
+        margin-top: 1.2rem;
     }
 
     &__frac {
         position: relative;
 
-        flex: 0 0 15%;
+        flex: 0 0 20%;
 
         display: flex;
         justify-content: start;
@@ -34,11 +34,11 @@
             position: absolute;
             left: 0;
             top: 35%;
-            margin-left: 50%;
+            margin-left: 41%;
             display: inline-block;
             font-size: 0.65rem;
-
-            font-weight: bolder;
+            letter-spacing: .07rem;
+            font-weight: bold;
             transform: rotate(-90deg);
         }
 
@@ -69,7 +69,7 @@
         font-weight: bolder;
 
         display: inline-block;
-        min-width: 1.7rem;
+        min-width: 1.9rem;
         text-align: center;
         
         background: rgb(216, 224, 222); /* Old browsers */
@@ -80,22 +80,22 @@
 
     &__data {
         flex: 1;
-        padding: .5rem;
+        padding: .4rem;
         box-shadow: var(--azn-shadow-style-1);
     }
 
     &__lbl {
         font-size: .8rem;
-        font-weight: bolder;
-        margin-bottom: .3rem;
+        //font-weight: bolder;
+        margin-bottom: .2rem;
     }
 
     &__actions {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
     &__btn{
-        font-size: .8rem;
+        font-size: .7rem;
     }
 }
