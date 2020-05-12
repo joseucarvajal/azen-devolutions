@@ -1,4 +1,4 @@
-import { ITicket } from "./lottery-tickets.contracts";
+import { ITicket, IState, ITicketCount, ITicketCounterReport } from "./lottery-tickets.contracts";
 
 /**
  * 
@@ -28,4 +28,28 @@ export const getTicketFromCode = (codigo: string, readingOrder: number): ITicket
 export const padLeft = (str: string, max: number): string => {
     str = str.toString();
     return str.length < max ? padLeft("0" + str, max) : str;
+}
+
+
+export const getTicketCounterReport = (state:IState, agente:string) => {
+
+    const ticketCounterReport = {
+        agente,
+        sorteo: '',
+        fractionsTotalCount: 0,
+        totalTicketsIndxByFraction: [],
+        totalFractionsIndxByFraction: [],
+    } as ITicketCounterReport;
+        
+    ticketCounterReport.sorteo = state.sorteo;
+    
+    for(let [counterCode, counterObj]  of Object.entries(state.ticketsCounterCollection.byId)){
+        const { codigo, tickets } = (counterObj as ITicketCount);
+        ticketCounterReport.totalTicketsIndxByFraction.push(tickets.length);
+        ticketCounterReport.totalFractionsIndxByFraction.push(codigo * tickets.length);
+        ticketCounterReport.fractionsTotalCount += codigo * tickets.length;
+    }
+
+    return ticketCounterReport;
+
 }

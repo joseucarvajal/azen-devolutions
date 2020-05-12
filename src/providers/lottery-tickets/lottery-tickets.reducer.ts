@@ -3,6 +3,7 @@ import { IState } from "./lottery-tickets.contracts";
 import {
     ActionType,
     ADD_LOTTERY_TICKET,
+    SET_TIKET_COUNTER_REPORT,
 } from "./lottery-tickets.types";
 
 import { getTicketFromCode as buildTicketFromCode } from "./lottery-tickets.utils";
@@ -107,6 +108,12 @@ export const reducer = (state: IState, action: ActionType): IState => {
                     },
                     allIds: existingTicket ? state.ticketsCollection.allIds : [...state.ticketsCollection.allIds, newTicket.codigo]
                 }
+            };
+
+        case SET_TIKET_COUNTER_REPORT:
+            return {
+                ...state,
+                tickerCounterReport: action.payload
             };
 
         default:

@@ -1,5 +1,5 @@
-import { ITicket } from "./lottery-tickets.contracts";
-import { padLeft, getTicketFromCode } from "./lottery-tickets.utils";
+import { ITicket, IState, ITicketCounterReport } from "./lottery-tickets.contracts";
+import { padLeft, getTicketFromCode, getTicketCounterReport } from "./lottery-tickets.utils";
 
 describe('Utils tests', () => {
 
@@ -45,6 +45,63 @@ describe('Utils tests', () => {
         } as ITicket;
         ticket = getTicketFromCode(codigo, ticketCounter);
         expect(ticket).toEqual(expectedTicket);
+    });
+
+    it('should return consistent counter report', () => {
+
+        const state = {
+            sorteo: "4640",
+            codigoLoteria: '',
+            ticketsCounter: 6,
+            ticketsCounterCollection: {
+                byId: {
+                    1: {
+                        codigo: 1,
+                        tickets: ["2", "3"]
+                    },
+                    2: {
+                        codigo: 2,
+                        tickets: ["5", "7"]
+                    },
+                    3: {
+                        codigo: 3,
+                        tickets: ["4", "1", "6"]
+                    }
+                },
+                allIds: [1]
+            },
+            ticketsCollection: {
+                byId: {
+                    "1": {} as ITicket,
+                    "2": {} as ITicket,
+                    "3": {} as ITicket,
+                    "4": {} as ITicket,
+                    "5": {} as ITicket,
+                    "6": {} as ITicket,
+                },
+                allIds: ["1", "2", "3", "4", "5", '6']
+            },
+            tickerCounterReport: {} as ITicketCounterReport            
+        } as IState;
+
+        const ticketReport = getTicketCounterReport(state, 'agente');
+
+        console.log('report', JSON.stringify(ticketReport));
+
+        expect(ticketReport.agente).toEqual('agente');
+
+        expect(ticketReport.fractionsTotalCount).toEqual(15);
+
+        expect(ticketReport.totalTicketsIndxByFraction).toContain(2); //Tickets of 1 fraction
+        expect(ticketReport.totalTicketsIndxByFraction).toContain(2); //Tickets of 2 fraction
+        expect(ticketReport.totalTicketsIndxByFraction).toContain(3); //Tickets of 3 fraction
+        
+        expect(ticketReport.totalFractionsIndxByFraction).toContain(2); //Fractions of 1 fraction
+        expect(ticketReport.totalFractionsIndxByFraction).toContain(4); //Fractions of 2 fraction
+        expect(ticketReport.totalFractionsIndxByFraction).toContain(9); //Fractions of 3 fraction
+
+        expect(ticketReport.sorteo).toEqual('4640');
+
     });
 
 });

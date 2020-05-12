@@ -7,27 +7,32 @@ import { ITicketCount } from "../../providers/lottery-tickets/lottery-tickets.co
 import "./ticket-count-item.style.scss";
 
 interface TicketCountItemProps {
-  key:any;
+  key: any;
   ticketCountObj: ITicketCount;
+  totalFracciones: number;
 }
 
-const TicketCountItem: React.FC<TicketCountItemProps> = ({ticketCountObj}) => {
+const TicketCountItem: React.FC<TicketCountItemProps> = ({
+  ticketCountObj,
+  totalFracciones,
+}) => {
 
   const ticketsCount = ticketCountObj.tickets.length;
   const nroFraction = ticketCountObj.codigo;
-
-  const codigoCssClassName = `ticket-count-item__frac-nro ticket-count-item__frac--${nroFraction}`;
+  const cssClassNameByCodigo = `ticket-count-item__frac-nro ticket-count-item__frac--${nroFraction}`;
 
   return (
     <div className="ticket-count-item">
       <div className="ticket-count-item__frac">
-        <div className={codigoCssClassName}></div>
+        <div className={cssClassNameByCodigo}></div>
         <span className="ticket-count-item__badge">{ticketsCount}</span>
         <div className="ticket-count-item__frac-txt"></div>
       </div>
       <div className="ticket-count-item__data">
         <div className="ticket-count-item__lbl">
-          {nroFraction} Fracción: <span className="azn-bolder-1"> {ticketsCount} billetes</span>
+          <span className="azn-bolder-1">
+            {totalFracciones} fracciones
+          </span>
         </div>
         <div className="ticket-count-item__actions">
           <IonButton

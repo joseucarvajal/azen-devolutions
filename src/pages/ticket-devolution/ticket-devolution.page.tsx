@@ -29,11 +29,11 @@ import "./ticket-devolution.style.scss";
 const TicketDevolutionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  const { state, addTicket } = useLotteryTickets();
+  const { ticketCounterReport, addTicket, updateReport } = useLotteryTickets();
 
-  const [code, setCode ] = useState('');
+  const [code, setCode] = useState("90150004640715400101");
 
-  console.log('state', state);
+  console.log("refresh devolution page");
 
   const startScanning = async () => {
     while (true) {
@@ -65,34 +65,55 @@ const TicketDevolutionPage: React.FC = () => {
           <IonTitle>{name}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>        
-          <div className="ticket-devol-page">
-            <TicketCountList></TicketCountList>
-            <div className="tickets-count-total azn-bolder-1">
-              <span>Total fracciones:</span>
-              <span className="tickets-count-total__vlr">
-                {state.ticketsCounter}
-              </span>
-            </div>
-
-            {isPlatform("mobileweb") && (
-              <div>
-                <input type="text" value={code} onChange={(e)=>{ setCode(e.target.value); }}/>
-                <input type="button" value="Add" onClick={()=>{ addTicket({codigo:code}); }}/>
-              </div>
-            )}
-
-            <IonFab
-              vertical="bottom"
-              horizontal="end"
-              slot="fixed"
-              onClick={startScanning}
-            >
-              <IonFabButton>
-                <IonIcon icon={barcodeOutline} />
-              </IonFabButton>
-            </IonFab>
+      <IonContent>
+        <div className="ticket-devol-page">
+          <TicketCountList></TicketCountList>
+          <div className="tickets-count-total azn-bolder-1">
+            <span>Total fracciones:</span>
+            <span className="tickets-count-total__vlr">
+              {ticketCounterReport ? ticketCounterReport.fractionsTotalCount : 0}
+            </span>
           </div>
+
+          {isPlatform("mobileweb") && (
+            <div>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                }}
+              />
+              &nbsp;&nbsp;
+              <input
+                type="button"
+                value="Add"
+                onClick={() => {
+                  addTicket({ codigo: code });
+                }}
+              />
+              &nbsp;&nbsp;
+              <input
+                type="button"
+                value="Update"
+                onClick={() => {
+                  updateReport();
+                }}
+              />
+            </div>
+          )}
+
+          <IonFab
+            vertical="bottom"
+            horizontal="end"
+            slot="fixed"
+            onClick={startScanning}
+          >
+            <IonFabButton>
+              <IonIcon icon={barcodeOutline} />
+            </IonFabButton>
+          </IonFab>
+        </div>
       </IonContent>
     </IonPage>
   );

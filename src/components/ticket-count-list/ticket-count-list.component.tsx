@@ -1,33 +1,42 @@
-import React from "react";
-
-import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
+import React, { useContext, useMemo } from "react";
 
 import TicketCountItem from "../ticket-count-item/ticket-count-item.component";
 
 import "./ticket-count-list.style.scss";
+import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
 
 const TicketCountList: React.FC = () => {
-  const { state } = useLotteryTickets();
+  
+  const { state, ticketCounterReport } = useContext(LotteryTicketsContext);
 
-  let currentTicketCounter;
+  return useMemo(() => {
+    return (
+      <>
+        <div className="ticket-count-list">
+          {state.ticketsCounterCollection.allIds.map((counterCodigo) => {
 
-  return (
-    <>
-      <div className="ticket-count-list">
-        {state.ticketsCounterCollection.allIds.map((counterCodigo) => {
-          currentTicketCounter =
-            state.ticketsCounterCollection.byId[counterCodigo];
-          console.log("obj", currentTicketCounter);
-          return (
-            <TicketCountItem
-              key={counterCodigo}
-              ticketCountObj={currentTicketCounter}
-            />
-          );
-        })}               
-      </div>
-    </>
-  );
+            const currentTicketCounter =
+              state.ticketsCounterCollection.byId[counterCodigo];
+
+            const totalFracciones =
+              ticketCounterReport?.totalFractionsIndxByFraction?.length > 0
+                ? ticketCounterReport?.totalFractionsIndxByFraction[
+                    currentTicketCounter.codigo - 1
+                  ]
+                : 0;
+
+            return (
+              <TicketCountItem
+                key={counterCodigo}
+                ticketCountObj={currentTicketCounter}
+                totalFracciones={totalFracciones}
+              />
+            );
+          })}
+        </div>
+      </>
+    );
+  }, [ticketCounterReport]);
 };
 
 export default TicketCountList;

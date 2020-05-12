@@ -67,7 +67,7 @@ export interface IState {
     /**
      * Sorteo Id
      */
-    sorteo: string;    
+    sorteo: string;
 
     /**
      * Lottery tickets counter
@@ -83,12 +83,30 @@ export interface IState {
      * Lottery tickets collection
      */
     ticketsCollection: IStringIndexable<ITicket>;
+
+    /**
+     * Summary data report
+     */
+    tickerCounterReport: ITicketCounterReport;
 }
 
 /**
  * Context contract
  */
 export interface ILoteryTicketsContext {
+
     state: IState;
     dispatch: React.Dispatch<any>;
+
+    setTicketCounterReport: (ticketCounterReport: ITicketCounterReport) => void;
+    ticketCounterReport: ITicketCounterReport
+}
+
+
+export interface ITicketCounterReport {
+    agente: string;
+    sorteo: string;
+    totalTicketsIndxByFraction: number[];
+    totalFractionsIndxByFraction: number[],
+    fractionsTotalCount: number;
 }

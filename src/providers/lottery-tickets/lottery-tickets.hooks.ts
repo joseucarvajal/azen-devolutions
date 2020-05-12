@@ -1,20 +1,25 @@
 import { useContext, useEffect, useState } from "react";
-import { IState } from "./lottery-tickets.contracts";
+import { IState, ITicketCounterReport } from "./lottery-tickets.contracts";
 import { addLotteryTicket } from "./lottery-tickets.actions";
 import { LotteryTicketsContext } from "./lottery-tickets.provider";
 import { IAddLotteryTicketParams } from "./lottery-tickets.types";
 
+import { getTicketCounterReport as utilsGetTicketCounterReport } from "./lottery-tickets.utils";
+
 export interface IUseLotteryTickets {
-    state: IState,
-    addTicket: (params: IAddLotteryTicketParams) => void,
+    state: IState;
+    ticketCounterReport: ITicketCounterReport;
+
+    addTicket: (params: IAddLotteryTicketParams) => void;
+    updateReport: () => void;
 }
 
 export const useLotteryTickets = (): IUseLotteryTickets => {
 
-    const { state, dispatch } = useContext(LotteryTicketsContext);
+    const { state, dispatch, setTicketCounterReport, ticketCounterReport } = useContext(LotteryTicketsContext);
 
     useEffect(() => {
-        console.log('refresh useLotteryTickets hook', state);
+    
     }, [state]);
 
     const addTicket = (params: IAddLotteryTicketParams) => {
@@ -23,8 +28,15 @@ export const useLotteryTickets = (): IUseLotteryTickets => {
         );
     };
 
+    const updateReport = (agente:string)=>{
+        const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
+        setTicketCounterReport(newTicketCounterReport);
+    };
+
     return {
         state,
+        ticketCounterReport,
         addTicket,
+        updateReport,
     } as IUseLotteryTickets;
 }
