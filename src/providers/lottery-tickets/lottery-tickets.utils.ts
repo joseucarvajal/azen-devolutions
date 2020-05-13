@@ -51,5 +51,9 @@ export const getTicketCounterReport = (state:IState, agente:string) => {
     }
 
     return ticketCounterReport;
+    
+}
 
+export const getSorteoFromCode = (codigo: string): string => {    
+    return codigo.substr(7, 4);
 }

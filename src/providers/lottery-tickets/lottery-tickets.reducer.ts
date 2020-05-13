@@ -2,11 +2,10 @@ import { IState } from "./lottery-tickets.contracts";
 
 import {
     ActionType,
-    ADD_LOTTERY_TICKET,
-    SET_TIKET_COUNTER_REPORT,
+    ADD_LOTTERY_TICKET
 } from "./lottery-tickets.types";
 
-import { getTicketFromCode as buildTicketFromCode } from "./lottery-tickets.utils";
+import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode } from "./lottery-tickets.utils";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 
@@ -15,7 +14,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
 
             if (!action.payload.codigo || action.payload.codigo.length !== 20) {
                 return state;
-            }
+            }            
 
             let ticketsCounter = state.ticketsCounter;
             const newTicket = buildTicketFromCode(action.payload.codigo, ticketsCounter);
@@ -52,8 +51,14 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);
             }
 
+            let sorteo = state.sorteo;
+            if(!sorteo){
+                sorteo = getSorteoFromCode(action.payload.codigo);
+            }
+
             return {
                 ...state,
+                sorteo,
                 ticketsCounter,
                 ticketsCounterCollection: {
                     byId: existingCounter
@@ -108,12 +113,6 @@ export const reducer = (state: IState, action: ActionType): IState => {
                     },
                     allIds: existingTicket ? state.ticketsCollection.allIds : [...state.ticketsCollection.allIds, newTicket.codigo]
                 }
-            };
-
-        case SET_TIKET_COUNTER_REPORT:
-            return {
-                ...state,
-                tickerCounterReport: action.payload
             };
 
         default:

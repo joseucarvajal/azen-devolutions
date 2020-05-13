@@ -18,10 +18,4 @@ export interface IRemoveLotteryTicket {
     payload: IRemoveLotteryTicketSetParams
 }
 
-export const SET_TIKET_COUNTER_REPORT = "SET_TIKET_COUNTER_REPORT";
-export interface ISetTicketCounterReport {
-    type: typeof SET_TIKET_COUNTER_REPORT
-    payload: ITicketCounterReport
-}
-
-export type ActionType = IAddLotteryTicket | IRemoveLotteryTicket | ISetTicketCounterReport;
+export type ActionType = IAddLotteryTicket | IRemoveLotteryTicket;

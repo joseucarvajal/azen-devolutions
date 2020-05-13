@@ -1,0 +1,33 @@
+.info-sorteo {
+
+    border: var(--azn-border-1);
+    padding: .5rem .5rem .2rem;
+    box-shadow: var(--azn-shadow-style-2);
+    
+    margin-bottom: 1.5rem;
+    
+    font-weight: bolder;
+    
+    &__header{
+        border-bottom: var(--azn-border-1);
+        text-align: center;        
+        background-color: var(--ion-color-primary);
+        padding: .2rem;
+        display: flex;
+        flex-direction: column;        
+        box-shadow: var(--azn-shadow-style-1);
+    }
+
+    &__info-row{
+        margin-top: .2rem;
+        display:flex;        
+    }
+
+    &__info-lbl{
+        flex: 0 0 30%;
+    }
+
+    &__info-vlr{
+        flex: 1;
+    }
+}

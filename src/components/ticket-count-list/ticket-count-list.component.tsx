@@ -29,7 +29,7 @@ const TicketCountList: React.FC = () => {
               <TicketCountItem
                 key={counterCodigo}
                 ticketCountObj={currentTicketCounter}
-                totalFracciones={totalFracciones}
+                fractionsCount={totalFracciones}
               />
             );
           })}

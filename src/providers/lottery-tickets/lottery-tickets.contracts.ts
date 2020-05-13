@@ -83,11 +83,6 @@ export interface IState {
      * Lottery tickets collection
      */
     ticketsCollection: IStringIndexable<ITicket>;
-
-    /**
-     * Summary data report
-     */
-    tickerCounterReport: ITicketCounterReport;
 }
 
 /**

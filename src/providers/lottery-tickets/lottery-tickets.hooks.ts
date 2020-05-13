@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { IState, ITicketCounterReport } from "./lottery-tickets.contracts";
 import { addLotteryTicket } from "./lottery-tickets.actions";
 import { LotteryTicketsContext } from "./lottery-tickets.provider";
@@ -14,12 +14,13 @@ export interface IUseLotteryTickets {
     updateReport: () => void;
 }
 
-export const useLotteryTickets = (): IUseLotteryTickets => {
+export const useLotteryTickets = (agente:string): IUseLotteryTickets => {
 
     const { state, dispatch, setTicketCounterReport, ticketCounterReport } = useContext(LotteryTicketsContext);
 
     useEffect(() => {
-    
+        updateReport(agente);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
     const addTicket = (params: IAddLotteryTicketParams) => {

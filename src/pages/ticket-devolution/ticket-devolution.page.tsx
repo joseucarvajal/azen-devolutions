@@ -14,43 +14,43 @@ import {
   IonFabButton,
   IonIcon,
 } from "@ionic/react";
+
 import { barcodeOutline } from "ionicons/icons";
+import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
 import { useParams } from "react-router";
 
-import { BarcodeScanner } from "@ionic-native/barcode-scanner";
-
 import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
-
 import TicketCountList from "../../components/ticket-count-list/ticket-count-list.component";
+import InfoSorteo from "../../components/info-sorteo/info-sorteo";
 
 import "./ticket-devolution.style.scss";
 
 const TicketDevolutionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  const { ticketCounterReport, addTicket, updateReport } = useLotteryTickets();
+  const { ticketCounterReport, addTicket } = useLotteryTickets("agente");
 
   const [code, setCode] = useState("90150004640715400101");
 
   console.log("refresh devolution page");
 
   const startScanning = async () => {
-    while (true) {
-      const data = await BarcodeScanner.scan({
+    let data = {
+      cancelled: false,
+      text: ''
+    };
+    while (!data.cancelled) {
+      data = await BarcodeScanner.scan({
         showTorchButton: true, // iOS and Android
-        torchOn: false, // Android, launch with the torch switched on (if available)
         prompt: "Acerque la línea verde al código de barras del billete", // Android
         formats: "CODE_128",
-        showFlipCameraButton: true,
       });
 
-      addTicket({
-        codigo: data.text,
-      });
-
-      if (data.cancelled) {
-        break;
+      if(!data.cancelled){
+        addTicket({
+          codigo: data.text,
+        });
       }
     }
   };
@@ -67,11 +67,14 @@ const TicketDevolutionPage: React.FC = () => {
       </IonHeader>
       <IonContent>
         <div className="ticket-devol-page">
+          <InfoSorteo/>
           <TicketCountList></TicketCountList>
           <div className="tickets-count-total azn-bolder-1">
             <span>Total fracciones:</span>
             <span className="tickets-count-total__vlr">
-              {ticketCounterReport ? ticketCounterReport.fractionsTotalCount : 0}
+              {ticketCounterReport
+                ? ticketCounterReport.fractionsTotalCount
+                : 0}
             </span>
           </div>
 
@@ -91,15 +94,7 @@ const TicketDevolutionPage: React.FC = () => {
                 onClick={() => {
                   addTicket({ codigo: code });
                 }}
-              />
-              &nbsp;&nbsp;
-              <input
-                type="button"
-                value="Update"
-                onClick={() => {
-                  updateReport();
-                }}
-              />
+              />             
             </div>
           )}
 

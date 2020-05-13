@@ -15,6 +15,7 @@ describe('Add tickets', () => {
 
         const expectedState = {
             ..._empty_initial_state,
+            sorteo:'4640',
             ticketsCounter: 1,
             ticketsCounterCollection: {
                 byId: {
@@ -59,6 +60,7 @@ describe('Add tickets', () => {
 
         const expectedState = {
             ..._state_with_ticket_1_1,
+            sorteo:'4640',
             ticketsCounterCollection: {
                 byId: {
                     [_ticket_1_1.cantidadFracciones]: {
@@ -78,12 +80,12 @@ describe('Add tickets', () => {
                 },
                 allIds: [updatedTicketWithFract3.codigo],
             },
-        } as IState;
+        } as IState;        
 
         const resultState = reducer(initialState, addLotteryTicket({
             codigo: _ticket_1_3_codigo
         }));
-        
+
         expect(resultState).toEqual(expectedState);
     });
 
@@ -94,6 +96,7 @@ describe('Add tickets', () => {
 
         const expectedState = {
             ..._state_with_tickets_1_3_and_2_1,
+            sorteo:'4640',
             ticketsCounterCollection: {
                 byId: {
                     [_ticket_2_1.cantidadFracciones]:{
@@ -186,6 +189,7 @@ const _ticket_1_3 = {
 
 const _state_with_ticket_1_1 = {
     ...initialState,
+    sorteo:'4640',
     ticketsCounter: 1,
     ticketsCounterCollection: {
         byId: {
@@ -228,6 +232,7 @@ const _ticket_2_3 = {
 //ticket exist with diff fraction should be relocated in an existing counter obj
 const _state_with_tickets_1_3_and_2_1 = {
     ...initialState,
+    sorteo:'4640',
     ticketsCounter: 2,
     ticketsCounterCollection: {
         byId: {

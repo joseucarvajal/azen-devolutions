@@ -9,12 +9,12 @@ import "./ticket-count-item.style.scss";
 interface TicketCountItemProps {
   key: any;
   ticketCountObj: ITicketCount;
-  totalFracciones: number;
+  fractionsCount: number;
 }
 
 const TicketCountItem: React.FC<TicketCountItemProps> = ({
   ticketCountObj,
-  totalFracciones,
+  fractionsCount,
 }) => {
 
   const ticketsCount = ticketCountObj.tickets.length;
@@ -31,7 +31,7 @@ const TicketCountItem: React.FC<TicketCountItemProps> = ({
       <div className="ticket-count-item__data">
         <div className="ticket-count-item__lbl">
           <span className="azn-bolder-1">
-            {totalFracciones} fracciones
+          {ticketsCount} billetes - {fractionsCount} fracciones
           </span>
         </div>
         <div className="ticket-count-item__actions">
