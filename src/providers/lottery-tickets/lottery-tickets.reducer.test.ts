@@ -150,6 +150,23 @@ describe('Add tickets', () => {
         expect(receivedState).toBe(initialState);
     }); 
 
+    it('Should NOT replace ticket with other one that has lesser fraction', () => {
+
+        const initialState = _state_with_ticket_1_3;
+
+        const resultState = reducer(initialState, addLotteryTicket({
+            codigo: _ticket_1_1_codigo
+        }));
+
+        expect(resultState.ticketsCollection.byId[_ticket_1_1_codigo_nofrac])
+            .toMatchObject({
+                codigo: _ticket_1_3_codigo_nofrac,
+                fraccion: _ticket_1_3.fraccion,
+                cantidadFracciones: _ticket_1_3.cantidadFracciones
+            } as ITicket);
+
+    });
+
 });
 
 const _empty_initial_state = {
@@ -185,7 +202,7 @@ const _ticket_1_3 = {
     codigo: _ticket_1_3_codigo_nofrac,
     cantidadFracciones: 3,
     fraccion: '03',
-};
+} as ITicket;
 
 const _state_with_ticket_1_1 = {
     ...initialState,
@@ -208,6 +225,27 @@ const _state_with_ticket_1_1 = {
     },
 } as IState;
 
+const _state_with_ticket_1_3 = {
+    ...initialState,
+    sorteo:'4640',
+    ticketsCounter: 1,
+    ticketsCounterCollection: {
+        byId: {
+            [_ticket_1_3.cantidadFracciones]: {
+                codigo: _ticket_1_3.cantidadFracciones,
+                tickets: [_ticket_1_3.codigo]
+            }
+        },
+        allIds: [_ticket_1_3.cantidadFracciones],
+    },
+    ticketsCollection: {
+        byId: {
+            [_ticket_1_3.codigo]: _ticket_1_3
+        },
+        allIds: [_ticket_1_3.codigo],
+    },
+} as IState;
+
 
 const _ticket_2_1_codigo = '90150004640475119901';
 const _ticket_2_1_codigo_nofrac = _ticket_2_1_codigo.substr(0, _ticket_2_1_codigo.length - 2);
@@ -227,7 +265,7 @@ const _ticket_2_3 = {
     codigo: _ticket_2_3_codigo_nofrac,
     cantidadFracciones: 3,
     fraccion: '03',
-};
+} as ITicket;
 
 //ticket exist with diff fraction should be relocated in an existing counter obj
 const _state_with_tickets_1_3_and_2_1 = {

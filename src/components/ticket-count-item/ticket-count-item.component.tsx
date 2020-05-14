@@ -19,7 +19,7 @@ const TicketCountItem: React.FC<TicketCountItemProps> = ({
 
   const ticketsCount = ticketCountObj.tickets.length;
   const nroFraction = ticketCountObj.codigo;
-  const cssClassNameByCodigo = `ticket-count-item__frac-nro ticket-count-item__frac--${nroFraction}`;
+  const cssClassNameByCodigo = `ticket-count-item__frac-nro tolis ticket-count-item__frac--${nroFraction}`;
 
   return (
     <div className="ticket-count-item">

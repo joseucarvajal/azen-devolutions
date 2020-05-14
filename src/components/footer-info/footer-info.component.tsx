@@ -8,7 +8,7 @@ const FooterInfo = ()=> {
         <div className="footer-info">
             <img src={azenLogo} alt="Logo azen" className="footer-info__img"/>
             <span className="footer-info__txt">
-            &copy; 2020 - Azen Consultoría en Sistemas.
+            Azen Consultoría en Sistemas.
             </span>
         </div>
     );

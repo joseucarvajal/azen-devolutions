@@ -6,7 +6,7 @@ import { IStringIndexable, INumericIndexable } from "../../shared/contracts/shar
 export interface ITicket {
 
     /**
-     * Bar code without last two digits (fraction)
+     * Bar code WITHOUT last two digits (fraction)
      */
     codigo: string;
 
@@ -21,7 +21,7 @@ export interface ITicket {
     serie: string;
 
     /** 
-     * 3 digits, fraction that was scanned
+     * 2 digits, fraction that was scanned
      */
     fraccion: string;
 

@@ -13,5 +13,13 @@ ion-content {
 }
 
 html {
-    font-size: 93%;    
+    font-size: 93%;
+        
+    @media only screen and (max-width: $bp-small-2) {
+        font-size: 87%;        
+    }
+
+    @media only screen and (max-width: $bp-small-1) {
+        font-size: 75%;
+    }
 }

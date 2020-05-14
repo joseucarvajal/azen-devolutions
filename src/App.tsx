@@ -26,10 +26,8 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
-/**Custom scss */
-import "../src/sass/abstracts/main.scss";
-import "../src/sass/base/main.scss";
-import "../src/sass/components/main.scss";
+import "./App.scss";
+
 
 import LotteryTicketProvider from "./providers/lottery-tickets/lottery-tickets.provider";
 

@@ -1,6 +1,8 @@
+@import "../../sass/abstracts/variables";
+
 .ticket-count-item {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between;
 
     &:not(:first-child) {
         margin-top: 1rem;
@@ -9,7 +11,7 @@
     &__frac {
         position: relative;
 
-        flex: 0 0 20%;
+        flex: 0 0 10%;
 
         display: flex;
         justify-content: start;
@@ -23,35 +25,33 @@
 
         box-shadow: var(--azn-shadow-style-1);
 
-        &-nro {
-            flex: 0 0 80%;
-            height: 100%;
-        }
-
-        &::after {
-            /*Fracción text*/
+        /*Fracción text*/
+        &::after {            
             content: "Fracción";
             position: absolute;
             left: 0;
             top: 37%;
-            margin-left: 46%;
+            margin-left: 45%;
             display: inline-block;
             font-size: 0.65rem;
-            letter-spacing: .16rem;
+            letter-spacing: 0.16rem;
             font-weight: bold;
             transform: rotate(-90deg);
         }
 
         &--1 {
             background: url("../../assets/icon/svg/1.svg") no-repeat center center;
-            background-size: 75%;
         }
         &--2 {
             background: url("../../assets/icon/svg/2.svg") no-repeat center center;
-            background-size: 75%;
         }
         &--3 {
             background: url("../../assets/icon/svg/3.svg") no-repeat center center;
+        }
+
+        &-nro {
+            flex: 0 0 80%;
+            height: 100%;
             background-size: 75%;
         }
     }
@@ -71,7 +71,7 @@
         display: inline-block;
         min-width: 1.9rem;
         text-align: center;
-        
+
         background: rgb(216, 224, 222); /* Old browsers */
         background: var(--azn-gradient-style-2);
 
@@ -80,23 +80,129 @@
 
     &__data {
         flex: 1;
-        padding: .2rem .4rem .6rem .4rem;
+        padding: 0.2rem 0.4rem 0.6rem 0.4rem;
         box-shadow: var(--azn-shadow-style-1);
     }
 
     &__lbl {
         font-size: 1rem;
         //font-weight: bolder;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 
     &__actions {
         display: flex;
-        justify-content: space-around;
+        justify-content: start;
     }
 
-    &__btn{
-        font-size: .95rem;
-        color: white;        
+    &__btn {
+        font-size: 0.95rem;
+        color: white;
+
+        margin-right: 1rem;
     }
+    
+    
+    @media only screen and (max-width: $bp-small-5) {
+        &__frac {
+            &::after {
+                margin-left: 55%;
+            }
+
+            &-nro {
+                background-size: 58%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-4) {
+        &__frac {
+            &::after {
+                margin-left: 47%;
+            }
+
+            &-nro {
+                background-size: 73%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-3-2) {
+        &__frac {            
+
+            &::after {
+                margin-left: 38%;
+            }
+
+            &-nro {
+                background-size: 83%;
+            }            
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-3-1) {
+        &__frac {
+
+            flex: 0 0 14%;
+
+            &::after {
+                margin-left: 42%;
+            }
+
+            &-nro {
+                background-size: 75%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-3-1-1) {
+        &__frac {
+
+            &::after {
+                margin-left: 32%;
+            }
+
+            &-nro {
+                background-size: 90%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-3) {
+        &__frac {
+
+            flex: 0 0 15%;
+
+            &::after {
+                margin-left: 30%;                
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-2) {
+        &__frac {
+
+            flex: 0 0 17%;
+
+            &::after {
+                margin-left: 31%;
+            }
+
+            &-nro {
+                background-size: 95%;
+            }
+        }
+    }
+
+    @media only screen and (max-width: $bp-small-1) {
+        &__frac {
+
+            flex: 0 0 20%;
+
+            &::after {
+                margin-left: 39%;
+            }
+        }
+    }
+
 }

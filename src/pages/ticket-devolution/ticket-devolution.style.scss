@@ -1,21 +1,29 @@
+@import "../../sass/abstracts/variables";
+
 .ticket-devol-page {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 92vh;
-    padding: 1rem 0.5rem;    
+    padding: 1rem 0.5rem;
 }
 
-.send-dev {
+.send-devolution {
     display: flex;
     margin-top: 1rem;
     justify-content: center;
+
+    font-weight: bolder;
     
-    &-btn {
-        font-weight: bolder;
+    &__btn {
+        font-size: 1.1rem;
+        @media only screen and (max-width: $bp-small-2) {
+            font-size: 0.9rem;
+        }
     }
 }
 
 .scan-btn {
     color: white;
+    font-size: 1rem;
 }

@@ -29,6 +29,10 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 if (existingTicket.fraccion === newTicket.fraccion) {
                     return state;
                 }
+                
+                if(+newTicket.fraccion < +existingTicket.fraccion){
+                    return state;
+                }
 
                 //Removes existing item from state
                 //let { [existingTicket.codigo]: removedItems, ...updatedTicketsCollection } = state.ticketsCollection.byId;

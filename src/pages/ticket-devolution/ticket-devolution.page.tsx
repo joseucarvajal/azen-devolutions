@@ -76,11 +76,11 @@ const TicketDevolutionPage: React.FC = () => {
             <TicketCountTotal />
 
             {state.sorteo ? (
-              <div className="send-dev">
+              <div className="send-devolution">
                 <IonButton
                   color="secondary"
                   size="small"
-                  className="azn-button-capitalize send-dev-btn"
+                  className="azn-button-capitalize send-devolution__btn"
                 >
                   Enviar devolución
                 </IonButton>
@@ -108,22 +108,21 @@ const TicketDevolutionPage: React.FC = () => {
                 />
               </div>
             )}
-
-            <IonFab
-              vertical="bottom"
-              horizontal="end"
-              slot="fixed"
-              onClick={startScanning}
-            >
-              <IonFabButton color="primary">
-                <IonIcon icon={barcodeOutline} />
-              </IonFabButton>
-            </IonFab>
           </div>
           <div className="ticket-devol-footer">
             <FooterInfo />
           </div>
         </div>
+      <IonFab
+        vertical="bottom"
+        horizontal="end"
+        slot="fixed"
+        onClick={startScanning}
+      >
+        <IonFabButton color="primary">
+          <IonIcon icon={barcodeOutline} />
+        </IonFabButton>
+      </IonFab>
       </IonContent>
     </IonPage>
   );

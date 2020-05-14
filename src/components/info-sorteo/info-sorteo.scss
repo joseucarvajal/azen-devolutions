@@ -2,7 +2,7 @@
     border: var(--azn-border-1);    
     box-shadow: var(--azn-shadow-style-2);
 
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.7rem;
 
     height: 6.2rem;
 
@@ -38,6 +38,7 @@
 
     &__no-lectura {
         display: flex;        
-        justify-content: center;        
+        justify-content: center;
+        font-size: .83rem;
     }
 }
