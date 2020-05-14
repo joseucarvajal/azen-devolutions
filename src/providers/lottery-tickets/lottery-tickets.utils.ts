@@ -39,6 +39,7 @@ export const getTicketCounterReport = (state:IState, agente:string) => {
         fractionsTotalCount: 0,
         totalTicketsIndxByFraction: [],
         totalFractionsIndxByFraction: [],
+        ticketsTotalCount: 0
     } as ITicketCounterReport;
         
     ticketCounterReport.sorteo = state.sorteo;
@@ -47,7 +48,9 @@ export const getTicketCounterReport = (state:IState, agente:string) => {
         const { codigo, tickets } = (counterObj as ITicketCount);
         ticketCounterReport.totalTicketsIndxByFraction.push(tickets.length);
         ticketCounterReport.totalFractionsIndxByFraction.push(codigo * tickets.length);
+
         ticketCounterReport.fractionsTotalCount += codigo * tickets.length;
+        ticketCounterReport.ticketsTotalCount += tickets.length;
     }
 
     return ticketCounterReport;

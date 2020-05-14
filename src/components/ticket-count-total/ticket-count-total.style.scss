@@ -1,0 +1,16 @@
+.tickets-count-total {
+
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: bolder;
+
+    border-top: var(--azn-border-1);
+    border-bottom: var(--azn-border-1);
+
+    margin-top: 1rem;    
+
+    &__vlr{
+        font-size: 1.2rem;
+        margin-left: .2rem;
+    }
+}

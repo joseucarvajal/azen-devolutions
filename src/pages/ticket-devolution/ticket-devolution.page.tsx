@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-import { isPlatform } from "@ionic/react";
+import "./ticket-devolution.style.scss";
+
+import { isPlatform, IonButton } from "@ionic/react";
 
 import {
   IonButtons,
@@ -23,13 +25,14 @@ import { useParams } from "react-router";
 import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
 import TicketCountList from "../../components/ticket-count-list/ticket-count-list.component";
 import InfoSorteo from "../../components/info-sorteo/info-sorteo";
-
-import "./ticket-devolution.style.scss";
+import TicketCountTotal from "../../components/ticket-count-total/ticket-count-total.component";
+import FooterInfo from "../../components/footer-info/footer-info.component";
+import EmptyResultMsgComponent from "../../components/empty-results-msg/empty-results-msg.component";
 
 const TicketDevolutionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  const { ticketCounterReport, addTicket } = useLotteryTickets("agente");
+  const { state, addTicket } = useLotteryTickets("agente");
 
   const [code, setCode] = useState("90150004640715400101");
 
@@ -38,7 +41,7 @@ const TicketDevolutionPage: React.FC = () => {
   const startScanning = async () => {
     let data = {
       cancelled: false,
-      text: ''
+      text: "",
     };
     while (!data.cancelled) {
       data = await BarcodeScanner.scan({
@@ -47,7 +50,7 @@ const TicketDevolutionPage: React.FC = () => {
         formats: "CODE_128",
       });
 
-      if(!data.cancelled){
+      if (!data.cancelled) {
         addTicket({
           codigo: data.text,
         });
@@ -67,47 +70,59 @@ const TicketDevolutionPage: React.FC = () => {
       </IonHeader>
       <IonContent>
         <div className="ticket-devol-page">
-          <InfoSorteo/>
-          <TicketCountList></TicketCountList>
-          <div className="tickets-count-total azn-bolder-1">
-            <span>Total fracciones:</span>
-            <span className="tickets-count-total__vlr">
-              {ticketCounterReport
-                ? ticketCounterReport.fractionsTotalCount
-                : 0}
-            </span>
+          <div className="ticket-devol__content">
+            <InfoSorteo />
+            <TicketCountList />
+            <TicketCountTotal />
+
+            {state.sorteo ? (
+              <div className="send-dev">
+                <IonButton
+                  color="secondary"
+                  size="small"
+                  className="azn-button-capitalize send-dev-btn"
+                >
+                  Enviar devolución
+                </IonButton>
+              </div>
+            ) : (
+              <EmptyResultMsgComponent />
+            )}
+
+            {isPlatform("mobileweb") && (
+              <div>
+                <input
+                  type="text"
+                  value={code}
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                  }}
+                />
+                &nbsp;&nbsp;
+                <input
+                  type="button"
+                  value="Add"
+                  onClick={() => {
+                    addTicket({ codigo: code });
+                  }}
+                />
+              </div>
+            )}
+
+            <IonFab
+              vertical="bottom"
+              horizontal="end"
+              slot="fixed"
+              onClick={startScanning}
+            >
+              <IonFabButton color="primary">
+                <IonIcon icon={barcodeOutline} />
+              </IonFabButton>
+            </IonFab>
           </div>
-
-          {isPlatform("mobileweb") && (
-            <div>
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => {
-                  setCode(e.target.value);
-                }}
-              />
-              &nbsp;&nbsp;
-              <input
-                type="button"
-                value="Add"
-                onClick={() => {
-                  addTicket({ codigo: code });
-                }}
-              />             
-            </div>
-          )}
-
-          <IonFab
-            vertical="bottom"
-            horizontal="end"
-            slot="fixed"
-            onClick={startScanning}
-          >
-            <IonFabButton>
-              <IonIcon icon={barcodeOutline} />
-            </IonFabButton>
-          </IonFab>
+          <div className="ticket-devol-footer">
+            <FooterInfo />
+          </div>
         </div>
       </IonContent>
     </IonPage>

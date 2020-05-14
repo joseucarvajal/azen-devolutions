@@ -36,16 +36,17 @@ const TicketCountItem: React.FC<TicketCountItemProps> = ({
         </div>
         <div className="ticket-count-item__actions">
           <IonButton
-            color="primary"
+            color="secondary"
             size="small"
-            className="ticket-count-item__btn"
+            className="azn-button-capitalize ticket-count-item__btn"
           >
             Corregir
           </IonButton>
           <IonButton
-            color="primary"
+            color="secondary"
             size="small"
-            className="ticket-count-item__btn"
+            className="azn-button-capitalize ticket-count-item__btn"
+            style={{color:'white'}}
           >
             Reiniciar
           </IonButton>

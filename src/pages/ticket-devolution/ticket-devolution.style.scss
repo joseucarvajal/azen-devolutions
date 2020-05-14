@@ -1,13 +1,21 @@
 .ticket-devol-page {
-    padding: 1.4rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 92vh;
+    padding: 1rem 0.5rem;    
 }
 
-.tickets-count-total {
-
-    margin-top: .5rem;
-
-    &__vlr{
-        font-size: 1.2rem;
-        margin-left: .2rem;
+.send-dev {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: center;
+    
+    &-btn {
+        font-weight: bolder;
     }
+}
+
+.scan-btn {
+    color: white;
 }

@@ -104,4 +104,5 @@ export interface ITicketCounterReport {
     totalTicketsIndxByFraction: number[];
     totalFractionsIndxByFraction: number[],
     fractionsTotalCount: number;
+    ticketsTotalCount: number;
 }

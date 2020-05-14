@@ -9,6 +9,9 @@
 ion-content {
     --ion-background-color: #fdfdfd;
     --ion-default-font: "Lato", sans-serif;
-    --ion-text-color: var(--zn-color-grey-dark-rgb-2);
-    font-size: 84%;
+    --ion-text-color: var(--zn-color-grey-dark-rgb-2);    
+}
+
+html {
+    font-size: 93%;    
 }

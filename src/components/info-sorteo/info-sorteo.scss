@@ -1,33 +1,43 @@
 .info-sorteo {
-
-    border: var(--azn-border-1);
-    padding: .5rem .5rem .2rem;
+    border: var(--azn-border-1);    
     box-shadow: var(--azn-shadow-style-2);
-    
-    margin-bottom: 1.5rem;
-    
+
+    margin-bottom: 2.5rem;
+
+    height: 6.2rem;
+
     font-weight: bolder;
-    
-    &__header{
+
+    &__header {
         border-bottom: var(--azn-border-1);
-        text-align: center;        
-        background-color: var(--ion-color-primary);
-        padding: .2rem;
+        text-align: center;
+        background-color: var(--ion-color-secondary);
+        color: var(--ion-color-secondary-contrast);
+        padding: 0.2rem;
         display: flex;
-        flex-direction: column;        
+        flex-direction: column;
         box-shadow: var(--azn-shadow-style-1);
+        margin-bottom: .3rem;
+
+        background: linear-gradient(98deg, #5da49b 0%, #6da598 16%, #7ba796 33%, #88a893 50%, #94aa90 66%, #9fab8e 83%, #aaac8b 100%);
     }
 
-    &__info-row{
-        margin-top: .2rem;
-        display:flex;        
+    &__info-row {        
+        display: flex;
+        align-items: center;
+        padding: 0rem .9rem;
     }
 
-    &__info-lbl{
+    &__info-lbl {
         flex: 0 0 30%;
     }
 
-    &__info-vlr{
+    &__info-vlr {
         flex: 1;
+    }
+
+    &__no-lectura {
+        display: flex;        
+        justify-content: center;        
     }
 }
