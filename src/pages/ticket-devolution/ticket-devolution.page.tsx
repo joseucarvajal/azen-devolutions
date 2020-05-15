@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import "./ticket-devolution.style.scss";
 
@@ -18,7 +18,6 @@ import {
 } from "@ionic/react";
 
 import { barcodeOutline } from "ionicons/icons";
-import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
 import { useParams } from "react-router";
 
@@ -32,31 +31,20 @@ import EmptyResultMsgComponent from "../../components/empty-results-msg/empty-re
 const TicketDevolutionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  const { state, addTicket } = useLotteryTickets("agente");
+  //TODO: replace with real agente value
+  const agente = "azen";
+
+  const { state, startScanning, addTicket, sendReportFile } = useLotteryTickets(
+    agente
+  );
 
   const [code, setCode] = useState("90150004640715400101");
 
   console.log("refresh devolution page");
 
-  const startScanning = async () => {
-    let data = {
-      cancelled: false,
-      text: "",
-    };
-    while (!data.cancelled) {
-      data = await BarcodeScanner.scan({
-        showTorchButton: true, // iOS and Android
-        prompt: "Acerque la línea verde al código de barras del billete", // Android
-        formats: "CODE_128",
-      });
-
-      if (!data.cancelled) {
-        addTicket({
-          codigo: data.text,
-        });
-      }
-    }
-  };
+  const onSendReportFile = useCallback(() => {
+    sendReportFile(agente);
+  }, [sendReportFile]);
 
   return (
     <IonPage>
@@ -81,6 +69,7 @@ const TicketDevolutionPage: React.FC = () => {
                   color="secondary"
                   size="small"
                   className="azn-button-capitalize send-devolution__btn"
+                  onClick={onSendReportFile}
                 >
                   Enviar devolución
                 </IonButton>
@@ -113,16 +102,16 @@ const TicketDevolutionPage: React.FC = () => {
             <FooterInfo />
           </div>
         </div>
-      <IonFab
-        vertical="bottom"
-        horizontal="end"
-        slot="fixed"
-        onClick={startScanning}
-      >
-        <IonFabButton color="primary">
-          <IonIcon icon={barcodeOutline} />
-        </IonFabButton>
-      </IonFab>
+        <IonFab
+          vertical="bottom"
+          horizontal="end"
+          slot="fixed"
+          onClick={startScanning}
+        >
+          <IonFabButton color="primary">
+            <IonIcon icon={barcodeOutline} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );

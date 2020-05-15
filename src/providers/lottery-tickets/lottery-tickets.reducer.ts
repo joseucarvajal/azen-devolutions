@@ -5,7 +5,7 @@ import {
     ADD_LOTTERY_TICKET
 } from "./lottery-tickets.types";
 
-import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode } from "./lottery-tickets.utils";
+import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./lottery-tickets.utils";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 
@@ -55,13 +55,16 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 existingTicketIndex = existingCounter.tickets.indexOf(existingTicket.codigo);
             }
 
+            let codigoLoteria = state.codigoLoteria;
             let sorteo = state.sorteo;
             if(!sorteo){
+                codigoLoteria = getLoteriaFromCode(action.payload.codigo);
                 sorteo = getSorteoFromCode(action.payload.codigo);
             }
 
             return {
                 ...state,
+                codigoLoteria,
                 sorteo,
                 ticketsCounter,
                 ticketsCounterCollection: {

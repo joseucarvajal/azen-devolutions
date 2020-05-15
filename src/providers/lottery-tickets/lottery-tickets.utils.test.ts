@@ -1,5 +1,5 @@
 import { ITicket, IState, ITicketCounterReport } from "./lottery-tickets.contracts";
-import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode } from "./lottery-tickets.utils";
+import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode } from "./lottery-tickets.utils";
 
 describe('Utils tests', () => {
 
@@ -102,6 +102,15 @@ describe('Utils tests', () => {
 
         expect(ticketReport.sorteo).toEqual('4640');
 
+    });
+
+    it('should get loteria from barcode', ()=>{
+        const codigo = "901500046352594093";
+        const loteriaExpected = '15';
+
+        const loteriaResult = getLoteriaFromCode(codigo);
+
+        expect(loteriaResult).toEqual(loteriaExpected);
     });
 
     it('should get sorteo from barcode', ()=>{

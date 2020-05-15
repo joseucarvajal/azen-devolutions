@@ -25,13 +25,13 @@ export const getTicketFromCode = (codigo: string, readingOrder: number): ITicket
  * @param str string to padd
  * @param max cant places to pad
  */
-export const padLeft = (str: string, max: number): string => {
+export const padLeft = (str: any, max: number): string => {
     str = str.toString();
     return str.length < max ? padLeft("0" + str, max) : str;
 }
 
 
-export const getTicketCounterReport = (state:IState, agente:string) => {
+export const getTicketCounterReport = (state: IState, agente: string) => {
 
     const ticketCounterReport = {
         agente,
@@ -41,10 +41,10 @@ export const getTicketCounterReport = (state:IState, agente:string) => {
         totalFractionsIndxByFraction: [],
         ticketsTotalCount: 0
     } as ITicketCounterReport;
-        
+
     ticketCounterReport.sorteo = state.sorteo;
-    
-    for(let [counterCode, counterObj]  of Object.entries(state.ticketsCounterCollection.byId)){
+
+    for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
         const { codigo, tickets } = (counterObj as ITicketCount);
         ticketCounterReport.totalTicketsIndxByFraction.push(tickets.length);
         ticketCounterReport.totalFractionsIndxByFraction.push(codigo * tickets.length);
@@ -54,9 +54,59 @@ export const getTicketCounterReport = (state:IState, agente:string) => {
     }
 
     return ticketCounterReport;
-    
+
 }
 
-export const getSorteoFromCode = (codigo: string): string => {    
+export const getSorteoFromCode = (codigo: string): string => {
     return codigo.substr(7, 4);
+}
+
+export const getLoteriaFromCode = (codigo: string): string => {
+    return codigo.substr(2, 2);
+}
+
+export const getFileReportStr = (state: IState, agente: string): string => {
+    const strFile =
+`${state.codigoLoteria}
+${agente}
+${state.sorteo}
+${getFileReportTicketsAndFractionCount(state)}`;
+
+    return strFile;
+}
+
+
+const getFileReportTicketsAndFractionCount = (state: IState): string => {
+
+    let ticketsArray: ITicket[] = [];
+    let fractionsTotalCount = 0;
+
+    for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
+        const { codigo, tickets } = (counterObj as ITicketCount);
+        for (let i = 0; i < tickets.length; i++) {
+            ticketsArray.push(state.ticketsCollection.byId[counterObj.tickets[i]]);
+        }
+        fractionsTotalCount += codigo * tickets.length;
+    }
+
+    ticketsArray = ticketsArray.sort((a:ITicket, b:ITicket) => {
+        if(a.readingOrder > b.readingOrder){
+            return 1;
+        }
+        return -1;
+    });
+    
+    let fractionsStr = '';
+    let i = 1;
+    for(let ticket of ticketsArray){
+        const {numero, serie, fraccion, cantidadFracciones} = ticket;
+        fractionsStr += `${numero}${serie}0${fraccion}0${cantidadFracciones}${padLeft(i, 5)}\n`;
+        i++;
+    }
+
+    const fractionsContPlusTickets =
+`${fractionsTotalCount}
+${fractionsStr}`;
+
+    return fractionsContPlusTickets;
 }
