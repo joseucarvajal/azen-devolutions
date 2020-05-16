@@ -106,7 +106,7 @@ const getFileReportTicketsAndFractionCount = (state: IState): string => {
 
     const fractionsContPlusTickets =
 `${fractionsTotalCount}
-${fractionsStr}`;
+${fractionsStr}`.trim();
 
     return fractionsContPlusTickets;
 }

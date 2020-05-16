@@ -1,5 +1,7 @@
 import { ITicket, IState, ITicketCounterReport } from "./lottery-tickets.contracts";
-import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode } from "./lottery-tickets.utils";
+import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./lottery-tickets.utils";
+
+import { initialState } from "./lottery-tickets.provider";
 
 describe('Utils tests', () => {
 
@@ -84,9 +86,7 @@ describe('Utils tests', () => {
             tickerCounterReport: {} as ITicketCounterReport            
         } as IState;
 
-        const ticketReport = getTicketCounterReport(state, 'agente');
-
-        console.log('report', JSON.stringify(ticketReport));
+        const ticketReport = getTicketCounterReport(state, 'agente');        
 
         expect(ticketReport.agente).toEqual('agente');
 
@@ -122,7 +122,90 @@ describe('Utils tests', () => {
         expect(sorteoResult).toEqual(sorteoExpected);
     });
 
+    it('Should generate file report in a consistent way', () => {
+        
+        const state = _state_with_tickets_1_3_and_2_1_and_3_3;
+        const agent = 'azen';
+
+        const reportStr = getFileReportStr(state, agent);
+
+        const reportStrParts = reportStr.split('\n');
+
+        expect(reportStrParts[0]).toEqual(state.codigoLoteria);
+        expect(reportStrParts[1]).toEqual(agent);
+        expect(reportStrParts[2]).toEqual(state.sorteo);
+        expect(reportStrParts[3]).toEqual('7');
+
+        expect(reportStrParts[5].substr(0, 4)).toEqual(_ticket_2_1.numero);
+        expect(reportStrParts[5].substr(4, 3)).toEqual(_ticket_2_1.serie);
+        expect(reportStrParts[5].substr(7, 3)).toEqual(`0${_ticket_2_1.fraccion}`);
+        expect(reportStrParts[5].substr(10, 2)).toEqual(`0${_ticket_2_1.cantidadFracciones}`);
+        expect(reportStrParts[5].substr(12, 5)).toEqual(`00002`);
+    });
 });
+
+const _ticket_1_3_codigo = '90150004640715400103';
+const _ticket_1_3_codigo_nofrac = _ticket_1_3_codigo.substr(0, _ticket_1_3_codigo.length - 2);
+const _ticket_1_3 = {
+    numero: '7154',
+    serie: '001',
+    readingOrder: 1,
+    codigo: _ticket_1_3_codigo_nofrac,
+    cantidadFracciones: 3,
+    fraccion: '03',
+} as ITicket;
+
+
+const _ticket_2_1_codigo = '90150004640475119901';
+const _ticket_2_1_codigo_nofrac = _ticket_2_1_codigo.substr(0, _ticket_2_1_codigo.length - 2);
+const _ticket_2_1 = {
+    codigo: _ticket_2_1_codigo_nofrac,
+    cantidadFracciones: 1,
+    fraccion: '01',
+    numero: '4751',
+    serie: '199',
+    readingOrder: 2
+} as ITicket;
+
+
+const _ticket_3_3_codigo = '90150004640481000003';
+const _ticket_3_3_codigo_nofrac = _ticket_3_3_codigo.substr(0, _ticket_3_3_codigo.length - 2);
+const _ticket_3_3 = {
+    codigo: _ticket_3_3_codigo_nofrac,
+    cantidadFracciones: 3,
+    fraccion: '03',
+    numero: '4810',
+    serie: '000',
+    readingOrder: 3
+} as ITicket;
+
+const _state_with_tickets_1_3_and_2_1_and_3_3 = {
+    ...initialState,
+    codigoLoteria: '15',
+    sorteo: '4640',
+    ticketsCounter: 3,
+    ticketsCounterCollection: {
+        byId: {
+            [_ticket_1_3.cantidadFracciones]: {
+                codigo: _ticket_1_3.cantidadFracciones,
+                tickets: [_ticket_1_3.codigo, _ticket_3_3.codigo]
+            },
+            [_ticket_2_1.cantidadFracciones]: {
+                codigo: _ticket_2_1.cantidadFracciones,
+                tickets: [_ticket_2_1.codigo]
+            }    
+        },
+        allIds: [_ticket_1_3.cantidadFracciones, _ticket_2_1.cantidadFracciones, _ticket_3_3.cantidadFracciones],
+    },
+    ticketsCollection: {
+        byId: {
+            [_ticket_1_3.codigo]: _ticket_1_3,
+            [_ticket_2_1.codigo]: _ticket_2_1,
+            [_ticket_3_3.codigo]: _ticket_3_3
+        },
+        allIds: [_ticket_1_3.codigo, _ticket_2_1.codigo, _ticket_3_3.codigo],
+    },
+} as IState;
 
 
 

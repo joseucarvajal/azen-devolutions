@@ -15,7 +15,8 @@ describe('Add tickets', () => {
 
         const expectedState = {
             ..._empty_initial_state,
-            sorteo:'4640',
+            codigoLoteria: '15',
+            sorteo: '4640',
             ticketsCounter: 1,
             ticketsCounterCollection: {
                 byId: {
@@ -53,14 +54,14 @@ describe('Add tickets', () => {
     });
 
     //Reads ticket 1_1, then 1_3
-    it('ticket exist with diff fraction should be relocated in a new counter obj', () => {
+    it('ticket exist with diff greater fraction should be relocated in a new counter obj', () => {
 
         const initialState = _state_with_ticket_1_1;
         const updatedTicketWithFract3 = _ticket_1_3;
 
         const expectedState = {
             ..._state_with_ticket_1_1,
-            sorteo:'4640',
+            sorteo: '4640',
             ticketsCounterCollection: {
                 byId: {
                     [_ticket_1_1.cantidadFracciones]: {
@@ -80,7 +81,7 @@ describe('Add tickets', () => {
                 },
                 allIds: [updatedTicketWithFract3.codigo],
             },
-        } as IState;        
+        } as IState;
 
         const resultState = reducer(initialState, addLotteryTicket({
             codigo: _ticket_1_3_codigo
@@ -90,23 +91,23 @@ describe('Add tickets', () => {
     });
 
     //Previous state: 1_3 y ticket 2_1, then reads 2_3
-    it('ticket exist with diff fraction should be replaced with new one in an existing counter obj', () => {
+    it('ticket exist with diff greater fraction should be replaced with new one in an existing counter obj', () => {
 
         const initialState = _state_with_tickets_1_3_and_2_1;
 
         const expectedState = {
             ..._state_with_tickets_1_3_and_2_1,
-            sorteo:'4640',
+            sorteo: '4640',
             ticketsCounterCollection: {
                 byId: {
-                    [_ticket_2_1.cantidadFracciones]:{
+                    [_ticket_2_1.cantidadFracciones]: {
                         codigo: _ticket_2_1.cantidadFracciones,
                         tickets: []
                     },
                     [_ticket_2_3.cantidadFracciones]: {
                         codigo: _ticket_2_3.cantidadFracciones,
                         tickets: [_ticket_1_3.codigo, _ticket_2_3.codigo]
-                    }            
+                    }
                 },
                 allIds: [_ticket_1_3.cantidadFracciones, _ticket_2_1.cantidadFracciones],
             },
@@ -137,18 +138,18 @@ describe('Add tickets', () => {
         }));
 
         expect(receivedState).toEqual(initialState);
-    });    
+    });
 
-    it('Should not add ticket with barcode length different to 20', () => {       
+    it('Should not add ticket with barcode length different to 20', () => {
 
         const initialState = _state_with_ticket_1_1;
 
         const receivedState = reducer(initialState, addLotteryTicket({
-            codigo:"31513513351"
+            codigo: "31513513351"
         }));
 
         expect(receivedState).toBe(initialState);
-    }); 
+    });
 
     it('Should NOT replace ticket with other one that has lesser fraction', () => {
 
@@ -166,7 +167,6 @@ describe('Add tickets', () => {
             } as ITicket);
 
     });
-
 });
 
 const _empty_initial_state = {
@@ -206,7 +206,8 @@ const _ticket_1_3 = {
 
 const _state_with_ticket_1_1 = {
     ...initialState,
-    sorteo:'4640',
+    sorteo: '4640',
+    codigoLoteria: '15',
     ticketsCounter: 1,
     ticketsCounterCollection: {
         byId: {
@@ -227,7 +228,8 @@ const _state_with_ticket_1_1 = {
 
 const _state_with_ticket_1_3 = {
     ...initialState,
-    sorteo:'4640',
+    codigoLoteria: '15',
+    sorteo: '4640',
     ticketsCounter: 1,
     ticketsCounterCollection: {
         byId: {
@@ -264,13 +266,14 @@ const _ticket_2_3 = {
     ..._ticket_2_1,
     codigo: _ticket_2_3_codigo_nofrac,
     cantidadFracciones: 3,
-    fraccion: '03',
+    fraccion: '03',    
 } as ITicket;
 
 //ticket exist with diff fraction should be relocated in an existing counter obj
 const _state_with_tickets_1_3_and_2_1 = {
     ...initialState,
-    sorteo:'4640',
+    sorteo: '4640',
+    codigoLoteria: '15',
     ticketsCounter: 2,
     ticketsCounterCollection: {
         byId: {
@@ -281,7 +284,7 @@ const _state_with_tickets_1_3_and_2_1 = {
             [_ticket_2_1.cantidadFracciones]: {
                 codigo: _ticket_2_1.cantidadFracciones,
                 tickets: [_ticket_2_1.codigo]
-            }            
+            }
         },
         allIds: [_ticket_1_3.cantidadFracciones, _ticket_2_1.cantidadFracciones],
     },

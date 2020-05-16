@@ -77,7 +77,7 @@ const TicketDevolutionPage: React.FC = () => {
             ) : (
               <EmptyResultMsgComponent />
             )}
-
+{/* 
             {isPlatform("mobileweb") && (
               <div>
                 <input
@@ -96,7 +96,7 @@ const TicketDevolutionPage: React.FC = () => {
                   }}
                 />
               </div>
-            )}
+            )} */}
           </div>
           <div className="ticket-devol-footer">
             <FooterInfo />
