@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 
 import "./ticket-devolution.style.scss";
 
-import { isPlatform, IonButton } from "@ionic/react";
+import { isPlatform, IonButton, IonAlert } from "@ionic/react";
 
 import {
   IonButtons,
@@ -34,17 +34,26 @@ const TicketDevolutionPage: React.FC = () => {
   //TODO: replace with real agente value
   const agente = "azen";
 
-  const { state, startScanning, addTicket, sendReportFile } = useLotteryTickets(
+  const { state, ticketCounterReport, startScanning, addTicket, sendReportFile } = useLotteryTickets(
     agente
   );
 
   const [code, setCode] = useState("90150004640715400101");
+  const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
 
   console.log("refresh devolution page");
 
   const onSendReportFile = useCallback(() => {
-    sendReportFile(agente);
-  }, [sendReportFile]);
+    setShowSendFileConfirm(true);
+  }, [setShowSendFileConfirm]);
+
+  const onCancelSendFile = () => {
+    setShowSendFileConfirm(false);
+  }
+
+  const onConfirmSendFile = () => {
+    sendReportFile();
+  }
 
   return (
     <IonPage>
@@ -77,7 +86,6 @@ const TicketDevolutionPage: React.FC = () => {
             ) : (
               <EmptyResultMsgComponent />
             )}
-{/* 
             {isPlatform("mobileweb") && (
               <div>
                 <input
@@ -96,11 +104,30 @@ const TicketDevolutionPage: React.FC = () => {
                   }}
                 />
               </div>
-            )} */}
+            )}
           </div>
           <div className="ticket-devol-footer">
             <FooterInfo />
           </div>
+
+
+          <IonAlert
+          isOpen={showSendFileConfirm}
+          header={'Confirmar envío'}
+          message={`Lectura correspondiente a <strong>${ticketCounterReport.fractionsTotalCount}</strong> fracciones. ¿Confirma envío?`}
+          buttons={[
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              handler: onCancelSendFile
+            },
+            {
+              text: 'Enviar',
+              handler: onConfirmSendFile
+            }
+          ]}
+        />
+
         </div>
         <IonFab
           vertical="bottom"

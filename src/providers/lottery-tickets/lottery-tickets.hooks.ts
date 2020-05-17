@@ -2,13 +2,14 @@ import { useContext, useEffect } from "react";
 
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 import { IState, ITicketCounterReport } from "./lottery-tickets.contracts";
 import { addLotteryTicket } from "./lottery-tickets.actions";
 import { LotteryTicketsContext } from "./lottery-tickets.provider";
 import { IAddLotteryTicketParams } from "./lottery-tickets.types";
 
-import { getTicketCounterReport as utilsGetTicketCounterReport, getFileReportStr } from "./lottery-tickets.utils";
+import { getTicketCounterReport as utilsGetTicketCounterReport, getFileReportStr, padLeft } from "./lottery-tickets.utils";
 
 export interface IUseLotteryTickets {
     state: IState;
@@ -16,13 +17,12 @@ export interface IUseLotteryTickets {
 
     startScanning: () => Promise<void>;
     addTicket: (params: IAddLotteryTicketParams) => void;
-    sendReportFile: (agente:string) => void;
+    sendReportFile: () => void;
 }
 
 export const useLotteryTickets = (agente: string): IUseLotteryTickets => {
 
     const { state, dispatch, setTicketCounterReport, ticketCounterReport } = useContext(LotteryTicketsContext);
-
 
     useEffect(() => {
         updateReport(agente);
@@ -55,18 +55,38 @@ export const useLotteryTickets = (agente: string): IUseLotteryTickets => {
         }
     };
 
-    const sendReportFile = async (agente:string) => {    
-        const fileName = 'elubasfile.txt';
-        File.createFile(File.dataDirectory, fileName, true);
-        const dataToWrite = getFileReportStr(state, agente);
+    const sendReportFile = async () => {
+        try {
+            const dataToWrite = getFileReportStr(state, agente);
 
-        console.log(dataToWrite);
+            const dateNow = new Date();
+            const { codigoLoteria, sorteo } = state;
+            const fileName = `da_${codigoLoteria}_${sorteo}_${agente}_${padLeft(dateNow.getHours(), 2)}${padLeft(dateNow.getMinutes(), 2)}${padLeft(dateNow.getSeconds(), 2)}.txt`;
 
-        const blob = new Blob([dataToWrite], { type: 'text/plain' });
-        File.writeFile(File.dataDirectory, fileName, blob, { replace: true, append: false });
+            console.log(`filename`, fileName);
 
-        const strFile = await File.readAsText(File.dataDirectory, fileName);
-        alert(strFile);
+            const fileEntry = await File.createFile(File.dataDirectory, fileName, true);
+            const blob = new Blob([dataToWrite], { type: 'text/plain' });
+            File.writeFile(File.dataDirectory, fileName, blob, { replace: true, append: false });
+
+            const fileTransferObj = FileTransfer.create();
+            const uploadResult = await fileTransferObj
+                .upload(fileEntry.nativeURL,
+                    `http://52.42.49.101:8080/azenupl/FileUploadServlet`,
+                    {
+                        fileKey: 'file',
+                        fileName: fileName,
+                        mimeType: 'text/plain'
+                    });
+
+            if (uploadResult.responseCode === 201 && uploadResult.response.toString() === '1') {
+                alert(`Archivo cargado: ${fileName} con éxito`);
+            }
+
+        }
+        catch (err) {
+            alert(`error ${JSON.stringify(err)}`);
+        }
     }
 
     const updateReport = (agente: string) => {
