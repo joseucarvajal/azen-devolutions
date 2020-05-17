@@ -21,7 +21,7 @@ import { barcodeOutline } from "ionicons/icons";
 
 import { useParams } from "react-router";
 
-import { useLotteryTickets } from "../../providers/tickets-devolution/tickets-devolution.hooks";
+import { useTicketDevolution } from "../../providers/tickets-devolution/tickets-devolution.hook";
 import TicketCountList from "../../components/tickets-devolution/ticket-count-list/ticket-count-list.component";
 import InfoSorteo from "../../components/tickets-devolution/info-sorteo/info-sorteo";
 import TicketCountTotal from "../../components/tickets-devolution/ticket-count-total/ticket-count-total.component";
@@ -29,16 +29,21 @@ import FooterInfo from "../../components/tickets-devolution/footer-info/footer-i
 import EmptyResultMsgComponent from "../../components/tickets-devolution/empty-results-msg/empty-results-msg.component";
 
 const TicketDevolutionPage: React.FC = () => {
+  
   const { name } = useParams<{ name: string }>();
 
   //TODO: replace with real agente value
   const agente = "azen";
 
-  const { state, ticketDevolutionCounterReport: ticketCounterReport, startScanning, addTicket, sendReportFile } = useLotteryTickets(
-    agente
-  );
+  const {
+    state,
+    ticketDevolutionCounterReport,
+    startScanning,
+    addTicket,
+    sendReportFile,
+  } = useTicketDevolution(agente);
 
-  const [code, setCode] = useState("90150004640715400101");
+  const [code, setCode] = useState("90150004640831702501");
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
 
   console.log("refresh devolution page");
@@ -49,11 +54,11 @@ const TicketDevolutionPage: React.FC = () => {
 
   const onCancelSendFile = () => {
     setShowSendFileConfirm(false);
-  }
+  };
 
   const onConfirmSendFile = () => {
     sendReportFile();
-  }
+  };
 
   return (
     <IonPage>
@@ -110,24 +115,22 @@ const TicketDevolutionPage: React.FC = () => {
             <FooterInfo />
           </div>
 
-
           <IonAlert
-          isOpen={showSendFileConfirm}
-          header={'Confirmar envío'}
-          message={`Lectura correspondiente a <strong>${ticketCounterReport.fractionsTotalCount}</strong> fracciones. ¿Confirma envío?`}
-          buttons={[
-            {
-              text: 'Cancelar',
-              role: 'cancel',
-              handler: onCancelSendFile
-            },
-            {
-              text: 'Enviar',
-              handler: onConfirmSendFile
-            }
-          ]}
-        />
-
+            isOpen={showSendFileConfirm}
+            header={"Confirmar envío"}
+            message={`Lectura correspondiente a <strong>${ticketDevolutionCounterReport.fractionsTotalCount}</strong> fracciones. ¿Confirma envío?`}
+            buttons={[
+              {
+                text: "Cancelar",
+                role: "cancel",
+                handler: onCancelSendFile,
+              },
+              {
+                text: "Enviar",
+                handler: onConfirmSendFile,
+              },
+            ]}
+          />
         </div>
         <IonFab
           vertical="bottom"
