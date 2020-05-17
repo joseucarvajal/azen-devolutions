@@ -1,11 +1,11 @@
-import { IState } from "./lottery-tickets.contracts";
+import { IState } from "./tickets-devolution.contracts";
 
 import {
     ActionType,
     ADD_LOTTERY_TICKET
-} from "./lottery-tickets.types";
+} from "./tickets-devolution.types";
 
-import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./lottery-tickets.utils";
+import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./tickets-devolution.utils";
 
 export const reducer = (state: IState, action: ActionType): IState => {
 

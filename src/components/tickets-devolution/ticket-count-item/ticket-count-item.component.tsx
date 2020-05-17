@@ -2,7 +2,7 @@ import React from "react";
 
 import { IonButton } from "@ionic/react";
 
-import { ITicketCount } from "../../providers/lottery-tickets/lottery-tickets.contracts";
+import { ITicketCount } from "../../../providers/tickets-devolution/tickets-devolution.contracts";
 
 import "./ticket-count-item.style.scss";
 

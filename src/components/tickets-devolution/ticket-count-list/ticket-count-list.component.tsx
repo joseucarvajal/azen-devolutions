@@ -3,10 +3,10 @@ import React, { useContext, useMemo } from "react";
 import TicketCountItem from "../ticket-count-item/ticket-count-item.component";
 
 import "./ticket-count-list.style.scss";
-import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
+import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
 
 const TicketCountList: React.FC = () => {
-  const { state, ticketCounterReport } = useContext(LotteryTicketsContext);
+  const { state, ticketDevolutionCounterReport: ticketCounterReport } = useContext(LotteryTicketsContext);
 
   return useMemo(() => {
     return (

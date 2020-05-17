@@ -1,11 +1,11 @@
-import { IState, ITicket } from "./lottery-tickets.contracts";
+import { IState, ITicket } from "./tickets-devolution.contracts";
 
 import {
     addLotteryTicket,
-} from "./lottery-tickets.actions";
+} from "./tickets-devolution.actions";
 
-import { reducer } from "./lottery-tickets.reducer";
-import { initialState } from "./lottery-tickets.provider";
+import { reducer } from "./tickets-devolution.reducer";
+import { initialState } from "./tickets-devolution.provider";
 
 describe('Add tickets', () => {
 

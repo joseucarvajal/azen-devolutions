@@ -1,4 +1,4 @@
-import { ITicketCounterReport } from "./lottery-tickets.contracts";
+import { ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
 
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
 export interface IAddLotteryTicketParams {

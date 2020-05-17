@@ -2,11 +2,11 @@ import React, { useContext, useMemo } from "react";
 
 import './ticket-count-total.style.scss';
 
-import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
+import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
 
 
 const TicketCountTotal = () => {
-  const { ticketCounterReport } = useContext(LotteryTicketsContext);
+  const { ticketDevolutionCounterReport: ticketCounterReport } = useContext(LotteryTicketsContext);
 
   return useMemo(() => {
     return (

@@ -4,25 +4,25 @@ import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 
-import { IState, ITicketCounterReport } from "./lottery-tickets.contracts";
-import { addLotteryTicket } from "./lottery-tickets.actions";
-import { LotteryTicketsContext } from "./lottery-tickets.provider";
-import { IAddLotteryTicketParams } from "./lottery-tickets.types";
+import { IState, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
+import { addLotteryTicket } from "./tickets-devolution.actions";
+import { LotteryTicketsContext } from "./tickets-devolution.provider";
+import { IAddLotteryTicketParams } from "./tickets-devolution.types";
 
-import { getTicketCounterReport as utilsGetTicketCounterReport, getFileReportStr, padLeft } from "./lottery-tickets.utils";
+import { getTicketCounterReport as utilsGetTicketCounterReport, getFileReportStr, padLeft } from "./tickets-devolution.utils";
 
-export interface IUseLotteryTickets {
+export interface IUseTicketDevolution {
     state: IState;
-    ticketCounterReport: ITicketCounterReport;
+    ticketDevolutionCounterReport: ITicketDevolutionCounterReport;
 
     startScanning: () => Promise<void>;
     addTicket: (params: IAddLotteryTicketParams) => void;
     sendReportFile: () => void;
 }
 
-export const useLotteryTickets = (agente: string): IUseLotteryTickets => {
+export const useLotteryTickets = (agente: string): IUseTicketDevolution => {
 
-    const { state, dispatch, setTicketCounterReport, ticketCounterReport } = useContext(LotteryTicketsContext);
+    const { state, dispatch, setTicketDevolutionCounterReport, ticketDevolutionCounterReport: ticketCounterReport } = useContext(LotteryTicketsContext);
 
     useEffect(() => {
         updateReport(agente);
@@ -91,14 +91,14 @@ export const useLotteryTickets = (agente: string): IUseLotteryTickets => {
 
     const updateReport = (agente: string) => {
         const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
-        setTicketCounterReport(newTicketCounterReport);
+        setTicketDevolutionCounterReport(newTicketCounterReport);
     };
 
     return {
         state,
-        ticketCounterReport,
+        ticketDevolutionCounterReport: ticketCounterReport,
         startScanning,
         addTicket,
         sendReportFile
-    } as IUseLotteryTickets;
+    } as IUseTicketDevolution;
 }

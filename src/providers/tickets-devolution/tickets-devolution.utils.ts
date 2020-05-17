@@ -1,4 +1,4 @@
-import { ITicket, IState, ITicketCount, ITicketCounterReport } from "./lottery-tickets.contracts";
+import { ITicket, IState, ITicketCount, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
 
 /**
  * 
@@ -40,7 +40,7 @@ export const getTicketCounterReport = (state: IState, agente: string) => {
         totalTicketsIndxByFraction: [],
         totalFractionsIndxByFraction: [],
         ticketsTotalCount: 0
-    } as ITicketCounterReport;
+    } as ITicketDevolutionCounterReport;
 
     ticketCounterReport.sorteo = state.sorteo;
 

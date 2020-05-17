@@ -6,10 +6,10 @@ import { barcodeOutline } from "ionicons/icons";
 
 import "./empty-results-msg.style.scss";
 
-import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
+import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
 
 const EmptyResultMsgComponent = () => {
-  const { ticketCounterReport } = useContext(LotteryTicketsContext);
+  const { ticketDevolutionCounterReport } = useContext(LotteryTicketsContext);
 
   return useMemo(() => {
     return (
@@ -23,7 +23,7 @@ const EmptyResultMsgComponent = () => {
         para empezar la lectura
       </div>
     );
-  }, [ticketCounterReport]);
+  }, [ticketDevolutionCounterReport]);
 };
 
 export default EmptyResultMsgComponent;

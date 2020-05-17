@@ -1,4 +1,4 @@
-@import "../../sass/abstracts/variables";
+@import "../../../sass/abstracts/variables";
 
 .ticket-count-item {
     display: flex;
@@ -40,13 +40,13 @@
         }
 
         &--1 {
-            background: url("../../assets/icon/svg/1.svg") no-repeat center center;
+            background: url("../../../assets/icon/svg/1.svg") no-repeat center center;
         }
         &--2 {
-            background: url("../../assets/icon/svg/2.svg") no-repeat center center;
+            background: url("../../../assets/icon/svg/2.svg") no-repeat center center;
         }
         &--3 {
-            background: url("../../assets/icon/svg/3.svg") no-repeat center center;
+            background: url("../../../assets/icon/svg/3.svg") no-repeat center center;
         }
 
         &-nro {

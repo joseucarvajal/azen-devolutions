@@ -1,7 +1,7 @@
 import React from "react";
 
 import './footer-info.style.scss';
-import azenLogo from "../../assets/img/azen-logo.jpg";
+import azenLogo from "../../../assets/img/azen-logo.jpg";
 
 const FooterInfo = ()=> {
     return (

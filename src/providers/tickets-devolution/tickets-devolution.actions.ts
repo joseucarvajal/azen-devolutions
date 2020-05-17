@@ -7,7 +7,7 @@ import {
     REMOVE_LOTTERY_TICKET_SET,
     IRemoveLotteryTicketSetParams,
 
- } from "./lottery-tickets.types";
+ } from "./tickets-devolution.types";
 
  
  export const addLotteryTicket = (payload: IAddLotteryTicketParams): ActionType => {

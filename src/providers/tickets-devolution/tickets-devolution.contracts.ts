@@ -88,17 +88,17 @@ export interface IState {
 /**
  * Context contract
  */
-export interface ILoteryTicketsContext {
+export interface ITicketsDevolutionContext {
 
     state: IState;
     dispatch: React.Dispatch<any>;
 
-    setTicketCounterReport: (ticketCounterReport: ITicketCounterReport) => void;
-    ticketCounterReport: ITicketCounterReport
+    setTicketDevolutionCounterReport: (ticketCounterReport: ITicketDevolutionCounterReport) => void;
+    ticketDevolutionCounterReport: ITicketDevolutionCounterReport
 }
 
 
-export interface ITicketCounterReport {
+export interface ITicketDevolutionCounterReport {
     agente: string;
     sorteo: string;
     totalTicketsIndxByFraction: number[];

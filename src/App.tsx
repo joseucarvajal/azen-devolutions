@@ -5,7 +5,7 @@ import { Redirect, Route } from "react-router-dom";
 
 import Menu from "./components/Menu";
 
-import TicketDevolutionPage from "./pages/ticket-devolution/ticket-devolution.page";
+import TicketDevolutionPage from "./pages/tickets-devolution/ticket-devolution.page";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -29,7 +29,7 @@ import "./theme/variables.css";
 import "./App.scss";
 
 
-import LotteryTicketProvider from "./providers/lottery-tickets/lottery-tickets.provider";
+import LotteryTicketProvider from "./providers/tickets-devolution/tickets-devolution.provider";
 
 const App: React.FC = () => {
   return (

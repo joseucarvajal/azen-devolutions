@@ -1,7 +1,7 @@
-import { ITicket, IState, ITicketCounterReport } from "./lottery-tickets.contracts";
-import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./lottery-tickets.utils";
+import { ITicket, IState, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
+import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./tickets-devolution.utils";
 
-import { initialState } from "./lottery-tickets.provider";
+import { initialState } from "./tickets-devolution.provider";
 
 describe('Utils tests', () => {
 
@@ -83,7 +83,7 @@ describe('Utils tests', () => {
                 },
                 allIds: ["1", "2", "3", "4", "5", '6']
             },
-            tickerCounterReport: {} as ITicketCounterReport            
+            tickerCounterReport: {} as ITicketDevolutionCounterReport            
         } as IState;
 
         const ticketReport = getTicketCounterReport(state, 'agente');        

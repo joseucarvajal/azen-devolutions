@@ -21,12 +21,12 @@ import { barcodeOutline } from "ionicons/icons";
 
 import { useParams } from "react-router";
 
-import { useLotteryTickets } from "../../providers/lottery-tickets/lottery-tickets.hooks";
-import TicketCountList from "../../components/ticket-count-list/ticket-count-list.component";
-import InfoSorteo from "../../components/info-sorteo/info-sorteo";
-import TicketCountTotal from "../../components/ticket-count-total/ticket-count-total.component";
-import FooterInfo from "../../components/footer-info/footer-info.component";
-import EmptyResultMsgComponent from "../../components/empty-results-msg/empty-results-msg.component";
+import { useLotteryTickets } from "../../providers/tickets-devolution/tickets-devolution.hooks";
+import TicketCountList from "../../components/tickets-devolution/ticket-count-list/ticket-count-list.component";
+import InfoSorteo from "../../components/tickets-devolution/info-sorteo/info-sorteo";
+import TicketCountTotal from "../../components/tickets-devolution/ticket-count-total/ticket-count-total.component";
+import FooterInfo from "../../components/tickets-devolution/footer-info/footer-info.component";
+import EmptyResultMsgComponent from "../../components/tickets-devolution/empty-results-msg/empty-results-msg.component";
 
 const TicketDevolutionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -34,7 +34,7 @@ const TicketDevolutionPage: React.FC = () => {
   //TODO: replace with real agente value
   const agente = "azen";
 
-  const { state, ticketCounterReport, startScanning, addTicket, sendReportFile } = useLotteryTickets(
+  const { state, ticketDevolutionCounterReport: ticketCounterReport, startScanning, addTicket, sendReportFile } = useLotteryTickets(
     agente
   );
 

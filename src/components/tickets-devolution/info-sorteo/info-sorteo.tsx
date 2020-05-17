@@ -2,8 +2,9 @@ import React, { useContext, useMemo } from "react";
 
 import "./info-sorteo.scss";
 
-import { LotteryTicketsContext } from "../../providers/lottery-tickets/lottery-tickets.provider";
-import EmptyResultMsgComponent from "../../components/empty-results-msg/empty-results-msg.component";
+import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+
+import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
 
 const TicketCountList: React.FC = () => {
   const { state } = useContext(LotteryTicketsContext);
