@@ -1,7 +1,13 @@
-import { ILongActionIndicatorState, IActionResultEnum } from "./long-action-indicator.contracts";
-import { ActionType, START_LOADING, STOP_LOADING } from "./long-action-indicator.types";
+import { 
+    LongActionIndicatorType, 
+    ILongActionIndicatorState, 
+    IActionResultEnum,
+    START_LOADING, 
+    STOP_LOADING,
+} from "./long-action-indicator.types";
 
-export const longActionIndicatorReducer = (state: ILongActionIndicatorState, action: ActionType): ILongActionIndicatorState => {
+export const longActionIndicatorReducer = 
+    (state: ILongActionIndicatorState, action: LongActionIndicatorType): ILongActionIndicatorState => {
 
     switch (action.type) {
 
@@ -9,21 +15,15 @@ export const longActionIndicatorReducer = (state: ILongActionIndicatorState, act
             return {
                 ...state,
                 resultMessage: '',
-                loadingMessage: action.payload
-                    ? action.payload.loadingMessage ? action.payload.loadingMessage : 'Por favor espere...'
-                    : 'Por favor espere...',
+                loadingMessage: action.loadingMessage ? action.loadingMessage : 'Por favor espere...',
                 isLoading: true
             };
 
         case STOP_LOADING:
             return {
-                ...state,
-                status: action.payload 
-                        ? action.payload.status ? action.payload.status : IActionResultEnum.OK
-                        : IActionResultEnum.OK,
-                resultMessage: action.payload
-                    ? action.payload.resultMessage ? action.payload.resultMessage : ''
-                    : '',
+                ...state,                
+                status: action.status ? action.status : IActionResultEnum.OK,                        
+                resultMessage: action.resultMessage ? action.resultMessage : '',
                 isLoading: false,
             };
 

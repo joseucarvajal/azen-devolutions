@@ -28,15 +28,13 @@ import "./theme/variables.css";
 
 import "./App.scss";
 
-import TicketDevolutionProvider from "./providers/tickets-devolution/tickets-devolution.provider";
-import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.provider";
+import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.context";
 import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <LongActionIndicatorProvider>
-        <TicketDevolutionProvider>
+      <LongActionIndicatorProvider>        
           <IonReactRouter>
             <IonSplitPane contentId="main">
               <Menu />
@@ -51,7 +49,6 @@ const App: React.FC = () => {
             </IonSplitPane>
           </IonReactRouter>
           <LongActionIndicator />
-        </TicketDevolutionProvider>
       </LongActionIndicatorProvider>
     </IonApp>
   );

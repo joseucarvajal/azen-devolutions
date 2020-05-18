@@ -31,3 +31,17 @@ export interface INumericIndexable<TEntity> {
 export interface INumericIndexEntity<TEntity>{
     [id: number]: TEntity;
 }
+
+/**
+ * Generic context with state representation
+ */
+export interface IStateContext<IState> {
+    state: IState
+}
+
+/**
+ * Generic context with dispatch representation
+ */
+export interface IDispatchContext<IActionType> {
+    dispatch: React.Dispatch<IActionType>;
+}

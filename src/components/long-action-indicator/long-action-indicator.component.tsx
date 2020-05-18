@@ -3,30 +3,28 @@ import React, { useContext } from "react";
 import "./long-action-indicator.styles.scss";
 
 import { IonLoading, IonToast } from "@ionic/react";
-import { LongActionIndicatorContext } from "../../providers/long-action-indicator/long-action-indicator.provider";
-import { IActionResultEnum } from "../../providers/long-action-indicator/long-action-indicator.contracts";
+import { IActionResultEnum } from "../../providers/long-action-indicator/long-action-indicator.types";
+import { useLongActionIndicatorState } from "../../providers/long-action-indicator/long-action-indicator.hooks";
 
 const LongActionIndicator = () => {
-  const { state } = useContext(LongActionIndicatorContext);
+  const {
+    state: { isLoading, resultMessage, status, loadingMessage },
+  } = useLongActionIndicatorState();
 
   return (
     <>
-      <IonLoading
-        isOpen={state.isLoading}
-        message={state.loadingMessage}
-        spinner="lines"
-      />
+      <IonLoading isOpen={isLoading} message={loadingMessage} spinner="lines" />
 
       <IonToast
-        isOpen={state.resultMessage ? true : false}
+        isOpen={resultMessage.length > 0}
         message={
-          state.status === IActionResultEnum.ERROR
-            ? `ERROR: ${state.resultMessage}`
-            : state.resultMessage
+          status === IActionResultEnum.ERROR
+            ? `ERROR: ${resultMessage}`
+            : resultMessage
         }
         duration={5000}
         position="bottom"
-        color={state.status === IActionResultEnum.ERROR ? "danger" : "success"}
+        color={status === IActionResultEnum.ERROR ? "danger" : "success"}
       />
     </>
   );
