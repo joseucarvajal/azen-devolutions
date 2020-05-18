@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 
 import "./ticket-devolution.style.scss";
 
@@ -29,7 +29,7 @@ import FooterInfo from "../../components/tickets-devolution/footer-info/footer-i
 import EmptyResultMsgComponent from "../../components/tickets-devolution/empty-results-msg/empty-results-msg.component";
 
 const TicketDevolutionPage: React.FC = () => {
-  
+
   const { name } = useParams<{ name: string }>();
 
   //TODO: replace with real agente value
@@ -46,11 +46,11 @@ const TicketDevolutionPage: React.FC = () => {
   const [code, setCode] = useState("90150004640831702501");
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
 
-  console.log("refresh devolution page");
+  console.log("refresh devolution page", showSendFileConfirm);
 
-  const onSendReportFile = useCallback(() => {
+  const onSendReportFile = () => {    
     setShowSendFileConfirm(true);
-  }, [setShowSendFileConfirm]);
+  };
 
   const onCancelSendFile = () => {
     setShowSendFileConfirm(false);
@@ -58,6 +58,7 @@ const TicketDevolutionPage: React.FC = () => {
 
   const onConfirmSendFile = () => {
     sendReportFile();
+    setShowSendFileConfirm(false);
   };
 
   return (
@@ -70,7 +71,7 @@ const TicketDevolutionPage: React.FC = () => {
           <IonTitle>{name}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent>      
         <div className="ticket-devol-page">
           <div className="ticket-devol__content">
             <InfoSorteo />
@@ -142,6 +143,7 @@ const TicketDevolutionPage: React.FC = () => {
             <IonIcon icon={barcodeOutline} />
           </IonFabButton>
         </IonFab>
+        
       </IonContent>
     </IonPage>
   );

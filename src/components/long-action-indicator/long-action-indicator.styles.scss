@@ -1,0 +1,10 @@
+.action-indicator {
+
+    &__success {
+        color: var(--ion-color-success);
+    }
+
+    &__error {
+        color: var(--ion-color-danger);
+    }
+}

@@ -28,27 +28,31 @@ import "./theme/variables.css";
 
 import "./App.scss";
 
-
-import LotteryTicketProvider from "./providers/tickets-devolution/tickets-devolution.provider";
+import TicketDevolutionProvider from "./providers/tickets-devolution/tickets-devolution.provider";
+import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.provider";
+import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <LotteryTicketProvider>
-              <Route
-                path="/ticket-devolution/:name"
-                component={TicketDevolutionPage}
-                exact
-              />
-            </LotteryTicketProvider>
-            <Redirect from="/" to="/ticket-devolution/Devolución" exact />
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
+      <LongActionIndicatorProvider>
+        <TicketDevolutionProvider>
+          <IonReactRouter>
+            <IonSplitPane contentId="main">
+              <Menu />
+              <IonRouterOutlet id="main">
+                <Route
+                  path="/ticket-devolution/:name"
+                  component={TicketDevolutionPage}
+                  exact
+                />
+                <Redirect from="/" to="/ticket-devolution/Devolución" exact />
+              </IonRouterOutlet>
+            </IonSplitPane>
+          </IonReactRouter>
+          <LongActionIndicator />
+        </TicketDevolutionProvider>
+      </LongActionIndicatorProvider>
     </IonApp>
   );
 };

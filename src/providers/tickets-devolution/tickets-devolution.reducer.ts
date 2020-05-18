@@ -2,7 +2,8 @@ import { IState } from "./tickets-devolution.contracts";
 
 import {
     ActionType,
-    ADD_LOTTERY_TICKET
+    ADD_LOTTERY_TICKET,
+    SET_NEW_TICKET_DEVOLUTION_STATE
 } from "./tickets-devolution.types";
 
 import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./tickets-devolution.utils";
@@ -122,6 +123,9 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 }
             };
 
+        case SET_NEW_TICKET_DEVOLUTION_STATE:
+            return action.payload;
+            
         default:
             return state;
     }

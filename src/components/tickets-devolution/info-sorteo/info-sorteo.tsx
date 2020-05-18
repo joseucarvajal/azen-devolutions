@@ -2,12 +2,12 @@ import React, { useContext, useMemo } from "react";
 
 import "./info-sorteo.scss";
 
-import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
 
 import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
 
 const TicketCountList: React.FC = () => {
-  const { state } = useContext(LotteryTicketsContext);
+  const { state } = useContext(TicketsDevolutionContext);
 
   return useMemo(() => {
     return (

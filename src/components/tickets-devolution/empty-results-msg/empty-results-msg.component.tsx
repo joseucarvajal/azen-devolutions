@@ -6,10 +6,10 @@ import { barcodeOutline } from "ionicons/icons";
 
 import "./empty-results-msg.style.scss";
 
-import { LotteryTicketsContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
 
 const EmptyResultMsgComponent = () => {
-  const { ticketDevolutionCounterReport } = useContext(LotteryTicketsContext);
+  const { ticketDevolutionCounterReport } = useContext(TicketsDevolutionContext);
 
   return useMemo(() => {
     return (

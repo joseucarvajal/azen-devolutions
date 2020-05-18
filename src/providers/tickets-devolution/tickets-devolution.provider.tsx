@@ -42,9 +42,9 @@ let initialContext = {
   ticketDevolutionCounterReport: {} as ITicketDevolutionCounterReport,
 } as ITicketsDevolutionContext;
 
-export const LotteryTicketsContext = createContext(initialContext);
+export const TicketsDevolutionContext = createContext(initialContext);
 
-const LotteryTicketProvider: React.FC = ({ children }) => {
+const TicketsDevolutionProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useState<
@@ -58,7 +58,7 @@ const LotteryTicketProvider: React.FC = ({ children }) => {
   initialContext.setTicketDevolutionCounterReport = setTicketDevolutionCounterReport;
 
   return (
-    <LotteryTicketsContext.Provider
+    <TicketsDevolutionContext.Provider
       value={{ 
         state, 
         dispatch, 
@@ -66,8 +66,8 @@ const LotteryTicketProvider: React.FC = ({ children }) => {
         setTicketDevolutionCounterReport: setTicketDevolutionCounterReport }}
     >
       {children}
-    </LotteryTicketsContext.Provider>
+    </TicketsDevolutionContext.Provider>
   );
 };
 
-export default LotteryTicketProvider;
+export default TicketsDevolutionProvider;

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useCallback } from "react";
 
 import { IState, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
-import { addLotteryTicket } from "./tickets-devolution.actions";
-import { LotteryTicketsContext } from "./tickets-devolution.provider";
+import { addLotteryTicket, setNewTicketDevolutionState } from "./tickets-devolution.actions";
+import { initialState, TicketsDevolutionContext } from "./tickets-devolution.provider";
 import { IAddLotteryTicketParams } from "./tickets-devolution.types";
 
 import {
@@ -11,8 +11,11 @@ import {
     padLeft
 } from "./tickets-devolution.utils";
 
-import { useBarcodeScan } from "../../shared/hooks/barcode-scan.hook";
 import { uploadFile } from "../../shared/utils/file-upload.util";
+import { LongActionIndicatorContext } from "../long-action-indicator/long-action-indicator.provider";
+import { IActionResultEnum } from "../long-action-indicator/long-action-indicator.contracts";
+
+import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
 export interface IUseTicketDevolution {
     state: IState;
@@ -30,9 +33,9 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         dispatch,
         ticketDevolutionCounterReport,
         setTicketDevolutionCounterReport,
-    } = useContext(LotteryTicketsContext);
+    } = useContext(TicketsDevolutionContext);
 
-    const [barcode, startScanBarCodes] = useBarcodeScan();
+    const { startLoadingIndicator, stopLoadingIndicator } = useContext(LongActionIndicatorContext);    
 
     const addTicket = useCallback((params: IAddLotteryTicketParams) => {
         dispatch(
@@ -41,29 +44,44 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     }, [dispatch]);
 
     useEffect(() => {
-        addTicket({
-            codigo: barcode
-        });
-    }, [barcode, addTicket]);
-
-    useEffect(() => {
         const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
         setTicketDevolutionCounterReport(newTicketCounterReport);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, setTicketDevolutionCounterReport]);
+    }, [state, agente, setTicketDevolutionCounterReport, utilsGetTicketCounterReport]);
+    
+    const startScanning = async () => {
+        let data = {
+            cancelled: false,
+            text: "",
+        };
+        while (!data.cancelled) {
+            data = await BarcodeScanner.scan({
+                showTorchButton: true, // iOS and Android
+                prompt: "Acerque la línea verde al código de barras del billete", // Android
+                formats: "CODE_128",
+            });
 
-    const startScanning = () => startScanBarCodes();
+            if (!data.cancelled) {
+                addTicket({
+                    codigo: data.text,
+                });
+            }
+        }
+    }
 
     const sendReportFile = async () => {
         try {
-            const dataToWrite = getFileReportStr(state, agente);
 
+            startLoadingIndicator();
+            
             const dateNow = new Date();
             const { codigoLoteria, sorteo } = state;
             const hour = padLeft(dateNow.getHours(), 2);
             const minute = padLeft(dateNow.getMinutes(), 2);
             const second = padLeft(dateNow.getSeconds(), 2);
-            const fileName = `da_${codigoLoteria}_${sorteo}_${agente}_${hour}${minute}${second}.txt`;            
+            const fileName = `da_${codigoLoteria}_${sorteo}_${agente}_${hour}${minute}${second}.txt`;
+            
+            const dataToWrite = getFileReportStr(state, agente);
 
             const uploadResult = await uploadFile(
                 `http://52.42.49.101:8080/azenupl/FileUploadServlet`,
@@ -71,14 +89,27 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
                 dataToWrite
             );
             if (uploadResult.responseCode === 201 && uploadResult.response.toString() === '1') {
-                alert(`Archivo cargado: ${fileName} con éxito`);
+                stopLoadingIndicator({
+                    resultMessage: `Archivo cargado: ${fileName} con éxito`
+                });
+                dispatch(setNewTicketDevolutionState(initialState));
+            }
+            else {
+                stopLoadingIndicator({
+                    status: IActionResultEnum.ERROR,
+                    resultMessage: JSON.stringify(uploadResult.response)
+                });
             }
         }
         catch (err) {
-            alert(`error ${JSON.stringify(err)}`);
+            stopLoadingIndicator({
+                status: IActionResultEnum.ERROR,
+                resultMessage: err.toString()
+            });            
+            dispatch(setNewTicketDevolutionState(initialState));
         }
     }
- 
+
     return {
         state,
         ticketDevolutionCounterReport,

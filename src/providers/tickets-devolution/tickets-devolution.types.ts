@@ -1,4 +1,4 @@
-import { ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
+import { IState } from "./tickets-devolution.contracts";
 
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
 export interface IAddLotteryTicketParams {
@@ -18,4 +18,10 @@ export interface IRemoveLotteryTicket {
     payload: IRemoveLotteryTicketSetParams
 }
 
-export type ActionType = IAddLotteryTicket | IRemoveLotteryTicket;
+export const SET_NEW_TICKET_DEVOLUTION_STATE = "SET_NEW_TICKET_DEVOLUTION_STATE";
+export interface ISetNewState {
+    type: typeof SET_NEW_TICKET_DEVOLUTION_STATE
+    payload: IState
+}
+
+export type ActionType = IAddLotteryTicket | IRemoveLotteryTicket | ISetNewState;
