@@ -1,7 +1,7 @@
-import { ITicket, IState, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
+import { ITicket, IState, ITicketDevolutionCounterReport } from "./tickets-devolution.types";
 import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./tickets-devolution.utils";
 
-import { initialState } from "./tickets-devolution.provider";
+import { initialState } from "./tickets-devolution.context";
 
 describe('Utils tests', () => {
 

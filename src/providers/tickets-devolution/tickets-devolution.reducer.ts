@@ -1,4 +1,4 @@
-import { IState } from "./tickets-devolution.contracts";
+import { IState } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -13,17 +13,17 @@ export const reducer = (state: IState, action: ActionType): IState => {
     switch (action.type) {
         case ADD_LOTTERY_TICKET: //It receives the entire ticket code
 
-            if (!action.payload.codigo || action.payload.codigo.length !== 20) {
+            if (!action.codigo || action.codigo.length !== 20) {
                 return state;
             }            
 
             let ticketsCounter = state.ticketsCounter;
-            const newTicket = buildTicketFromCode(action.payload.codigo, ticketsCounter);
+            const newTicket = buildTicketFromCode(action.codigo, ticketsCounter);
 
             let existingTicketToRemoveFromCounterIndex = -1;
             let existingFractionTickets: string[] = [];
 
-            const existingTicket = state.ticketsCollection.byId[action.payload.codigo.substr(0, action.payload.codigo.length - 2)];
+            const existingTicket = state.ticketsCollection.byId[action.codigo.substr(0, action.codigo.length - 2)];
 
             if (existingTicket) {
 
@@ -59,8 +59,8 @@ export const reducer = (state: IState, action: ActionType): IState => {
             let codigoLoteria = state.codigoLoteria;
             let sorteo = state.sorteo;
             if(!sorteo){
-                codigoLoteria = getLoteriaFromCode(action.payload.codigo);
-                sorteo = getSorteoFromCode(action.payload.codigo);
+                codigoLoteria = getLoteriaFromCode(action.codigo);
+                sorteo = getSorteoFromCode(action.codigo);
             }
 
             return {
@@ -124,7 +124,8 @@ export const reducer = (state: IState, action: ActionType): IState => {
             };
 
         case SET_NEW_TICKET_DEVOLUTION_STATE:
-            return action.payload;
+            console.log('new state', action.newState);
+            return action.newState;
             
         default:
             return state;

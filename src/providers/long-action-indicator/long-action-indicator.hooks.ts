@@ -26,5 +26,8 @@ export const useLongActionIndicatorDispatch = () => {
 }
 
 export const useLongActionIndicator = ()=> {
-    return [useLongActionIndicatorState(), useLongActionIndicatorDispatch()];
+    return {
+        useContext: useLongActionIndicatorState(), 
+        useDispatch: useLongActionIndicatorDispatch()
+    };
 }

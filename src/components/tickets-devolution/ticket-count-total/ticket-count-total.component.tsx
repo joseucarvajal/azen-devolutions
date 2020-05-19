@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 
 import './ticket-count-total.style.scss';
 
-import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.context";
 
 
 const TicketCountTotal = () => {

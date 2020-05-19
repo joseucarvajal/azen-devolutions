@@ -3,23 +3,26 @@ import { useContext, useEffect, useCallback } from "react";
 import { isPlatform } from "@ionic/react";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
-import { IState, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
-import { addLotteryTicket, setNewTicketDevolutionState } from "./tickets-devolution.actions";
-import { initialState, TicketsDevolutionContext } from "./tickets-devolution.provider";
-import { IAddLotteryTicketParams } from "./tickets-devolution.types";
+import { initialState, TicketsDevolutionContext } from "./tickets-devolution.context";
 
 import {
     getTicketCounterReport as utilsGetTicketCounterReport,
     getFileReportStr,
     padLeft
-} from "./tickets-devolution.utils";    
+} from "./tickets-devolution.utils";
 
 import {
-    IActionResultEnum,
     START_LOADING,
     STOP_LOADING
 } from "../long-action-indicator/long-action-indicator.types";
 import { useLongActionIndicatorDispatch } from "../long-action-indicator/long-action-indicator.hooks";
+
+import {
+    IState,
+    ITicketDevolutionCounterReport,
+    ADD_LOTTERY_TICKET,
+    SET_NEW_TICKET_DEVOLUTION_STATE
+} from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
 
@@ -28,7 +31,7 @@ export interface IUseTicketDevolution {
     ticketDevolutionCounterReport: ITicketDevolutionCounterReport;
 
     startScanning: () => Promise<void>;
-    addTicket: (params: IAddLotteryTicketParams) => void;
+    addTicket: (codigo: string) => void;
     sendReportFile: () => void;
 }
 
@@ -41,13 +44,13 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         setTicketDevolutionCounterReport,
     } = useContext(TicketsDevolutionContext);
 
-    //const { startLoadingIndicator, stopLoadingIndicator } = useContext(LongActionIndicatorStateContext);    
     const { dispatch: longActionDispatch } = useLongActionIndicatorDispatch();
 
-    const addTicket = useCallback((params: IAddLotteryTicketParams) => {
-        dispatch(
-            addLotteryTicket(params)
-        );
+    const addTicket = useCallback((codigo: string) => {
+        dispatch({
+            type: ADD_LOTTERY_TICKET,
+            codigo
+        });
     }, [dispatch]);
 
     useEffect(() => {
@@ -60,21 +63,15 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
 
         if (isPlatform("mobileweb")) {
             setTimeout(() => {
-                addTicket({
-                    codigo: '90150004640715400101'
-                });
+                addTicket('90150004640715400101');
             }, 1000);
 
             setTimeout(() => {
-                addTicket({
-                    codigo: '90150004640475119902'
-                });
+                addTicket('90150004640475119902');
             }, 1000);
 
             setTimeout(() => {
-                addTicket({
-                    codigo: '90150004640879113203'
-                });
+                addTicket('90150004640879113203');
             }, 1000);
 
             return;
@@ -92,31 +89,29 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
             });
 
             if (!data.cancelled) {
-                addTicket({
-                    codigo: data.text,
-                });
+                addTicket(data.text);
             }
         }
     }
 
-    /*
-    const sendReportFile = () => {
-        longActionDispatch({
-            type: START_LOADING                
-        })                        
+    
+    // const sendReportFile = () => {
+    //     longActionDispatch({
+    //         type: START_LOADING                
+    //     })                        
         
-        setTimeout(() => {
-            sendReportFileFn();
-        }, 3000);
-    }
-    */
+    //     setTimeout(() => {
+    //         sendReportFileFn();
+    //     }, 2000);
+    // }
+    
 
     const sendReportFile = async () => {
         try {
 
             longActionDispatch({
                 type: START_LOADING
-            })
+            })           
 
             const dateNow = new Date();
             const { codigoLoteria, sorteo } = state;
@@ -137,12 +132,15 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
                     type: STOP_LOADING,
                     resultMessage: `Archivo cargado: ${fileName} con éxito`
                 });
-                dispatch(setNewTicketDevolutionState(initialState));
+                dispatch({
+                    type: SET_NEW_TICKET_DEVOLUTION_STATE,
+                    newState: initialState                    
+                });
             }
             else {
                 longActionDispatch({
                     type: STOP_LOADING,
-                    status: IActionResultEnum.ERROR,
+                    status: 'error',
                     resultMessage: JSON.stringify(uploadResult.response)
                 });
             }
@@ -150,7 +148,7 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         catch (err) {
             longActionDispatch({
                 type: STOP_LOADING,
-                status: IActionResultEnum.ERROR,
+                status: 'error',
                 resultMessage: err.toString()
             });
         }

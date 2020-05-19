@@ -1,4 +1,9 @@
-import { ITicket, IState, ITicketCount, ITicketDevolutionCounterReport } from "./tickets-devolution.contracts";
+import { 
+    ITicket, 
+    IState, 
+    ITicketCount, 
+    ITicketDevolutionCounterReport 
+} from "./tickets-devolution.types";
 
 /**
  * 
@@ -18,7 +23,6 @@ export const getTicketFromCode = (codigo: string, readingOrder: number): ITicket
         readingOrder
     } as ITicket;
 };
-
 
 /**
  * Pads left a given value

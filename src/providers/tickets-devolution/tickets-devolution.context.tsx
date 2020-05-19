@@ -4,7 +4,7 @@ import {
   IState,
   ITicketsDevolutionContext,
   ITicketDevolutionCounterReport,
-} from "./tickets-devolution.contracts";
+} from "./tickets-devolution.types";
 import { reducer } from "./tickets-devolution.reducer";
 
 export const initialState = {

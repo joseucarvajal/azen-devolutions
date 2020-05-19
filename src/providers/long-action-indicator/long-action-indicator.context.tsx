@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useMemo } from "react";
 
 import {
   IStateContext,
@@ -14,26 +14,35 @@ import { longActionIndicatorReducer } from "./long-action-indicator.reducer";
 export const initialState = {
   resultMessage: "",
   isLoading: false,
-  loadingMessage: "Por favor espere...",  
+  loadingMessage: "Por favor espere...",
 } as ILongActionIndicatorState;
 
 export const LongActionIndicatorStateContext = createContext<
   IStateContext<ILongActionIndicatorState>
->({state: initialState});
+>({ state: initialState });
 
 export const LongActionIndicatorDispatchContext = createContext<
   IDispatchContext<LongActionIndicatorType> | undefined
 >(undefined);
 
-const LongActionIndicatorProvider: React.FC = ({ children }) => {  
+const LongActionIndicatorProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(
     longActionIndicatorReducer,
     initialState
   );
-    
+
+
+  const stateValue = { state };
+  
+  const dispatchValue = useMemo(() => {
+    return { dispatch };
+  }, []);  
+
+  //const dispatchValue = { dispatch };
+
   return (
-    <LongActionIndicatorStateContext.Provider value={{ state }}>
-      <LongActionIndicatorDispatchContext.Provider value={{ dispatch }}>
+    <LongActionIndicatorStateContext.Provider value={stateValue}>
+      <LongActionIndicatorDispatchContext.Provider value={dispatchValue}>
         {children}
       </LongActionIndicatorDispatchContext.Provider>
     </LongActionIndicatorStateContext.Provider>

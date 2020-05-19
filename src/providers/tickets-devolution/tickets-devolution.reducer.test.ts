@@ -1,11 +1,7 @@
-import { IState, ITicket } from "./tickets-devolution.contracts";
-
-import {
-    addLotteryTicket,
-} from "./tickets-devolution.actions";
+import { IState, ITicket, ADD_LOTTERY_TICKET } from "./tickets-devolution.types";
 
 import { reducer } from "./tickets-devolution.reducer";
-import { initialState } from "./tickets-devolution.provider";
+import { initialState } from "./tickets-devolution.context";
 
 describe('Add tickets', () => {
 
@@ -35,9 +31,9 @@ describe('Add tickets', () => {
             },
         } as IState;
 
-        const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_1_1_codigo
-        }));
+        const resultState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo: _ticket_1_1_codigo });
 
         expect(resultState).toEqual(expectedState);
 
@@ -83,9 +79,9 @@ describe('Add tickets', () => {
             },
         } as IState;
 
-        const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_1_3_codigo
-        }));
+        const resultState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo: _ticket_1_3_codigo });
 
         expect(resultState).toEqual(expectedState);
     });
@@ -120,9 +116,9 @@ describe('Add tickets', () => {
             },
         } as IState;
 
-        const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_2_3_codigo
-        }));
+        const resultState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo: _ticket_2_3_codigo });
 
         expect(resultState).toEqual(expectedState);
     });
@@ -133,9 +129,9 @@ describe('Add tickets', () => {
 
         const initialState = _state_with_ticket_1_1;
 
-        const receivedState = reducer(initialState, addLotteryTicket({
-            codigo
-        }));
+        const receivedState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo });
 
         expect(receivedState).toEqual(initialState);
     });
@@ -144,9 +140,9 @@ describe('Add tickets', () => {
 
         const initialState = _state_with_ticket_1_1;
 
-        const receivedState = reducer(initialState, addLotteryTicket({
-            codigo: "31513513351"
-        }));
+        const receivedState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo: "31513513351" });
 
         expect(receivedState).toBe(initialState);
     });
@@ -155,9 +151,9 @@ describe('Add tickets', () => {
 
         const initialState = _state_with_ticket_1_3;
 
-        const resultState = reducer(initialState, addLotteryTicket({
-            codigo: _ticket_1_1_codigo
-        }));
+        const resultState = reducer(
+            initialState,
+            { type: ADD_LOTTERY_TICKET, codigo: _ticket_1_1_codigo });
 
         expect(resultState.ticketsCollection.byId[_ticket_1_1_codigo_nofrac])
             .toMatchObject({
@@ -266,7 +262,7 @@ const _ticket_2_3 = {
     ..._ticket_2_1,
     codigo: _ticket_2_3_codigo_nofrac,
     cantidadFracciones: 3,
-    fraccion: '03',    
+    fraccion: '03',
 } as ITicket;
 
 //ticket exist with diff fraction should be relocated in an existing counter obj

@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 
 import "./info-sorteo.scss";
 
-import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.context";
 
 import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
 

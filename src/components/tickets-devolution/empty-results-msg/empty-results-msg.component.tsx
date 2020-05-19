@@ -6,7 +6,7 @@ import { barcodeOutline } from "ionicons/icons";
 
 import "./empty-results-msg.style.scss";
 
-import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.provider";
+import { TicketsDevolutionContext } from "../../../providers/tickets-devolution/tickets-devolution.context";
 
 const EmptyResultMsgComponent = () => {
   const { ticketDevolutionCounterReport } = useContext(TicketsDevolutionContext);
