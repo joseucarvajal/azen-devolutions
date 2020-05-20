@@ -13,7 +13,6 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  isPlatform,
   IonButton,
   IonAlert,
 } from "@ionic/react";
@@ -44,7 +43,6 @@ const TicketDevolutionMain: React.FC = () => {
     sendReportFile,
   } = useTicketDevolution(agente);
 
-  const [code, setCode] = useState("90150004640831702501");
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
 
   console.log("refresh devolution page", showSendFileConfirm);
@@ -78,9 +76,12 @@ const TicketDevolutionMain: React.FC = () => {
       <IonContent>
         <div className="ticket-devol-page">
           <div className="ticket-devol__content">
-            <InfoSorteo />
-            <TicketCountList />
-            <TicketCountTotal />
+            
+            <InfoSorteo/>
+
+            <TicketCountList/>
+
+            <TicketCountTotal/>
 
             {state.sorteo ? (
               <div className="send-devolution">
@@ -94,7 +95,7 @@ const TicketDevolutionMain: React.FC = () => {
                 </IonButton>
               </div>
             ) : (
-              <EmptyResultMsgComponent />
+              <EmptyResultMsgComponent/>
             )}
           </div>
           <div className="ticket-devol-footer">

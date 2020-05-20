@@ -6,13 +6,13 @@ import { ITicketCount } from "../../../providers/tickets-devolution/tickets-devo
 
 import "./ticket-count-item.style.scss";
 
-interface TicketCountItemProps {
+type Props = {
   key: any;
   ticketCountObj: ITicketCount;
   fractionsCount: number;
 }
 
-const TicketCountItem: React.FC<TicketCountItemProps> = ({
+const TicketCountItem: React.FC<Props> = ({
   ticketCountObj,
   fractionsCount,
 }) => {

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect, useCallback, useState } from "react";
 
 import { isPlatform } from "@ionic/react";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
@@ -19,16 +19,17 @@ import { useLongActionIndicatorDispatch } from "../long-action-indicator/long-ac
 
 import {
     IState,
-    ITicketDevolutionCounterReport,
+    ITicketDevolutionReport,
     ADD_LOTTERY_TICKET,
     SET_NEW_TICKET_DEVOLUTION_STATE
 } from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
+import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 
 export interface IUseTicketDevolution {
     state: IState;
-    ticketDevolutionCounterReport: ITicketDevolutionCounterReport;
+    ticketDevolutionCounterReport: ITicketDevolutionReport;
 
     startScanning: () => Promise<void>;
     addTicket: (codigo: string) => void;
@@ -40,11 +41,11 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     const {
         state,
         dispatch,
-        ticketDevolutionCounterReport,
-        setTicketDevolutionCounterReport,
     } = useContext(TicketsDevolutionContext);
 
     const longActionDispatch = useLongActionIndicatorDispatch();
+
+    const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useTicketDevolutionReport();
 
     const addTicket = useCallback((codigo: string) => {
         dispatch({
@@ -56,8 +57,8 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     useEffect(() => {
         const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
         setTicketDevolutionCounterReport(newTicketCounterReport);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, agente, setTicketDevolutionCounterReport, utilsGetTicketCounterReport]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state, agente]);
 
     const startScanning = async () => {
 
@@ -94,24 +95,24 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         }
     }
 
-    
+
     // const sendReportFile = () => {
     //     longActionDispatch({
     //         type: START_LOADING                
     //     })                        
-        
+
     //     setTimeout(() => {
     //         sendReportFileFn();
     //     }, 2000);
     // }
-    
+
 
     const sendReportFile = async () => {
         try {
 
             longActionDispatch({
                 type: START_LOADING
-            })           
+            })
 
             const dateNow = new Date();
             const { codigoLoteria, sorteo } = state;
@@ -134,7 +135,7 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
                 });
                 dispatch({
                     type: SET_NEW_TICKET_DEVOLUTION_STATE,
-                    newState: initialState                    
+                    newState: initialState
                 });
             }
             else {

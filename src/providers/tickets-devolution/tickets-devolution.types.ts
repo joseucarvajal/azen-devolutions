@@ -91,16 +91,12 @@ export interface IState {
  * Context contract
  */
 export interface ITicketsDevolutionContext {
-
     state: IState;
     dispatch: React.Dispatch<ActionType>;
-
-    setTicketDevolutionCounterReport: (ticketCounterReport: ITicketDevolutionCounterReport) => void;
-    ticketDevolutionCounterReport: ITicketDevolutionCounterReport
 }
 
 
-export interface ITicketDevolutionCounterReport {
+export interface ITicketDevolutionReport {
     agente: string;
     sorteo: string;
     totalTicketsIndxByFraction: number[];

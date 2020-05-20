@@ -2,7 +2,7 @@ import {
     ITicket, 
     IState, 
     ITicketCount, 
-    ITicketDevolutionCounterReport 
+    ITicketDevolutionReport 
 } from "./tickets-devolution.types";
 
 /**
@@ -44,7 +44,7 @@ export const getTicketCounterReport = (state: IState, agente: string) => {
         totalTicketsIndxByFraction: [],
         totalFractionsIndxByFraction: [],
         ticketsTotalCount: 0
-    } as ITicketDevolutionCounterReport;
+    } as ITicketDevolutionReport;
 
     ticketCounterReport.sorteo = state.sorteo;
 
