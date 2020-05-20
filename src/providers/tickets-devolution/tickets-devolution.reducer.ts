@@ -123,8 +123,7 @@ export const reducer = (state: IState, action: ActionType): IState => {
                 }
             };
 
-        case SET_NEW_TICKET_DEVOLUTION_STATE:
-            console.log('new state', action.newState);
+        case SET_NEW_TICKET_DEVOLUTION_STATE:            
             return action.newState;
             
         default:

@@ -48,6 +48,7 @@ export const getTicketCounterReport = (state: IState, agente: string) => {
 
     ticketCounterReport.sorteo = state.sorteo;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
         const { codigo, tickets } = (counterObj as ITicketCount);
         ticketCounterReport.totalTicketsIndxByFraction.push(tickets.length);
@@ -85,6 +86,7 @@ const getFileReportTicketsAndFractionCount = (state: IState): string => {
     let ticketsArray: ITicket[] = [];
     let fractionsTotalCount = 0;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
         const { codigo, tickets } = (counterObj as ITicketCount);
         for (let i = 0; i < tickets.length; i++) {

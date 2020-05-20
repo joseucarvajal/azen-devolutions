@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback, useState } from "react";
+import { useContext, useEffect, useCallback } from "react";
 
 import { isPlatform } from "@ionic/react";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
