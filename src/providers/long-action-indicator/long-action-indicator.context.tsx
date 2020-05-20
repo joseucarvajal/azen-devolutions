@@ -1,9 +1,4 @@
-import React, { createContext, useReducer, useMemo } from "react";
-
-import {
-  IStateContext,
-  IDispatchContext,
-} from "../../shared/contracts/shared.contracts";
+import React, { createContext, useReducer } from "react";
 
 import {
   LongActionIndicatorType,
@@ -18,31 +13,22 @@ export const initialState = {
 } as ILongActionIndicatorState;
 
 export const LongActionIndicatorStateContext = createContext<
-  IStateContext<ILongActionIndicatorState>
->({ state: initialState });
+  ILongActionIndicatorState
+>(initialState);
 
 export const LongActionIndicatorDispatchContext = createContext<
-  IDispatchContext<LongActionIndicatorType> | undefined
+  React.Dispatch<LongActionIndicatorType> | undefined
 >(undefined);
 
 const LongActionIndicatorProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(
     longActionIndicatorReducer,
     initialState
-  );
-
-
-  const stateValue = { state };
-  
-  const dispatchValue = useMemo(() => {
-    return { dispatch };
-  }, []);  
-
-  //const dispatchValue = { dispatch };
+  );  
 
   return (
-    <LongActionIndicatorStateContext.Provider value={stateValue}>
-      <LongActionIndicatorDispatchContext.Provider value={dispatchValue}>
+    <LongActionIndicatorStateContext.Provider value={state}>
+      <LongActionIndicatorDispatchContext.Provider value={dispatch}>
         {children}
       </LongActionIndicatorDispatchContext.Provider>
     </LongActionIndicatorStateContext.Provider>

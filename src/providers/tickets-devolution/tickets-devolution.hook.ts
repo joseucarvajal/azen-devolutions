@@ -44,7 +44,7 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         setTicketDevolutionCounterReport,
     } = useContext(TicketsDevolutionContext);
 
-    const { dispatch: longActionDispatch } = useLongActionIndicatorDispatch();
+    const longActionDispatch = useLongActionIndicatorDispatch();
 
     const addTicket = useCallback((codigo: string) => {
         dispatch({

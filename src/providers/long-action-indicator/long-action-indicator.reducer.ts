@@ -3,7 +3,7 @@ import {
     ILongActionIndicatorState, 
     START_LOADING, 
     STOP_LOADING,
-    HIDE_MESSAGE,
+    CLEAN_RESULT_MESSAGE,
 } from "./long-action-indicator.types";
 
 export const longActionIndicatorReducer = 
@@ -29,7 +29,7 @@ export const longActionIndicatorReducer =
                 messagePosition: action.position ?? 'bottom'
             };
 
-        case HIDE_MESSAGE:
+        case CLEAN_RESULT_MESSAGE:
             return {
                 ...state,
                 resultMessage: ''

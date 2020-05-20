@@ -3,28 +3,25 @@ import React from "react";
 import "./long-action-indicator.styles.scss";
 
 import { IonLoading, IonToast } from "@ionic/react";
-import {
-  useLongActionIndicator,
-} from "../../providers/long-action-indicator/long-action-indicator.hooks";
-import { HIDE_MESSAGE } from "../../providers/long-action-indicator/long-action-indicator.types";
+
+import { useLongActionIndicator } from "../../providers/long-action-indicator/long-action-indicator.hooks";
+import { CLEAN_RESULT_MESSAGE } from "../../providers/long-action-indicator/long-action-indicator.types";
 
 const LongActionIndicator: React.FC = () => {
   const {
-    useContext: {
-      state: {
-        isLoading,
-        resultMessage,
-        status,
-        loadingMessage,
-        messagePosition,
-      },
+    state: {
+      isLoading,
+      loadingMessage,
+      resultMessage,
+      status,
+      messagePosition,
     },
-    useDispatch: { dispatch },
+    dispatch,
   } = useLongActionIndicator();
 
   const hideToast = () => {
     dispatch({
-      type: HIDE_MESSAGE,
+      type: CLEAN_RESULT_MESSAGE,
     });
   };
 
@@ -35,7 +32,7 @@ const LongActionIndicator: React.FC = () => {
       <IonToast
         isOpen={resultMessage.length > 0}
         message={status === "error" ? `ERROR: ${resultMessage}` : resultMessage}
-        duration={2000}
+        duration={5000}
         position={messagePosition}
         color={status === "error" ? "danger" : "success"}
         onDidDismiss={hideToast}

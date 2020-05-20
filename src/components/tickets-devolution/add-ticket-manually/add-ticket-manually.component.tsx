@@ -13,8 +13,7 @@ type IProps = {
 
 const AddTicketManually: React.FC<IProps> = ({ addTicket }) => {
 
-
-  const {dispatch} =  useLongActionIndicatorDispatch();
+  const dispatch =  useLongActionIndicatorDispatch();
 
   const [showModal, setShowModal] = useState(false);
 
