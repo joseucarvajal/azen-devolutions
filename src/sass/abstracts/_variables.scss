@@ -12,17 +12,22 @@
 
     --zn-color-light-rgb-1: 240, 240, 240;
 
+    //BORDERS
     --azn-border-1: 1px solid var(--zn-color-grey-dark-rgb-3);
+    --azn-border-required-inv-field: 1px solid #b97e7e;
+    --azn-border-required-valid-field: 1px solid #4f7e49;
 
     //SHADOWS
     --azn-shadow-style-1: 1px 2px 5px 0px rgba(179, 189, 180, 1);
     --azn-shadow-style-2: 1px 2px 4px 0px rgba(179, 189, 180, 1);
+    --azn-shadow-style-3: 1px 1px 30px 0px rgba(220, 220, 220, .4);
+    --azn-shadow-style-4: 6px 6px 20px 1px rgba(220, 220, 220, .5);
 
     //GRADIENTS:
     --azn-gradient-style-1: linear-gradient(
         135deg,
         rgba(255, 255, 255, 1) 0%,
-        rgba(241, 241, 241, 1) 50%,
+        rgb(216, 135, 135) 50%,
         rgba(225, 225, 225, 1) 51%,
         rgba(246, 246, 246, 1) 100%
     );
@@ -38,6 +43,10 @@
         rgba(78, 92, 90, 1) 82%,
         rgba(14, 14, 14, 1) 100%
     );
+
+    //--azn-gradient-3: linear-gradient(98deg, #5da49b 0%, #6da598 16%, #7ba796 33%, #88a893 50%, #94aa90 66%, #9fab8e 83%, #aaac8b 100%);
+
+    --azn-gradient-3: linear-gradient(98deg, var(--ion-color-secondary) 0%, var(--ion-color-primary) 100%);
 }
 
 $bp-small-1: 18.125em; //280 px

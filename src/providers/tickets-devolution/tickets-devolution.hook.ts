@@ -63,17 +63,10 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     const startScanning = async () => {
 
         if (isPlatform("mobileweb")) {
-            setTimeout(() => {
-                addTicket('90150004640715400101');
-            }, 1000);
-
-            setTimeout(() => {
-                addTicket('90150004640475119902');
-            }, 1000);
-
-            setTimeout(() => {
-                addTicket('90150004640879113203');
-            }, 1000);
+            
+            addTicket('90150004640879113203');
+            addTicket('90150004640715400101');
+            addTicket('90150004640475119902');
 
             return;
         }

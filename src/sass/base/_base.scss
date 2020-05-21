@@ -9,7 +9,10 @@
 ion-content {
     --ion-background-color: #fdfdfd;
     --ion-default-font: "Lato", sans-serif;
-    --ion-text-color: var(--zn-color-grey-dark-rgb-2);    
+    /*
+    --ion-font-family: "Lato", sans-serif;
+    */
+    --ion-text-color: var(--zn-color-grey-dark-rgb-2);
 }
 
 html {

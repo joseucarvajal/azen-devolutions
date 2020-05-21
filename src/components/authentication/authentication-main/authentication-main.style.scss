@@ -1,0 +1,111 @@
+@import "../../../sass/abstracts/variables";
+
+.auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    width: 95vw;
+    height: 98vh;
+
+    margin: 0 auto;
+    padding: 1.5rem;
+
+    color: var(--zn-color-grey-dark-rgb-4);
+
+    &__heading {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        color: var(--ion-color-secondary);
+    }
+
+    &__box {
+        border: var(--azn-border-1);
+        box-shadow: var(--azn-shadow-style-2);
+
+        &-header {
+            background: var(--azn-gradient-3);
+            text-align: center;
+            color: var(--zn-color-grey-dark-rgb-1);
+            font-weight: bolder;
+            padding: 0.6rem;
+            font-size: 1.2rem;
+            letter-spacing: 0.3rem;
+        }
+
+        &-form {
+            padding: 1.3rem 0.7rem;
+
+            &-row {
+                display: flex;
+            }
+
+            &-row:not(:first-child) {
+                margin-top: .4rem;
+            }
+
+            &-icon {
+                margin-right: 0.2rem;
+                transform: translateY(0.6rem);
+                color: var(--ion-color-primary);
+                font-weight: bold;
+            }
+        }
+
+        &-field {
+            flex: 1;
+        }
+
+        &-lbl {
+            display: inline-block;
+            transform: translate(0.52rem, .1rem);
+            opacity: 1;
+            font-size: .9rem;
+
+            transition: all .32s ease-out;
+            pointer-events: none;
+        }
+
+        &-input {
+            display: block;
+            height: 2.8rem;
+            padding: 0.2rem 0.4rem;
+            border: var(--azn-border-1);
+            width: 100%;
+
+            transition: all 0.3s;
+
+            &::placeholder {
+                opacity: 0.6;
+            }
+            &:placeholder-shown ~ .auth__box-lbl {
+                transform: translate(0.52rem, -2.2rem);
+                opacity: 0;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: var(--azn-shadow-style-4);
+
+                &:invalid {
+                    border-bottom: var(--azn-border-required-inv-field);
+                }
+                &:valid {
+                    border-bottom: var(--azn-border-required-valid-field);
+                }
+            }
+        }
+
+        &-send-btn {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    &__logo {
+        width: 6rem;
+        height: 8rem;
+        margin: 0 auto;
+    }
+}

@@ -8,15 +8,15 @@ import {
 } from './tickets-devolution.report.context';
 import { ITicketDevolutionReport } from "./tickets-devolution.types";
 
-export const useTicketDevolutionReportState = () => {
+export const useTicketDevolutionReportState = (): ITicketDevolutionReport => {
   return useContextValue<ITicketDevolutionReport>(
-          'TicketDevolutionReportStateContext', 
-          TicketDevolutionReportStateContext);
+    'TicketDevolutionReportStateContext',
+    TicketDevolutionReportStateContext);
 }
 
-export const useTicketDevolutionReportActions = () => {
+export const useTicketDevolutionReportActions = (): Dispatch<SetStateAction<ITicketDevolutionReport>> => {
   return useContextValue<Dispatch<SetStateAction<ITicketDevolutionReport>>>(
-    'TicketDevolutionReportActionContext', 
+    'TicketDevolutionReportActionContext',
     TicketDevolutionReportActionContext);
 }
 

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, Dispatch } from "react";
 
 import {
   LongActionIndicatorType,
@@ -17,7 +17,7 @@ export const LongActionIndicatorStateContext = createContext<
 >(initialState);
 
 export const LongActionIndicatorDispatchContext = createContext<
-  React.Dispatch<LongActionIndicatorType> | undefined
+  Dispatch<LongActionIndicatorType> | undefined
 >(undefined);
 
 const LongActionIndicatorProvider: React.FC = ({ children }) => {
