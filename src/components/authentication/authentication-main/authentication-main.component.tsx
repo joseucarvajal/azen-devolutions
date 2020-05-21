@@ -6,8 +6,7 @@ import "./authentication-main.style.scss";
 
 import { IonContent, IonPage, IonIcon, IonButton } from "@ionic/react";
 import { personOutline, keyOutline } from "ionicons/icons";
-import { useAuthenticationDispatch, useAuthentication } from "../../../providers/authentication/authentication.hooks";
-import { SET_AUTHENTICATION_VALUES } from "../../../providers/authentication/authentication-types";
+import { useAuthentication } from "../../../providers/authentication/authentication.hooks";
 
 const AuthenticationMain: React.FC = () => {
 

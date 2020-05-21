@@ -5,7 +5,6 @@ import { Redirect, Route } from "react-router-dom";
 
 import Menu from "./components/Menu";
 
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -31,13 +30,14 @@ import LongActionIndicatorProvider from "./providers/long-action-indicator/long-
 import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 
 import TicketDevolutionPage from "./pages/tickets-devolution/ticket-devolution.page";
-import AuthenticationPage from './pages/authentication/authentication.page';
-
+import AuthenticationPage from "./pages/authentication/authentication.page";
+import AuthenticationProvider from "./providers/authentication/authentication.context";
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <LongActionIndicatorProvider>        
+      <LongActionIndicatorProvider>
+        <AuthenticationProvider>
           <IonReactRouter>
             <IonSplitPane contentId="main">
               <Menu />
@@ -47,16 +47,13 @@ const App: React.FC = () => {
                   component={TicketDevolutionPage}
                   exact
                 />
-                <Route
-                  path="/login/"
-                  component={AuthenticationPage}
-                  exact
-                />
+                <Route path="/login/" component={AuthenticationPage} exact />
                 <Redirect from="/" to="/login/" exact />
               </IonRouterOutlet>
             </IonSplitPane>
           </IonReactRouter>
           <LongActionIndicator />
+        </AuthenticationProvider>
       </LongActionIndicatorProvider>
     </IonApp>
   );
