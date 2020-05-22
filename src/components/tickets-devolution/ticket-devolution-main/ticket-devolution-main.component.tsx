@@ -40,7 +40,7 @@ const TicketDevolutionMain: React.FC = () => {
     ticketDevolutionCounterReport,
     startScanning,
     addTicket,
-    sendReportFile,
+    sendDevolutionFile,
   } = useTicketDevolution(agente);
 
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
@@ -56,7 +56,7 @@ const TicketDevolutionMain: React.FC = () => {
   };
 
   const onConfirmSendFile = () => {
-    sendReportFile();
+    sendDevolutionFile();
     setShowSendFileConfirm(false);
   };
 

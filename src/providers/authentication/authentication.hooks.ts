@@ -1,9 +1,8 @@
 import { useContextValue } from "../../shared/hooks/use-context-value-hook"
-import { IAuthenticationState, IAuthenticationActionType, ISetAuthenticationValues } from "./authentication-types"
+import { IAuthenticationState, ISetAuthenticationValues, SET_USER } from "./authentication-types"
 import { AuthenticationStateContext, AuthenticationDispatchContext } from "./authentication.context"
-import { Dispatch } from "react"
-import { useLongActionIndicatorDispatch } from "../long-action-indicator/long-action-indicator.hooks"
-import { START_LOADING, STOP_LOADING } from "../long-action-indicator/long-action-indicator.types"
+import { useContext } from "react"
+import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks"
 
 import { authenticateUser as authenticateUserUtil } from './authentication.utils';
 
@@ -11,48 +10,47 @@ export const useAuthenticationState = (): IAuthenticationState => {
     return useContextValue<IAuthenticationState>('AuthenticationStateContext', AuthenticationStateContext)
 }
 
-export const useAuthenticationDispatch = (): Dispatch<IAuthenticationActionType> => {
-    return useContextValue<Dispatch<IAuthenticationActionType>>(
-        'AuthenticationDispatchContext', AuthenticationDispatchContext)
-}
-
-export interface IUseAuthentication {
-    state: IAuthenticationState;
-
+export interface IUseAuthenticationActions {
     authenticateUser: (payload: ISetAuthenticationValues) => void;
-    dispatch: Dispatch<IAuthenticationActionType>;
 }
 
-export const useAuthentication = (): IUseAuthentication => {
+export const useAuthenticationActions = (): IUseAuthenticationActions => {
+    
+    const { showLoading, hideLoading, showErrorMessage } = useLongActionIndicatorActions();
 
-    const longActionInidicatorDispatch = useLongActionIndicatorDispatch();
+    const dispatch = useContext(AuthenticationDispatchContext);
+
+    if (dispatch === undefined) {
+        throw new Error('useLongActionIndicatorDispatch context not defined');
+    }
 
     const authenticateUser = async (payload: ISetAuthenticationValues) => {
         try {
-            longActionInidicatorDispatch({
-                type: START_LOADING
-            });
-
-            await authenticateUserUtil(payload);
-
-            longActionInidicatorDispatch({
-                type: STOP_LOADING
-            });
+            showLoading();
+            const tkna = await authenticateUserUtil(payload);
+            setUserToken(tkna);
+            hideLoading();
         }
         catch (err) {
-            longActionInidicatorDispatch({
-                type: STOP_LOADING,
-                status: 'error',
-                resultMessage: err.toString()
-            });
+            showErrorMessage(err.toString());
         }
     }
 
-    return {
-        state: useAuthenticationState(),
+    const setUserToken = (tkna: string) => {
+        dispatch({
+            type: SET_USER,
+            user: {
+                tkna: tkna
+            }
+        });
+    }
 
-        authenticateUser: authenticateUser,
-        dispatch: useAuthenticationDispatch(),
+    return {
+        authenticateUser
     };
+}
+
+export const useAuthentication = (): [IAuthenticationState, IUseAuthenticationActions] => {
+    return [useAuthenticationState(), useAuthenticationActions()];
 }
 

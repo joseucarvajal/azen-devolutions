@@ -5,7 +5,6 @@ import "./long-action-indicator.styles.scss";
 import { IonLoading, IonToast } from "@ionic/react";
 
 import { useLongActionIndicator } from "../../providers/long-action-indicator/long-action-indicator.hooks";
-import { CLEAN_RESULT_MESSAGE } from "../../providers/long-action-indicator/long-action-indicator.types";
 
 const LongActionIndicator: React.FC = () => {
   const {
@@ -16,14 +15,10 @@ const LongActionIndicator: React.FC = () => {
       status,
       messagePosition,
     },
-    dispatch,
+    actions:{
+      hideMessage
+    }
   } = useLongActionIndicator();
-
-  const hideToast = () => {
-    dispatch({
-      type: CLEAN_RESULT_MESSAGE,
-    });
-  };
 
   return (
     <>
@@ -35,7 +30,7 @@ const LongActionIndicator: React.FC = () => {
         duration={5000}
         position={messagePosition}
         color={status === "error" ? "danger" : "success"}
-        onDidDismiss={hideToast}
+        onDidDismiss={hideMessage}
       />
     </>
   );

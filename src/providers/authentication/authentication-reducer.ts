@@ -1,4 +1,4 @@
-import { IAuthenticationState, IAuthenticationActionType, SET_AUTHENTICATION_VALUES } from "./authentication-types";
+import { IAuthenticationState, IAuthenticationActionType, SET_AUTHENTICATION_VALUES, SET_USER } from "./authentication-types";
 
 export const authenticationReducer = (state: IAuthenticationState, action: IAuthenticationActionType): IAuthenticationState => {
 
@@ -9,6 +9,12 @@ export const authenticationReducer = (state: IAuthenticationState, action: IAuth
                 ...state,
                 userName: action.payload.userName,
                 password: action.payload.password
+            };
+
+        case SET_USER:
+            return {
+                ...state,
+                user: action.user
             };
 
         default:

@@ -1,6 +1,9 @@
-import React, { createContext, useReducer, useMemo } from "react";
+import React, { createContext, useReducer, Dispatch } from "react";
 
-import { IState, ITicketsDevolutionContext } from "./tickets-devolution.types";
+import {
+  IState,
+  ActionType,
+} from "./tickets-devolution.types";
 import { reducer } from "./tickets-devolution.reducer";
 
 export const initialState = {
@@ -30,21 +33,24 @@ export const initialState = {
   },
 } as IState;
 
-export const TicketsDevolutionContext = createContext<
-  ITicketsDevolutionContext
->({} as ITicketsDevolutionContext);
+export const TicketsDevolutionStateContext = createContext<IState>(
+  initialState
+);
+
+export const TicketsDevolutionDispatchContext = createContext<
+  Dispatch<ActionType>
+>(() => {});
 
 const TicketsDevolutionProvider: React.FC = ({ children }) => {
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const value = useMemo(() => {
-    return { state, dispatch };
-  }, [state, dispatch]);
-
   return (
-    <TicketsDevolutionContext.Provider value={value}>
-      {children}
-    </TicketsDevolutionContext.Provider>
+    <TicketsDevolutionStateContext.Provider value={state}>
+      <TicketsDevolutionDispatchContext.Provider value={dispatch}>
+        {children}
+      </TicketsDevolutionDispatchContext.Provider>
+    </TicketsDevolutionStateContext.Provider>
   );
 };
 

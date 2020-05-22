@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: space-around;
 
-    width: 95vw;
-    height: 98vh;
+    min-width: 95vw;
+    min-height: 100vh;
 
     margin: 0 auto;
     padding: 1.5rem;
@@ -23,6 +23,7 @@
     &__box {
         border: var(--azn-border-1);
         box-shadow: var(--azn-shadow-style-2);
+        margin-bottom: .4rem;
 
         &-header {
             background: var(--azn-gradient-3);

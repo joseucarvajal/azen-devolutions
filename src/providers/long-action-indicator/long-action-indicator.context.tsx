@@ -17,8 +17,8 @@ export const LongActionIndicatorStateContext = createContext<
 >(initialState);
 
 export const LongActionIndicatorDispatchContext = createContext<
-  Dispatch<LongActionIndicatorType> | undefined
->(undefined);
+  Dispatch<LongActionIndicatorType>
+>(()=>{});
 
 const LongActionIndicatorProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(

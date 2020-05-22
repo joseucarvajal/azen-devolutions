@@ -3,19 +3,15 @@ import { useContext, useEffect, useCallback } from "react";
 import { isPlatform } from "@ionic/react";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 
-import { initialState, TicketsDevolutionContext } from "./tickets-devolution.context";
+import { initialState, TicketsDevolutionStateContext, TicketsDevolutionDispatchContext } from "./tickets-devolution.context";
 
 import {
     getTicketCounterReport as utilsGetTicketCounterReport,
-    getFileReportStr,
-    padLeft
+    getFileReportStr as buildFileReportStr,
+    getDevolutionFileName as buildDevolutionFileName
 } from "./tickets-devolution.utils";
 
-import {
-    START_LOADING,
-    STOP_LOADING
-} from "../long-action-indicator/long-action-indicator.types";
-import { useLongActionIndicatorDispatch } from "../long-action-indicator/long-action-indicator.hooks";
+import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks";
 
 import {
     IState,
@@ -26,26 +22,24 @@ import {
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
 import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
+import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 
-export interface IUseTicketDevolution {
-    state: IState;
-    ticketDevolutionCounterReport: ITicketDevolutionReport;
 
-    startScanning: () => Promise<void>;
-    addTicket: (codigo: string) => void;
-    sendReportFile: () => void;
+export const useTicketDevolutionState = (): IState => {
+    return useContextValue<IState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
 }
 
-export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
+export interface ITicketDevolutionActions {
+    startScanning: () => Promise<void>;
+    addTicket: (codigo: string) => void;
+    sendDevolutionFile: (state: IState, agente: string) => void;
+}
 
-    const {
-        state,
-        dispatch,
-    } = useContext(TicketsDevolutionContext);
+export const useTicketDevolutionActions = () => {
 
-    const longActionDispatch = useLongActionIndicatorDispatch();
+    const dispatch = useContext(TicketsDevolutionDispatchContext);
 
-    const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useTicketDevolutionReport();
+    const { showLoading, showErrorMessage, showSuccessMessage } = useLongActionIndicatorActions();
 
     const addTicket = useCallback((codigo: string) => {
         dispatch({
@@ -54,16 +48,10 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         });
     }, [dispatch]);
 
-    useEffect(() => {
-        const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
-        setTicketDevolutionCounterReport(newTicketCounterReport);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, agente]);
-
     const startScanning = async () => {
 
         if (isPlatform("mobileweb")) {
-            
+
             addTicket('90150004640879113203');
             addTicket('90150004640715400101');
             addTicket('90150004640475119902');
@@ -88,71 +76,77 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         }
     }
 
-
-    // const sendReportFile = () => {
-    //     longActionDispatch({
-    //         type: START_LOADING                
-    //     })                        
-
-    //     setTimeout(() => {
-    //         sendReportFileFn();
-    //     }, 2000);
-    // }
-
-
-    const sendReportFile = async () => {
+    const sendDevolutionFile = async (state: IState, agente: string) => {
         try {
 
-            longActionDispatch({
-                type: START_LOADING
-            })
+            showLoading();
 
-            const dateNow = new Date();
-            const { codigoLoteria, sorteo } = state;
-            const hour = padLeft(dateNow.getHours(), 2);
-            const minute = padLeft(dateNow.getMinutes(), 2);
-            const second = padLeft(dateNow.getSeconds(), 2);
-            const fileName = `da_${codigoLoteria}_${sorteo}_${agente}_${hour}${minute}${second}.txt`;
-
-            const dataToWrite = getFileReportStr(state, agente);
-
+            const fileName = buildDevolutionFileName(state, agente);
+            const dataToWrite = buildFileReportStr(state, agente);
             const uploadResult = await uploadFile(
                 `http://52.42.49.101:8080/azenupl/FileUploadServlet`,
                 fileName,
                 dataToWrite
             );
+
             if (uploadResult.responseCode === 201 && uploadResult.response.toString() === '1') {
-                longActionDispatch({
-                    type: STOP_LOADING,
-                    resultMessage: `Archivo cargado: ${fileName} con éxito`
-                });
-                dispatch({
-                    type: SET_NEW_TICKET_DEVOLUTION_STATE,
-                    newState: initialState
-                });
+                showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" cargado con éxito`);
+                resetState();
             }
             else {
-                longActionDispatch({
-                    type: STOP_LOADING,
-                    status: 'error',
-                    resultMessage: JSON.stringify(uploadResult.response)
-                });
+                showErrorMessage(JSON.stringify(uploadResult.response));
             }
         }
         catch (err) {
-            longActionDispatch({
-                type: STOP_LOADING,
-                status: 'error',
-                resultMessage: err.toString()
-            });
+            showErrorMessage(err.toString());
         }
+    }
+
+    const resetState = () => {
+        dispatch({
+            type: SET_NEW_TICKET_DEVOLUTION_STATE,
+            newState: initialState
+        });
+    }
+
+    return {
+        startScanning,
+        addTicket,
+        sendDevolutionFile
+    } as ITicketDevolutionActions;
+}
+
+
+export interface IUseTicketDevolution extends ITicketDevolutionActions {
+    state: IState;
+    ticketDevolutionCounterReport: ITicketDevolutionReport;
+
+    sendDevolutionFile: () => void;
+}
+
+export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
+
+    const state = useTicketDevolutionState();
+    const { startScanning, sendDevolutionFile: sendDevolutionFileAction, addTicket } = useTicketDevolutionActions();
+
+    const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useTicketDevolutionReport();
+
+    useEffect(() => {
+        const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
+        setTicketDevolutionCounterReport(newTicketCounterReport);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state, agente, setTicketDevolutionCounterReport]);
+
+    const sendDevolutionFile = () => {
+        sendDevolutionFileAction(state, agente)
     }
 
     return {
         state,
         ticketDevolutionCounterReport,
+
         startScanning,
         addTicket,
-        sendReportFile
+        sendDevolutionFile
     } as IUseTicketDevolution;
 }

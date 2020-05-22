@@ -6,12 +6,11 @@ import "./authentication-main.style.scss";
 
 import { IonContent, IonPage, IonIcon, IonButton } from "@ionic/react";
 import { personOutline, keyOutline } from "ionicons/icons";
-import { useAuthentication } from "../../../providers/authentication/authentication.hooks";
+import { useAuthenticationActions } from "../../../providers/authentication/authentication.hooks";
 
 const AuthenticationMain: React.FC = () => {
 
-  const { authenticateUser } = useAuthentication();
-
+  const { authenticateUser } = useAuthenticationActions();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 

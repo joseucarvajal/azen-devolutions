@@ -1,9 +1,5 @@
 import React from "react";
-import { IonApp, IonRouterOutlet, IonSplitPane } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
-import { Redirect, Route } from "react-router-dom";
-
-import Menu from "./components/Menu";
+import { IonApp } from "@ionic/react";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -27,31 +23,17 @@ import "./theme/variables.css";
 import "./App.scss";
 
 import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.context";
-import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 
-import TicketDevolutionPage from "./pages/tickets-devolution/ticket-devolution.page";
-import AuthenticationPage from "./pages/authentication/authentication.page";
 import AuthenticationProvider from "./providers/authentication/authentication.context";
+import SafeZone from "./SafeZone";
+import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 
 const App: React.FC = () => {
   return (
     <IonApp>
       <LongActionIndicatorProvider>
         <AuthenticationProvider>
-          <IonReactRouter>
-            <IonSplitPane contentId="main">
-              <Menu />
-              <IonRouterOutlet id="main">
-                <Route
-                  path="/ticket-devolution/:name"
-                  component={TicketDevolutionPage}
-                  exact
-                />
-                <Route path="/login/" component={AuthenticationPage} exact />
-                <Redirect from="/" to="/login/" exact />
-              </IonRouterOutlet>
-            </IonSplitPane>
-          </IonReactRouter>
+          <SafeZone />
           <LongActionIndicator />
         </AuthenticationProvider>
       </LongActionIndicatorProvider>

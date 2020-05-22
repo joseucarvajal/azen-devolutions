@@ -80,6 +80,19 @@ ${getFileReportTicketsAndFractionCount(state)}`;
     return strFile;
 }
 
+export const getDevolutionFileName = (state: IState, agente:string):string => {
+
+    const dateNow = new Date();
+    const { codigoLoteria, sorteo } = state;
+    const hour = padLeft(dateNow.getHours(), 2);
+    const minute = padLeft(dateNow.getMinutes(), 2);
+    const second = padLeft(dateNow.getSeconds(), 2);
+
+    const fileName = `da_${codigoLoteria}_${sorteo}_${agente}_${hour}${minute}${second}.txt`;
+
+    return fileName;
+}
+
 
 const getFileReportTicketsAndFractionCount = (state: IState): string => {
 

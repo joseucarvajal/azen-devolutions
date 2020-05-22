@@ -23,10 +23,10 @@ export const longActionIndicatorReducer =
         case STOP_LOADING:
             return {
                 ...state,                
-                status: action.status ?? 'ok',                        
-                resultMessage: action.resultMessage ?? '',
+                status: action.options?.status ?? 'ok',                        
+                resultMessage: action.options?.resultMessage ?? '',
                 isLoading: false,
-                messagePosition: action.position ?? 'bottom'
+                messagePosition: action.options?.msgPosition ?? 'bottom'
             };
 
         case CLEAN_RESULT_MESSAGE:
