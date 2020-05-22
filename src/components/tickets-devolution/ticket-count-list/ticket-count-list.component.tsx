@@ -1,17 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import TicketCountItem from "../ticket-count-item/ticket-count-item.component";
 
 import "./ticket-count-list.style.scss";
-import { TicketsDevolutionStateContext } from "../../../providers/tickets-devolution/tickets-devolution.context";
 import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
+import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
 const TicketCountList: React.FC = () => {
-  
-  const { ticketsCounterCollection } = useContext(
-    TicketsDevolutionStateContext
-  );
 
+  const { ticketsCounterCollection } = useTicketDevolutionState();
   const ticketDevolutionCounterReport = useTicketDevolutionReportState();
 
   return (

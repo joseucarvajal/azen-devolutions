@@ -11,19 +11,20 @@ export interface ILongActionIndicatorState {
 }
 
 export const START_LOADING = "START_LOADING";
+
+export const STOP_LOADING = "STOP_LOADING";
 export interface IHideLoading {
     status?: Resultptions;
-    resultMessage?: string; 
+    resultMessage?: string;
     msgPosition?: MsgPositionOptions
 }
 
-export const STOP_LOADING = "STOP_LOADING";
 export const CLEAN_RESULT_MESSAGE = "HIDE_MESSAGE";
 
 export type LongActionIndicatorType =
     | { type: typeof START_LOADING, loadingMessage?: string }
     | {
         type: typeof STOP_LOADING,
-        options?:IHideLoading
+        options?: IHideLoading
     }
     | { type: typeof CLEAN_RESULT_MESSAGE }

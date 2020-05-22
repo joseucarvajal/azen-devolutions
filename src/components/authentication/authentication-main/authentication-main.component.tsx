@@ -11,24 +11,22 @@ import { useAuthenticationActions } from "../../../providers/authentication/auth
 const AuthenticationMain: React.FC = () => {
 
   const { authenticateUser } = useAuthenticationActions();
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onUserNameChange = (e:FormEvent<HTMLInputElement>) => {
+  const onUserNameChange = (e: FormEvent<HTMLInputElement>) => {
     setUserName(e.currentTarget.value);
-  }
+  };
 
-  const onPasswordChange = (e:FormEvent<HTMLInputElement>) => {
+  const onPasswordChange = (e: FormEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value);
-  }
+  };
 
-  const onAuthSubmit = (e:FormEvent<HTMLElement>) => {
+  const onAuthSubmit = (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    authenticateUser({
-      userName,
-      password
-    });
-  }
+    authenticateUser({ userName, password });
+  };
 
   return (
     <IonPage>
@@ -76,7 +74,7 @@ const AuthenticationMain: React.FC = () => {
                   color="secondary"
                   type="submit"
                   size="small"
-                  className="azn-button-capitalize send-devolution__btn"                  
+                  className="azn-button-capitalize send-devolution__btn"
                 >
                   Ingresar
                 </IonButton>

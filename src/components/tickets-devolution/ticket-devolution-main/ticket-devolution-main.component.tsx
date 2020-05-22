@@ -39,7 +39,6 @@ const TicketDevolutionMain: React.FC = () => {
     state,
     ticketDevolutionCounterReport,
     startScanning,
-    addTicket,
     sendDevolutionFile,
   } = useTicketDevolution(agente);
 
@@ -68,7 +67,7 @@ const TicketDevolutionMain: React.FC = () => {
             <IonMenuButton color="primary" />
           </IonButtons>
           <IonButtons slot="end">
-            <AddTicketManually addTicket={addTicket}></AddTicketManually>
+            <AddTicketManually></AddTicketManually>
           </IonButtons>
           <IonTitle>{name}</IonTitle>
         </IonToolbar>

@@ -4,9 +4,11 @@ export const authenticateUser = async (authenticationData: ISetAuthenticationVal
     try {
 
         
+        /*
         if(1 === 1){
             return "asdf";
         }
+        */
         
 
         const response = await fetch(`http://52.42.49.101:8080/azen/Sesion?cmd=-3&buffer=<cm>LOGIN</cm><usr>${authenticationData.userName}</usr><vc>${authenticationData.password}</vc>&idApl=null&dominio=*`);

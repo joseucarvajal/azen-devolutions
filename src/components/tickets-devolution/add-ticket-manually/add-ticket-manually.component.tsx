@@ -5,13 +5,12 @@ import { pencilOutline } from "ionicons/icons";
 
 import "./add-ticket-manually.style.scss";
 import { useLongActionIndicatorActions } from "../../../providers/long-action-indicator/long-action-indicator.hooks";
+import { useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
-type IProps = {
-  addTicket: (codigo: string) => void;
-};
 
-const AddTicketManually: React.FC<IProps> = ({ addTicket }) => {
-  
+const AddTicketManually: React.FC = () => {
+
+  const { addTicket } = useTicketDevolutionActions();
   const { showErrorMessage } = useLongActionIndicatorActions();
 
   const [showModal, setShowModal] = useState(false);

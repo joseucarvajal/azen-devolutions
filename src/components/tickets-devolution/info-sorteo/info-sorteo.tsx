@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import "./info-sorteo.scss";
 
-import { TicketsDevolutionStateContext } from "../../../providers/tickets-devolution/tickets-devolution.context";
 import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
+import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
 const TicketCountList: React.FC = () => {
 
-  const { sorteo } = useContext(TicketsDevolutionStateContext);
+  const { sorteo } = useTicketDevolutionState();
 
   return (
     <>

@@ -15,7 +15,7 @@ export const longActionIndicatorReducer =
             return {
                 ...state,
                 resultMessage: '',
-                loadingMessage: action.loadingMessage ? action.loadingMessage : 'Por favor espere...',
+                loadingMessage: action.loadingMessage ?? 'Por favor espere...',
                 isLoading: true,
                 messagePosition: 'bottom'
             };
