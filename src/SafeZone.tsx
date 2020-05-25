@@ -14,7 +14,7 @@ const SafeZone: React.FC = () => {
 
   return (
     <IonReactRouter>
-      {user ? (
+      {user || true ? (
         <>
           <Menu />
           <IonSplitPane contentId="main">

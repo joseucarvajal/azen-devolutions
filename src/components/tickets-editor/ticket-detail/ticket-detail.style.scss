@@ -1,0 +1,23 @@
+.ticket-detail {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    &__radio {
+        margin-right: .6rem;
+    }
+
+    &__serie {
+        flex: 1;
+        margin-right: 1rem;
+    }
+
+    &__numero {
+        flex: 1;
+    }
+
+    &__fraccion{
+        flex: 1;
+    }
+}

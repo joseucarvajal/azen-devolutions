@@ -1,4 +1,4 @@
-import { ITicket, IState, ITicketDevolutionReport } from "./tickets-devolution.types";
+import { ITicket, ITicketsDevolutionState, ITicketDevolutionReport } from "./tickets-devolution.types";
 import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./tickets-devolution.utils";
 
 import { initialState } from "./tickets-devolution.context";
@@ -84,7 +84,7 @@ describe('Utils tests', () => {
                 allIds: ["1", "2", "3", "4", "5", '6']
             },
             tickerCounterReport: {} as ITicketDevolutionReport            
-        } as IState;
+        } as ITicketsDevolutionState;
 
         const ticketReport = getTicketCounterReport(state, 'agente');        
 
@@ -205,7 +205,7 @@ const _state_with_tickets_1_3_and_2_1_and_3_3 = {
         },
         allIds: [_ticket_1_3.codigo, _ticket_2_1.codigo, _ticket_3_3.codigo],
     },
-} as IState;
+} as ITicketsDevolutionState;
 
 
 

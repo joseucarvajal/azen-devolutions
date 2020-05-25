@@ -1,4 +1,4 @@
-import { IState } from "./tickets-devolution.types";
+import { ITicketsDevolutionState } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -8,7 +8,7 @@ import {
 
 import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./tickets-devolution.utils";
 
-export const reducer = (state: IState, action: ActionType): IState => {
+export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITicketsDevolutionState => {
 
     switch (action.type) {
         case ADD_LOTTERY_TICKET: //It receives the entire ticket code

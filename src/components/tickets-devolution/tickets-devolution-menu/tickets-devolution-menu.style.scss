@@ -1,0 +1,13 @@
+.pop-over-btn {
+    font-size: 0.8rem;
+    margin-left: 0.2em;
+}
+
+.menu-item {
+    height: 100%;
+    display: flex;
+
+    &__icon {
+        margin: auto;
+    }
+}

@@ -28,6 +28,9 @@ import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.comp
 
 import AddTicketManually from "../add-ticket-manually/add-ticket-manually.component";
 import { useParams } from "react-router";
+import TicketsDevolutionMenu from "../tickets-devolution-menu/tickets-devolution-menu.component";
+import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
+import TicketsEditor from "../../tickets-editor/tickets-editor/tickets-editor.component";
 
 const TicketDevolutionMain: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -44,19 +47,29 @@ const TicketDevolutionMain: React.FC = () => {
 
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
 
+  const [optionMenuSelected, setOptionMenuSelected] = useState<OptionMenu>();
+
   console.log("refresh devolution page", showSendFileConfirm);
 
   const onSendReportFile = () => {
     setShowSendFileConfirm(true);
   };
 
-  const onCancelSendFile = () => {
+  const onCancelSendReportFile = () => {
     setShowSendFileConfirm(false);
   };
 
-  const onConfirmSendFile = () => {
+  const onConfirmSendReportFile = () => {
     sendDevolutionFile();
     setShowSendFileConfirm(false);
+  };
+
+  const onMenuOptionClicked = (option: OptionMenu) => {
+    setOptionMenuSelected(option);
+  };
+
+  const hideCurrentMenuOption = () => {
+    setOptionMenuSelected(undefined);
   };
 
   return (
@@ -67,7 +80,9 @@ const TicketDevolutionMain: React.FC = () => {
             <IonMenuButton color="primary" />
           </IonButtons>
           <IonButtons slot="end">
-            <AddTicketManually></AddTicketManually>
+            <TicketsDevolutionMenu
+              handleOptionClick={onMenuOptionClicked}
+            ></TicketsDevolutionMenu>
           </IonButtons>
           <IonTitle>{name}</IonTitle>
         </IonToolbar>
@@ -75,12 +90,11 @@ const TicketDevolutionMain: React.FC = () => {
       <IonContent>
         <div className="ticket-devol-page">
           <div className="ticket-devol__content">
-            
-            <InfoSorteo/>
+            <InfoSorteo />
 
-            <TicketCountList/>
+            <TicketCountList />
 
-            <TicketCountTotal/>
+            <TicketCountTotal />
 
             {state.sorteo ? (
               <div className="send-devolution">
@@ -94,7 +108,7 @@ const TicketDevolutionMain: React.FC = () => {
                 </IonButton>
               </div>
             ) : (
-              <EmptyResultMsgComponent/>
+              <EmptyResultMsgComponent />
             )}
           </div>
           <div className="ticket-devol-footer">
@@ -109,15 +123,29 @@ const TicketDevolutionMain: React.FC = () => {
               {
                 text: "Cancelar",
                 role: "cancel",
-                handler: onCancelSendFile,
+                handler: onCancelSendReportFile,
               },
               {
                 text: "Enviar",
-                handler: onConfirmSendFile,
+                handler: onConfirmSendReportFile,
               },
             ]}
           />
         </div>
+
+        {optionMenuSelected === "DIGITAR_CODIGO" && (
+          <AddTicketManually
+            show={true}
+            setShow={hideCurrentMenuOption}
+          />
+        )}
+
+        {optionMenuSelected === "VER_NUMERACION" && (
+          <TicketsEditor
+            show={true}
+            hide={hideCurrentMenuOption}
+          />
+        )}
 
         <IonFab
           vertical="bottom"

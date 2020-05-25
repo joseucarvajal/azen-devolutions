@@ -1,4 +1,4 @@
-import { IState, ITicket, ADD_LOTTERY_TICKET } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, ITicket, ADD_LOTTERY_TICKET } from "./tickets-devolution.types";
 
 import { reducer } from "./tickets-devolution.reducer";
 import { initialState } from "./tickets-devolution.context";
@@ -29,7 +29,7 @@ describe('Add tickets', () => {
                 },
                 allIds: [_ticket_1_1.codigo],
             },
-        } as IState;
+        } as ITicketsDevolutionState;
 
         const resultState = reducer(
             initialState,
@@ -77,7 +77,7 @@ describe('Add tickets', () => {
                 },
                 allIds: [updatedTicketWithFract3.codigo],
             },
-        } as IState;
+        } as ITicketsDevolutionState;
 
         const resultState = reducer(
             initialState,
@@ -114,7 +114,7 @@ describe('Add tickets', () => {
                 },
                 allIds: [_ticket_1_3.codigo, _ticket_2_3.codigo],
             },
-        } as IState;
+        } as ITicketsDevolutionState;
 
         const resultState = reducer(
             initialState,
@@ -177,7 +177,7 @@ const _empty_initial_state = {
         byId: {},
         allIds: [],
     },
-} as IState;
+} as ITicketsDevolutionState;
 
 const _ticket_1_1_codigo = '90150004640715400101';
 const _ticket_1_1_codigo_nofrac = _ticket_1_1_codigo.substr(0, _ticket_1_1_codigo.length - 2);
@@ -220,7 +220,7 @@ const _state_with_ticket_1_1 = {
         },
         allIds: [_ticket_1_1.codigo],
     },
-} as IState;
+} as ITicketsDevolutionState;
 
 const _state_with_ticket_1_3 = {
     ...initialState,
@@ -242,7 +242,7 @@ const _state_with_ticket_1_3 = {
         },
         allIds: [_ticket_1_3.codigo],
     },
-} as IState;
+} as ITicketsDevolutionState;
 
 
 const _ticket_2_1_codigo = '90150004640475119901';
@@ -291,4 +291,4 @@ const _state_with_tickets_1_3_and_2_1 = {
         },
         allIds: [_ticket_1_3.codigo, _ticket_2_1.codigo],
     },
-} as IState;
+} as ITicketsDevolutionState;

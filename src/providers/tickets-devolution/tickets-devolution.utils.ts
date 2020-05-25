@@ -1,8 +1,8 @@
-import { 
-    ITicket, 
-    IState, 
-    ITicketCount, 
-    ITicketDevolutionReport 
+import {
+    ITicket,
+    ITicketsDevolutionState,
+    ITicketCount,
+    ITicketDevolutionReport
 } from "./tickets-devolution.types";
 
 /**
@@ -35,7 +35,7 @@ export const padLeft = (str: any, max: number): string => {
 }
 
 
-export const getTicketCounterReport = (state: IState, agente: string) => {
+export const getTicketCounterReport = (state: ITicketsDevolutionState, agente: string) => {
 
     const ticketCounterReport = {
         agente,
@@ -70,9 +70,9 @@ export const getLoteriaFromCode = (codigo: string): string => {
     return codigo.substr(2, 2);
 }
 
-export const getFileReportStr = (state: IState, agente: string): string => {
+export const getFileReportStr = (state: ITicketsDevolutionState, agente: string): string => {
     const strFile =
-`${state.codigoLoteria}
+        `${state.codigoLoteria}
 ${agente}
 ${state.sorteo}
 ${getFileReportTicketsAndFractionCount(state)}`;
@@ -80,7 +80,7 @@ ${getFileReportTicketsAndFractionCount(state)}`;
     return strFile;
 }
 
-export const getDevolutionFileName = (state: IState, agente:string):string => {
+export const getDevolutionFileName = (state: ITicketsDevolutionState, agente: string): string => {
 
     const dateNow = new Date();
     const { codigoLoteria, sorteo } = state;
@@ -94,7 +94,7 @@ export const getDevolutionFileName = (state: IState, agente:string):string => {
 }
 
 
-const getFileReportTicketsAndFractionCount = (state: IState): string => {
+const getFileReportTicketsAndFractionCount = (state: ITicketsDevolutionState): string => {
 
     let ticketsArray: ITicket[] = [];
     let fractionsTotalCount = 0;
@@ -108,24 +108,67 @@ const getFileReportTicketsAndFractionCount = (state: IState): string => {
         fractionsTotalCount += codigo * tickets.length;
     }
 
-    ticketsArray = ticketsArray.sort((a:ITicket, b:ITicket) => {
-        if(a.readingOrder > b.readingOrder){
-            return 1;
-        }
-        return -1;
-    });
-    
+    ticketsArray = sortTicketArrayByReadingOrder(ticketsArray);
+
     let fractionsStr = '';
     let i = 1;
-    for(let ticket of ticketsArray){
-        const {numero, serie, fraccion, cantidadFracciones} = ticket;
+    for (let ticket of ticketsArray) {
+        const { numero, serie, fraccion, cantidadFracciones } = ticket;
         fractionsStr += `${numero}${serie}0${fraccion}0${cantidadFracciones}${padLeft(i, 5)}\n`;
         i++;
     }
 
     const fractionsContPlusTickets =
-`${fractionsTotalCount}
+        `${fractionsTotalCount}
 ${fractionsStr}`.trim();
 
     return fractionsContPlusTickets;
+}
+
+export const getTicketsOrderByReading = (state: ITicketsDevolutionState, searchNumber?: string): ITicket[] => {
+
+    let ticketsArray: ITicket[] = [];
+        
+    if(searchNumber === undefined){
+        return sortTicketArrayByReadingOrder(getTicketsArray(state));
+    }
+    
+    let ticket:ITicket;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
+        const { tickets } = (counterObj as ITicketCount);
+        for (let i = 0; i < tickets.length; i++) {
+            ticket = state.ticketsCollection.byId[counterObj.tickets[i]];
+            if(ticket.numero === searchNumber){
+                ticketsArray.push(ticket);
+            }
+        }
+    }
+
+    ticketsArray = sortTicketArrayByReadingOrder(ticketsArray)
+
+    return ticketsArray;
+}
+
+const sortTicketArrayByReadingOrder = (ticketsArray: ITicket[]) => {
+    return ticketsArray.sort((a: ITicket, b: ITicket) => {
+        if (a.readingOrder > b.readingOrder) {
+            return 1;
+        }
+        return -1;
+    });
+}
+
+const getTicketsArray = (state: ITicketsDevolutionState): ITicket[] => {
+    
+    let ticketsArray: ITicket[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
+        const { tickets } = (counterObj as ITicketCount);
+        for (let i = 0; i < tickets.length; i++) {
+            ticketsArray.push(state.ticketsCollection.byId[counterObj.tickets[i]]);
+        }
+    }
+
+    return ticketsArray;
 }

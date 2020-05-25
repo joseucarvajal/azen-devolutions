@@ -22,6 +22,9 @@ import "./theme/variables.css";
 
 import "./App.scss";
 
+/**Custom scss */
+
+
 import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.context";
 
 import AuthenticationProvider from "./providers/authentication/authentication.context";

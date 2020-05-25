@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
-import { IonAlert, IonButton, IonIcon } from "@ionic/react";
-import { pencilOutline } from "ionicons/icons";
+import { IonAlert } from "@ionic/react";
 
-import "./add-ticket-manually.style.scss";
 import { useLongActionIndicatorActions } from "../../../providers/long-action-indicator/long-action-indicator.hooks";
 import { useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
-
-const AddTicketManually: React.FC = () => {
+interface IProps {
+  show: boolean;
+  setShow: (show: boolean) => void;
+}
+const AddTicketManually: React.FC<IProps> = (props) => {
 
   const { addTicket } = useTicketDevolutionActions();
   const { showErrorMessage } = useLongActionIndicatorActions();
 
-  const [showModal, setShowModal] = useState(false);
+  const {show, setShow} = props;
 
   const onCancel = () => {
-    setShowModal(false);
+    setShow(false);
   };
 
   const onConfirm = (formValues: any) => {
@@ -27,47 +28,33 @@ const AddTicketManually: React.FC = () => {
       return false;
     }
     addTicket(formValues.codigo);
-    setShowModal(false);
-  };
-
-  const onShowModalClick = () => {
-    setShowModal(true);
+    setShow(false);
   };
 
   return (
-    <>
-      <IonButton onClick={onShowModalClick}>
-        <IonIcon icon={pencilOutline} />
-        <span className="pop-over-btn">Digitar código</span>
-      </IonButton>
-
-      <IonAlert
-        isOpen={showModal}
-        header={"Ingrese el código"}
-        inputs={[
-          {
-            name: "codigo",
-            type: "text",
-            placeholder: "Escriba el código aquí",
-            handler: (e) => {
-              console.log(e);
-            },
-          },
-        ]}
-        buttons={[
-          {
-            text: "Cancelar",
-            role: "cancel",
-            handler: onCancel,
-          },
-          {
-            text: "Agregar",
-            role: "submit",
-            handler: onConfirm,
-          },
-        ]}
-      />
-    </>
+    <IonAlert
+      isOpen={show}
+      header={"Ingrese el código"}
+      inputs={[
+        {
+          name: "codigo",
+          type: "text",
+          placeholder: "Escriba el código aquí",
+        },
+      ]}
+      buttons={[
+        {
+          text: "Cancelar",
+          role: "cancel",
+          handler: onCancel,
+        },
+        {
+          text: "Agregar",
+          role: "submit",
+          handler: onConfirm,
+        },
+      ]}
+    />
   );
 };
 

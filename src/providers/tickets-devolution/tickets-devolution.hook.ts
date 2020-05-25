@@ -14,7 +14,7 @@ import {
 import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks";
 
 import {
-    IState,
+    ITicketsDevolutionState,
     ITicketDevolutionReport,
     ADD_LOTTERY_TICKET,
     SET_NEW_TICKET_DEVOLUTION_STATE
@@ -25,14 +25,14 @@ import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 
 
-export const useTicketDevolutionState = (): IState => {
-    return useContextValue<IState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
+export const useTicketDevolutionState = (): ITicketsDevolutionState => {
+    return useContextValue<ITicketsDevolutionState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
 }
 
 export interface ITicketDevolutionActions {
     startScanning: () => Promise<void>;
     addTicket: (codigo: string) => void;
-    sendDevolutionFile: (state: IState, agente: string) => void;
+    sendDevolutionFile: (state: ITicketsDevolutionState, agente: string) => void;
 }
 
 export const useTicketDevolutionActions = () => {
@@ -76,7 +76,7 @@ export const useTicketDevolutionActions = () => {
         }
     }
 
-    const sendDevolutionFile = async (state: IState, agente: string) => {
+    const sendDevolutionFile = async (state: ITicketsDevolutionState, agente: string) => {
         try {
 
             showLoading();
@@ -118,7 +118,7 @@ export const useTicketDevolutionActions = () => {
 
 
 export interface IUseTicketDevolution extends ITicketDevolutionActions {
-    state: IState;
+    state: ITicketsDevolutionState;
     ticketDevolutionCounterReport: ITicketDevolutionReport;
 
     sendDevolutionFile: () => void;

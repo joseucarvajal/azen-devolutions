@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, Dispatch } from "react";
 
 import {
-  IState,
+  ITicketsDevolutionState,
   ActionType,
 } from "./tickets-devolution.types";
 import { reducer } from "./tickets-devolution.reducer";
@@ -31,9 +31,9 @@ export const initialState = {
     byId: {},
     allIds: [],
   },
-} as IState;
+} as ITicketsDevolutionState;
 
-export const TicketsDevolutionStateContext = createContext<IState>(
+export const TicketsDevolutionStateContext = createContext<ITicketsDevolutionState>(
   initialState
 );
 

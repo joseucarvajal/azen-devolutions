@@ -1,4 +1,5 @@
 import { IStringIndexable, INumericIndexable } from "../../shared/contracts/shared.contracts";
+import { type } from "os";
 
     
 
@@ -59,7 +60,7 @@ export interface ITicketCount {
 /**
  * lottery tickets state
  */
-export interface IState {
+export interface ITicketsDevolutionState {
 
     /**
      * Lottery code
@@ -91,7 +92,7 @@ export interface IState {
  * Context contract
  */
 export interface ITicketsDevolutionContext {
-    state: IState;
+    state: ITicketsDevolutionState;
     dispatch: React.Dispatch<ActionType>;
 }
 
@@ -106,6 +107,7 @@ export interface ITicketDevolutionReport {
 }
 
 
+export type OptionMenu = 'VER_NUMERACION' | 'DIGITAR_CODIGO' | undefined ;
 
 
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
@@ -113,4 +115,4 @@ export const SET_NEW_TICKET_DEVOLUTION_STATE = "SET_NEW_TICKET_DEVOLUTION_STATE"
 
 export type ActionType =
     | { type: typeof ADD_LOTTERY_TICKET, codigo:string }
-    | { type: typeof SET_NEW_TICKET_DEVOLUTION_STATE; newState:IState }
+    | { type: typeof SET_NEW_TICKET_DEVOLUTION_STATE; newState:ITicketsDevolutionState }
