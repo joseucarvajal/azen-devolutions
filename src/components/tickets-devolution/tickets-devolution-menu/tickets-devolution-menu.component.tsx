@@ -45,10 +45,10 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
       },
     ];
 
-    if (ticketDevolutionCounterReport.ticketsTotalCount > 0) {
+    if (ticketDevolutionCounterReport.ticketsTotalCount) {
       menuOpts.unshift({
         icon: businessOutline,
-        label: "Ver numeración",
+        label: "Listado billetes",
         option: "VER_NUMERACION",
       });
     }
@@ -77,7 +77,7 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
     <>
       <IonButton onClick={onShowMenuClick}>
         <IonIcon icon={ellipsisVerticalOutline} />
-        <span className="pop-over-btn">Opciones</span>
+        <span className="pop-over-btn">Más Opciones</span>
       </IonButton>
       <IonPopover
         isOpen={showMenu}

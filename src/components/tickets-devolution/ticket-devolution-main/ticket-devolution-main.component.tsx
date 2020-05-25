@@ -49,7 +49,7 @@ const TicketDevolutionMain: React.FC = () => {
 
   const [optionMenuSelected, setOptionMenuSelected] = useState<OptionMenu>();
 
-  console.log("refresh devolution page", showSendFileConfirm);
+  console.log("refresh devolution page");
 
   const onSendReportFile = () => {
     setShowSendFileConfirm(true);

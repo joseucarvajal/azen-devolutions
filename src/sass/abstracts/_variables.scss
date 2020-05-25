@@ -9,11 +9,15 @@
     --zn-color-grey-dark-rgb-4: #888;
     --zn-color-grey-dark-rgb-5: #e5e5e8;
     --zn-color-grey-dark-rgb-2: #343334;
+    --zn-color-grey-dark-rgb-6: #CCC;
 
     --zn-color-light-rgb-1: 240, 240, 240;
 
     //BORDERS
     --azn-border-1: 1px solid var(--zn-color-grey-dark-rgb-3);
+    --azn-border-2: 1px solid var(--zn-color-grey-dark-rgb-4);
+    --azn-border-3: 1px solid var(--zn-color-grey-dark-rgb-6);
+    --azn-border-4: 1px solid var(--ion-color-secondary);
     --azn-border-required-inv-field: 1px solid #b97e7e;
     --azn-border-required-valid-field: 1px solid #4f7e49;
 

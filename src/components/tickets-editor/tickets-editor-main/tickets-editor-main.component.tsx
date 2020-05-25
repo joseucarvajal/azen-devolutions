@@ -13,7 +13,7 @@ import {
 } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 
-import './tickets-editor-main.style.scss';
+import "./tickets-editor-main.style.scss";
 
 import { useEffect, useState } from "react";
 import TicketSearch from "../ticket-search/ticket-search.component";
@@ -26,8 +26,8 @@ interface IProps {
 
 const TicketsEditorMain: React.FC<IProps> = (props) => {
   const { show, hide } = props;
-
   const { ticketList, filterOutTickets } = useTicketEditor();
+
   const [searchNumber, setSearchNumber] = useState<string | undefined>(
     undefined
   );
@@ -35,20 +35,16 @@ const TicketsEditorMain: React.FC<IProps> = (props) => {
   useEffect(() => {
     filterOutTickets(searchNumber);
   }, [searchNumber]);
-
+  
   return (
-    <IonModal isOpen={show} swipeToClose={true}>
+    <IonModal isOpen={show} swipeToClose={true} onDidDismiss={hide}>
       <IonHeader>
         <IonToolbar>
           <IonTitle slot="end">
-            <span className="ver-num__title">Ver numeración</span>
+            <span className="ver-num__title">Listado billetes</span>
           </IonTitle>
           <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                hide();
-              }}
-            >
+            <IonButton onClick={hide}>
               <IonIcon icon={arrowBack} />
               Volver
             </IonButton>
@@ -57,8 +53,16 @@ const TicketsEditorMain: React.FC<IProps> = (props) => {
       </IonHeader>
       <IonContent>
         <div className="ticket-editor">
-          <TicketSearch onSearch={setSearchNumber} />
-          <TicketDetailList ticketList={ticketList}></TicketDetailList>
+          {ticketList?.length > 0 
+          ? (
+            <>
+              <TicketSearch onSearch={setSearchNumber} />
+              <TicketDetailList ticketList={ticketList}></TicketDetailList>
+            </>
+          )
+          :
+          <div className="no-tickets-found">No se han encontraron billetes</div>
+        }
         </div>
       </IonContent>
     </IonModal>

@@ -1,5 +1,5 @@
 import React from "react";
-import { IonRouterOutlet, IonSplitPane } from "@ionic/react";
+import { IonRouterOutlet, IonSplitPane, isPlatform } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 
@@ -10,11 +10,12 @@ import AuthenticationPage from "./pages/authentication/authentication.page";
 import { useAuthenticationState } from "./providers/authentication/authentication.hooks";
 
 const SafeZone: React.FC = () => {
+
   const { user } = useAuthenticationState();
 
   return (
     <IonReactRouter>
-      {user || true ? (
+      {user || isPlatform('mobileweb') ? (
         <>
           <Menu />
           <IonSplitPane contentId="main">

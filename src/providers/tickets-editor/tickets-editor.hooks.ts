@@ -1,4 +1,4 @@
-import { Dispatch, useState, useEffect } from "react";
+import { Dispatch, useState } from "react";
 import { ITicketsEditorState, ITicketEditorAction, SET_CODIGO_TICKET_TO_EDIT } from "./tickets-editor.types";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { TicketsEditorStateContext, TicketsEditorDispatchContext } from "./tickets-editor.context";

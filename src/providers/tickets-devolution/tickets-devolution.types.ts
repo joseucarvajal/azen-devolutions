@@ -1,7 +1,4 @@
 import { IStringIndexable, INumericIndexable } from "../../shared/contracts/shared.contracts";
-import { type } from "os";
-
-    
 
 /**
  * Lotery ticket data
