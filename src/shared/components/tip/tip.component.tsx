@@ -2,8 +2,7 @@ import React from "react";
 
 import "./tip.style.scss";
 import { IonIcon } from "@ionic/react";
-import { bulb, bulbSharp, bulbOutline } from "ionicons/icons";
-
+import { bulbOutline } from "ionicons/icons";
 
 const Tip: React.FC= ({ children }) => {
   return (

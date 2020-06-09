@@ -1,9 +1,21 @@
 
 .edit-ticket {
-    padding: 1rem;
+    padding: .3rem 1rem;
     &__cantidad {
         padding: 0 1rem;
         display: flex;
         justify-content: space-between;
     }
+}
+
+.btn-eliminar {
+    display: flex;
+    justify-content: flex-end;    
+    padding: 0rem .4rem;
+    margin: .8rem 0rem 1rem;
+}
+
+.btn-volver {
+    display: flex;
+    justify-content: center;
 }

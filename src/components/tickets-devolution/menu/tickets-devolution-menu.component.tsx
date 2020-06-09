@@ -48,7 +48,7 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
     if (ticketDevolutionCounterReport.ticketsTotalCount) {
       menuOpts.unshift({
         icon: businessOutline,
-        label: "Revisar numeración",
+        label: "Ver numeración",
         option: "VER_NUMERACION",
       });
     }

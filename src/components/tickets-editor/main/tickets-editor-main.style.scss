@@ -1,0 +1,31 @@
+.ticket-editor {
+    padding: 0 0.5rem;
+}
+
+.no-tickets {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 7.5rem;
+    padding: 0.5rem;
+
+    text-align: justify;
+
+    &-found {
+        display: flex;
+        align-items: center;
+        margin-top: 0.5rem;
+
+        &__warn{
+            color: orangered;
+            display: inline-block;
+            margin-right: .5rem;
+        }        
+
+        &__nro{
+            font-weight: bolder;
+        }
+    }
+}

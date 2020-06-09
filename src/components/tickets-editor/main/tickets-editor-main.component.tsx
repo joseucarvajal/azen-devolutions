@@ -10,13 +10,12 @@ import {
   IonButton,
   IonIcon,
 } from "@ionic/react";
-import { arrowBack, reorderFourOutline } from "ionicons/icons";
+import { arrowBack, reorderFourOutline, warning } from "ionicons/icons";
 
 import "./tickets-editor-main.style.scss";
 
 import TicketSearch from "../ticket-search/ticket-search.component";
 import TicketDetailList from "../ticket-detail-list/ticket-detail-list.component";
-import { useMemo } from "react";
 
 interface IProps {
   show: boolean;
@@ -26,14 +25,14 @@ interface IProps {
 const TicketsEditorMain: React.FC<IProps> = (props) => {
   const { show, hide } = props;
 
-  const { ticketList, setSearchNumber } = useTicketEditor();
+  const { ticketList, searchNumber, setSearchNumber } = useTicketEditor();
 
   return (
     <IonModal isOpen={show} onDidDismiss={hide}>
       <IonHeader>
         <IonToolbar>
           <IonTitle slot="end">
-            <span className="ver-num__title">Revisión numeración</span>
+            <span className="ver-num__title">Listado numeración</span>
           </IonTitle>
           <IonButtons slot="start">
             <IonButton onClick={hide}>
@@ -53,8 +52,15 @@ const TicketsEditorMain: React.FC<IProps> = (props) => {
           ) : (
             <div className="no-tickets">
               <div className="no-tickets-found">
-                No se han encontraron billetes
+                <span className="no-tickets-found__warn">
+                  <IonIcon icon={warning} />
+                </span>
+                <div>
+                  No se han encontrado billetes con el número{" "}
+                  <span className="no-tickets-found__nro">{searchNumber}</span>
+                </div>
               </div>
+
               <IonButton
                 color="secondary"
                 className="azn-button-capitalize"
@@ -63,7 +69,7 @@ const TicketsEditorMain: React.FC<IProps> = (props) => {
                 }}
               >
                 <IonIcon icon={reorderFourOutline} />
-                Ver todos
+                Mostrar todos
               </IonButton>
             </div>
           )}

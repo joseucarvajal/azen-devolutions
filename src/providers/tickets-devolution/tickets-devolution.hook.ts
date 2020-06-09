@@ -19,7 +19,8 @@ import {
     ADD_LOTTERY_TICKET,
     SET_NEW_TICKET_DEVOLUTION_STATE,
     ITicket,
-    UPDATE_TICKET_CANTIDAD
+    UPDATE_TICKET_CANTIDAD,
+    REMOVE_TICKET
 } from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
@@ -35,6 +36,7 @@ export interface ITicketDevolutionActions {
     startScanning: () => Promise<void>;
     addTicket: (codigo: string) => void;
     updateTicketCantidad: (newTicket: ITicket, previousCounter:number) => void;
+    removeTicket: (ticket:ITicket) => void;
     sendDevolutionFile: (state: ITicketsDevolutionState, agente: string) => void;
 }
 
@@ -87,6 +89,13 @@ export const useTicketDevolutionActions = () => {
         });
     }
 
+    const removeTicket = (ticket:ITicket) => {
+        dispatch({
+            type: REMOVE_TICKET,
+            ticket
+        });
+    }
+
     const sendDevolutionFile = async (state: ITicketsDevolutionState, agente: string) => {
         try {
 
@@ -124,6 +133,7 @@ export const useTicketDevolutionActions = () => {
         startScanning,
         addTicket,
         updateTicketCantidad,
+        removeTicket,
         sendDevolutionFile
     } as ITicketDevolutionActions;
 }

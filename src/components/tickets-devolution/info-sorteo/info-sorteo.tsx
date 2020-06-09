@@ -14,7 +14,7 @@ const TicketCountList: React.FC = () => {
       <div className="info-sorteo">
         <div className="info-sorteo__header">Información sorteo</div>
         {sorteo ? (
-          <>
+          <div className="info-sorteo__info">
             <div className="info-sorteo__info-row">
               <span className="info-sorteo__info-lbl">Agente</span>
               <span className="info-sorteo__info-vlr">Azen</span>
@@ -23,7 +23,7 @@ const TicketCountList: React.FC = () => {
               <span className="info-sorteo__info-lbl">Sorteo</span>
               <span className="info-sorteo__info-vlr">{sorteo}</span>
             </div>
-          </>
+          </div>
         ) : (
           <div className="info-sorteo__info-row info-sorteo__no-lectura">
             <EmptyResultMsgComponent/>

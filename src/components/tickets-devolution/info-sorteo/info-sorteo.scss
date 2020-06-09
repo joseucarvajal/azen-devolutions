@@ -1,13 +1,14 @@
 .info-sorteo {
+    display: flex;
+    flex-direction: column;
+
     border: var(--azn-border-1);    
     box-shadow: var(--azn-shadow-style-2);
 
-    margin-bottom: 1.7rem;
-
-    height: 6.2rem;
-
-    font-weight: bolder;
-
+    margin-bottom: 1.5rem;
+    
+    height: 5.5rem;
+    
     &__header {
         border-bottom: var(--azn-border-1);
         text-align: center;
@@ -18,18 +19,27 @@
         flex-direction: column;
         box-shadow: var(--azn-shadow-style-1);
         margin-bottom: .3rem;
-
+        
         background: var(--azn-gradient-3);
     }
-
-    &__info-row {        
+    
+    &__info{        
+        flex: 1;
         display: flex;
-        align-items: center;
-        padding: 0rem .9rem;
+        flex-direction: column;        
+        justify-content: space-around;
+        padding: .1rem;
+
+        &-row {
+            display: flex;
+            align-items: center;
+            padding: 0rem .9rem;
+        }
     }
 
     &__info-lbl {
         flex: 0 0 30%;
+        font-weight: bolder;
     }
 
     &__info-vlr {

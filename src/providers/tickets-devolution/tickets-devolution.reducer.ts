@@ -1,4 +1,4 @@
-import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD, REMOVE_TICKET } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -127,37 +127,73 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
             return action.newState;
 
         case UPDATE_TICKET_CANTIDAD:
-            const ticketRemoveIndx = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.indexOf(action.ticket.codigo);
-            const ticketsLength = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.length;
-            return {
-                ...state,
-                ticketsCollection: {
-                    ...state.ticketsCollection,
-                    byId: {
-                        ...state.ticketsCollection.byId,
-                        [action.ticket.codigo]: {
-                            ...state.ticketsCollection.byId[action.ticket.codigo],
-                            cantidadFracciones: action.newCounter
-                        }
-                    },
-                },
-                ticketsCounterCollection: {
-                    ...state.ticketsCounterCollection,
-                    byId: {
-                        ...state.ticketsCounterCollection.byId,
-                        [action.ticket.cantidadFracciones]: {
-                            ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones],
-                            tickets: [
-                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(0, ticketRemoveIndx),
-                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(ticketRemoveIndx + 1, ticketsLength)
-                            ]
+            {
+                const ticketRemoveIndx = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.indexOf(action.ticket.codigo);
+                const ticketsLength = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.length;
+                return {
+                    ...state,
+                    ticketsCollection: {
+                        ...state.ticketsCollection,
+                        byId: {
+                            ...state.ticketsCollection.byId,
+                            [action.ticket.codigo]: {
+                                ...state.ticketsCollection.byId[action.ticket.codigo],
+                                cantidadFracciones: action.newCounter
+                            }
                         },
-                        [action.newCounter]: {
-                            ...state.ticketsCounterCollection.byId[action.newCounter],
-                            tickets: [...state.ticketsCounterCollection.byId[action.newCounter].tickets, action.ticket.codigo]
+                    },
+                    ticketsCounterCollection: {
+                        ...state.ticketsCounterCollection,
+                        byId: {
+                            ...state.ticketsCounterCollection.byId,
+                            [action.ticket.cantidadFracciones]: {
+                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones],
+                                tickets: [
+                                    ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(0, ticketRemoveIndx),
+                                    ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(ticketRemoveIndx + 1, ticketsLength)
+                                ]
+                            },
+                            [action.newCounter]: {
+                                ...state.ticketsCounterCollection.byId[action.newCounter],
+                                tickets: [...state.ticketsCounterCollection.byId[action.newCounter].tickets, action.ticket.codigo]
+                            }
                         }
                     }
                 }
+            }
+
+        case REMOVE_TICKET:
+            {
+                const ticketCounterRemoveIndx = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.indexOf(action.ticket.codigo);
+                const ticketsCounterLength = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.length;
+
+                const ticketRemoveIndx = state.ticketsCollection.allIds.indexOf(action.ticket.codigo);
+                const ticketsLength = state.ticketsCollection.allIds.length;
+
+                let { [action.ticket.codigo]: removedItems, ...updatedTicketsCollection } = state.ticketsCollection.byId;
+                return {
+                    ...state,
+                    ticketsCounterCollection: {
+                        ...state.ticketsCounterCollection,
+                        byId: {
+                            ...state.ticketsCounterCollection.byId,
+                            [action.ticket.cantidadFracciones]: {
+                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones],
+                                tickets: [
+                                    ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(0, ticketCounterRemoveIndx),
+                                    ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(ticketCounterRemoveIndx + 1, ticketsCounterLength)
+                                ]
+                            }
+                        }
+                    },
+                    ticketsCollection: {
+                        byId: updatedTicketsCollection,
+                        allIds: [
+                            ...state.ticketsCollection.allIds.slice(0, ticketRemoveIndx),
+                            ...state.ticketsCollection.allIds.slice(ticketRemoveIndx + 1, ticketsLength)
+                        ]
+                    }
+                };
             }
 
         default:

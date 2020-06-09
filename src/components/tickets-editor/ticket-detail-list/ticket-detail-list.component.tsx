@@ -30,7 +30,7 @@ const TicketDetailList: React.FC<IProps> = (props) => {
       <Tip>
         <span>Seleccione un número para modificarlo</span>
       </Tip>
-      
+
       {ticketList.map((ticket) => (
         <div
           className="ticket-detail-ticket"
@@ -42,11 +42,13 @@ const TicketDetailList: React.FC<IProps> = (props) => {
           <TicketDetail ticket={ticket} showRadio={true} />
         </div>
       ))}
-      {selectedTicket !== null && (
+      {selectedTicket && (
         <EditTicket
           ticket={selectedTicket}
           onHide={() => {
-            setSelectedTicket(null);
+            if (ticketsCollection.byId[selectedTicket.codigo]) {
+              setSelectedTicket(null);
+            }
           }}
         />
       )}
