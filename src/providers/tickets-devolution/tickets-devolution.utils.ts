@@ -125,21 +125,21 @@ ${fractionsStr}`.trim();
     return fractionsContPlusTickets;
 }
 
-export const getTicketsOrderByReading = (state: ITicketsDevolutionState, searchNumber?: string): ITicket[] => {
+export const getTicketsOrderByReading = (state: ITicketsDevolutionState, searchNumber?: string, searchCantidad?: string): ITicket[] => {
 
     let ticketsArray: ITicket[] = [];
-        
-    if(searchNumber === undefined){
+
+    if (searchNumber === undefined) {
         return sortTicketArrayByReadingOrder(getTicketsArray(state));
     }
-    
-    let ticket:ITicket;
+
+    let ticket: ITicket;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {
         const { tickets } = (counterObj as ITicketCount);
         for (let i = 0; i < tickets.length; i++) {
             ticket = state.ticketsCollection.byId[counterObj.tickets[i]];
-            if(ticket.numero === searchNumber){
+            if (ticket.numero === searchNumber) {
                 ticketsArray.push(ticket);
             }
         }
@@ -160,7 +160,7 @@ const sortTicketArrayByReadingOrder = (ticketsArray: ITicket[]) => {
 }
 
 const getTicketsArray = (state: ITicketsDevolutionState): ITicket[] => {
-    
+
     let ticketsArray: ITicket[] = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let [counterCode, counterObj] of Object.entries(state.ticketsCounterCollection.byId)) {

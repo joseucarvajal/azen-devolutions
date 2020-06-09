@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useState, useEffect, useLayoutEffect } from "react";
 import { ITicketsEditorState, ITicketEditorAction, SET_CODIGO_TICKET_TO_EDIT } from "./tickets-editor.types";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { TicketsEditorStateContext, TicketsEditorDispatchContext } from "./tickets-editor.context";
@@ -14,24 +14,25 @@ export const useTicketEditorDispatch = (): Dispatch<ITicketEditorAction> => {
     return useContextValue<Dispatch<ITicketEditorAction>>('TicketsEditorDispatchContext', TicketsEditorDispatchContext);
 }
 
-
 export interface IUseTicketEditor {
     ticketList: ITicket[];
 
-    filterOutTickets: (searchNumber: string | undefined) => void;
+    searchNumber: string | undefined;
+    setSearchNumber: (searchNumber: string | undefined) => void;
+
     setSelectedTicket: (ticketCodigo: string) => void;
 }
 export const useTicketEditor = (): IUseTicketEditor => {
 
+    const [ticketList, setTicketList] = useState<ITicket[]>([]);
+    const [searchNumber, setSearchNumber] = useState<string | undefined>(undefined);
     const ticketsDevolutionState = useTicketDevolutionState();
     const ticketsEditorDispatch = useTicketEditorDispatch();
 
-    const [ticketList, setTicketList] = useState<ITicket[]>([]);
-    
-    const filterOutTickets = (searchNumber: string | undefined) => {
+    useEffect(() => {
         const ticketListByNumber = getTicketsOrderByReading(ticketsDevolutionState, searchNumber);
         setTicketList(ticketListByNumber);
-    };
+    }, [ticketsDevolutionState, searchNumber]);
 
     const setSelectedTicket = (ticketCodigo: string) => {
         ticketsEditorDispatch({
@@ -42,7 +43,8 @@ export const useTicketEditor = (): IUseTicketEditor => {
 
     return {
         ticketList,
-        filterOutTickets,
+        searchNumber,
+        setSearchNumber,
         setSelectedTicket
     };
 }

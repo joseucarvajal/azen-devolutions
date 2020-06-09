@@ -1,14 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import './tmpl.style.scss';
+import "./tmpl.style.scss";
 
-const Tmpl:React.FC = () => {
-  return (
-    <>
-      
-    </>
-  );
-}
-
+const Tmpl: React.FC = () => {
+  return <>
+  
+  </>;
+};
 
 export default Tmpl;

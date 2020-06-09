@@ -1,0 +1,9 @@
+
+.edit-ticket {
+    padding: 1rem;
+    &__cantidad {
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+}

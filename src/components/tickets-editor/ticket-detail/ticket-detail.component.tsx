@@ -6,16 +6,17 @@ import NumberWord from "../number-word/number-word.component";
 
 interface IProps {
   ticket: ITicket;
+  showRadio?: boolean;
 }
 
-const TicketDetail: React.FC<IProps> = (props) => {
-  const { ticket } = props;
-
+const TicketDetail: React.FC<IProps> = ({ ticket, showRadio }) => {
   return (
     <div className="ticket-detail">
-      <div className="ticket-detail__radio">
-        <span className="ticket-detail__radio-circle"></span>
-      </div>
+      {showRadio && (
+        <div className="ticket-detail__radio">
+          <span className="ticket-detail__radio-circle"></span>
+        </div>
+      )}
       <div className="ticket-detail__serie">
         <span className="ticket-detail__serie-lbl">Serie</span>
         <NumberWord number={ticket.serie} />
@@ -25,7 +26,7 @@ const TicketDetail: React.FC<IProps> = (props) => {
         <NumberWord
           number={ticket.numero}
           digitValueStyle={{
-            fontSize: "2.2rem",
+            fontSize: "2.4rem",
           }}
           digitStyle={{
             boxShadow: "none",
@@ -39,9 +40,12 @@ const TicketDetail: React.FC<IProps> = (props) => {
           <span className="ticket-detail__fraccion-lbl">Fracción</span>
           <span className="ticket-detail__fraccion-vlr">{ticket.fraccion}</span>
         </div>
+        <hr className="ticket-detail__fraccion-row__separator"></hr>
         <div className="ticket-detail__fraccion-row">
-          <span  className="ticket-detail__fraccion-lbl">Cantidad</span>
-          <span className="ticket-detail__fraccion-vlr">{ticket.cantidadFracciones}</span>
+          <span className="ticket-detail__fraccion-lbl">Cantidad</span>
+          <span className="ticket-detail__fraccion-vlr">
+            {ticket.cantidadFracciones}
+          </span>
         </div>
       </div>
     </div>

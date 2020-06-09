@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import { useTicketEditor } from "../../../providers/tickets-editor/tickets-editor.hooks";
 import {
@@ -11,13 +10,13 @@ import {
   IonButton,
   IonIcon,
 } from "@ionic/react";
-import { arrowBack } from "ionicons/icons";
+import { arrowBack, reorderFourOutline } from "ionicons/icons";
 
 import "./tickets-editor-main.style.scss";
 
-import { useEffect, useState } from "react";
 import TicketSearch from "../ticket-search/ticket-search.component";
 import TicketDetailList from "../ticket-detail-list/ticket-detail-list.component";
+import { useMemo } from "react";
 
 interface IProps {
   show: boolean;
@@ -26,22 +25,15 @@ interface IProps {
 
 const TicketsEditorMain: React.FC<IProps> = (props) => {
   const { show, hide } = props;
-  const { ticketList, filterOutTickets } = useTicketEditor();
 
-  const [searchNumber, setSearchNumber] = useState<string | undefined>(
-    undefined
-  );
+  const { ticketList, setSearchNumber } = useTicketEditor();
 
-  useEffect(() => {
-    filterOutTickets(searchNumber);
-  }, [searchNumber]);
-  
   return (
-    <IonModal isOpen={show} swipeToClose={true} onDidDismiss={hide}>
+    <IonModal isOpen={show} onDidDismiss={hide}>
       <IonHeader>
         <IonToolbar>
           <IonTitle slot="end">
-            <span className="ver-num__title">Listado billetes</span>
+            <span className="ver-num__title">Revisión numeración</span>
           </IonTitle>
           <IonButtons slot="start">
             <IonButton onClick={hide}>
@@ -53,16 +45,28 @@ const TicketsEditorMain: React.FC<IProps> = (props) => {
       </IonHeader>
       <IonContent>
         <div className="ticket-editor">
-          {ticketList?.length > 0 
-          ? (
+          {ticketList?.length > 0 ? (
             <>
               <TicketSearch onSearch={setSearchNumber} />
               <TicketDetailList ticketList={ticketList}></TicketDetailList>
             </>
-          )
-          :
-          <div className="no-tickets-found">No se han encontraron billetes</div>
-        }
+          ) : (
+            <div className="no-tickets">
+              <div className="no-tickets-found">
+                No se han encontraron billetes
+              </div>
+              <IonButton
+                color="secondary"
+                className="azn-button-capitalize"
+                onClick={() => {
+                  setSearchNumber(undefined);
+                }}
+              >
+                <IonIcon icon={reorderFourOutline} />
+                Ver todos
+              </IonButton>
+            </div>
+          )}
         </div>
       </IonContent>
     </IonModal>

@@ -28,7 +28,7 @@ import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.comp
 
 import AddTicketManually from "../add-ticket-manually/add-ticket-manually.component";
 import { useParams } from "react-router";
-import TicketsDevolutionMenu from "../tickets-devolution-menu/tickets-devolution-menu.component";
+import TicketsDevolutionMenu from "../menu/tickets-devolution-menu.component";
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketsEditor from "../../tickets-editor/tickets-editor/tickets-editor.component";
 

@@ -4,7 +4,7 @@ import "./ticket-devolution.style.scss";
 
 import TicketDevolutionProvider from "../../providers/tickets-devolution/tickets-devolution.context";
 
-import TicketDevolutionMain from "../../components/tickets-devolution/ticket-devolution-main/ticket-devolution-main.component";
+import TicketDevolutionMain from "../../components/tickets-devolution/main/ticket-devolution-main.component";
 import TicketDevolutionReportProvider from "../../providers/tickets-devolution/tickets-devolution.report.context";
 
 const TicketDevolutionPage: React.FC = () => {

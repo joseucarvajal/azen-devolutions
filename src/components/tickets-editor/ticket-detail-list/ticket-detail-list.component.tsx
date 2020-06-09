@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import "./ticket-detail-list.style.scss";
 import { ITicket } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketDetail from "../ticket-detail/ticket-detail.component";
+import EditTicket from "../edit-ticket/edit-ticket.component";
+import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
+import Tip from "../../../shared/components/tip/tip.component";
 
 interface IProps {
   ticketList: ITicket[];
@@ -11,11 +14,42 @@ interface IProps {
 const TicketDetailList: React.FC<IProps> = (props) => {
   const { ticketList } = props;
 
+  const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+
+  const { ticketsCollection } = useTicketDevolutionState();
+
+  useEffect(() => {
+    if (selectedTicket) {
+      setSelectedTicket(ticketsCollection.byId[selectedTicket.codigo]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ticketList]);
+
   return (
     <>
+      <Tip>
+        <span>Seleccione un número para modificarlo</span>
+      </Tip>
+      
       {ticketList.map((ticket) => (
-        <TicketDetail key={ticket.codigo} ticket={ticket}></TicketDetail>
+        <div
+          className="ticket-detail-ticket"
+          key={ticket.codigo}
+          onClick={() => {
+            setSelectedTicket(ticket);
+          }}
+        >
+          <TicketDetail ticket={ticket} showRadio={true} />
+        </div>
       ))}
+      {selectedTicket !== null && (
+        <EditTicket
+          ticket={selectedTicket}
+          onHide={() => {
+            setSelectedTicket(null);
+          }}
+        />
+      )}
     </>
   );
 };

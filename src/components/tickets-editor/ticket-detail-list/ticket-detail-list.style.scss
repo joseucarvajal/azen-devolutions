@@ -2,3 +2,7 @@
     font-size: .85rem;
     margin-top: .5rem;
 }
+
+.ticket-detail-ticket:not(:first-child) {
+    margin-top: .5rem;
+}

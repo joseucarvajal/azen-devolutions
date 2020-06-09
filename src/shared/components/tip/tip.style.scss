@@ -1,0 +1,11 @@
+.tip {
+    font-size: .9rem;
+    margin: .1rem 0 1rem;
+    text-align: justify;
+    padding: .5rem;
+
+    &__icon {
+        font-size: 1rem;
+        color: orangered;
+    }
+}

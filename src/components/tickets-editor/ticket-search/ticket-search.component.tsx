@@ -18,32 +18,31 @@ const TicketSearch: React.FC<IProps> = (props) => {
   };
 
   return (
-      <form onSubmit={onSearchSubmit}>
-        <IonList>
-          <IonItem>
-            <IonInput
-              placeholder="Buscar número"
-              value={searchValue}
-              onIonChange={(e: any) => {
-                if(e.detail.value.length === 0){                  
-                  onSearch(undefined); //Bring all of the items
-                }
-                setSearchValue(e.detail.value);
-              }}
-              required
-            ></IonInput>
-            <IonButton
-              color="secondary"
-              type="submit"
-              className="azn-button-capitalize"
-              onClick={() => {}}
-            >
-              <IonIcon icon={search} />
-              Buscar
-            </IonButton>
-          </IonItem>
-        </IonList>
-      </form>
+    <form onSubmit={onSearchSubmit}>
+      <IonList>
+        <IonItem>
+          <IonInput
+            placeholder="Buscar número"
+            value={searchValue}
+            onIonChange={(e: any) => {
+              if (!e || e.detail?.value?.length === 0) {
+                onSearch(undefined); //Bring all of the items
+              }
+              setSearchValue(e.detail.value);
+            }}
+            required
+          ></IonInput>
+          <IonButton
+            color="secondary"
+            type="submit"
+            className="azn-button-capitalize"
+          >
+            <IonIcon icon={search} />
+            Buscar
+          </IonButton>
+        </IonItem>
+      </IonList>
+    </form>
   );
 };
 

@@ -1,4 +1,4 @@
-import { ITicketsDevolutionState } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -15,7 +15,7 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
 
             if (!action.codigo || action.codigo.length !== 20) {
                 return state;
-            }            
+            }
 
             let ticketsCounter = state.ticketsCounter;
             const newTicket = buildTicketFromCode(action.codigo, ticketsCounter);
@@ -30,8 +30,8 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
                 if (existingTicket.fraccion === newTicket.fraccion) {
                     return state;
                 }
-                
-                if(+newTicket.fraccion < +existingTicket.fraccion){
+
+                if (+newTicket.fraccion < +existingTicket.fraccion) {
                     return state;
                 }
 
@@ -58,7 +58,7 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
 
             let codigoLoteria = state.codigoLoteria;
             let sorteo = state.sorteo;
-            if(!sorteo){
+            if (!sorteo) {
                 codigoLoteria = getLoteriaFromCode(action.codigo);
                 sorteo = getSorteoFromCode(action.codigo);
             }
@@ -123,9 +123,43 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
                 }
             };
 
-        case SET_NEW_TICKET_DEVOLUTION_STATE:            
+        case SET_NEW_TICKET_DEVOLUTION_STATE:
             return action.newState;
-            
+
+        case UPDATE_TICKET_CANTIDAD:
+            const ticketRemoveIndx = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.indexOf(action.ticket.codigo);
+            const ticketsLength = state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.length;
+            return {
+                ...state,
+                ticketsCollection: {
+                    ...state.ticketsCollection,
+                    byId: {
+                        ...state.ticketsCollection.byId,
+                        [action.ticket.codigo]: {
+                            ...state.ticketsCollection.byId[action.ticket.codigo],
+                            cantidadFracciones: action.newCounter
+                        }
+                    },
+                },
+                ticketsCounterCollection: {
+                    ...state.ticketsCounterCollection,
+                    byId: {
+                        ...state.ticketsCounterCollection.byId,
+                        [action.ticket.cantidadFracciones]: {
+                            ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones],
+                            tickets: [
+                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(0, ticketRemoveIndx),
+                                ...state.ticketsCounterCollection.byId[action.ticket.cantidadFracciones].tickets.slice(ticketRemoveIndx + 1, ticketsLength)
+                            ]
+                        },
+                        [action.newCounter]: {
+                            ...state.ticketsCounterCollection.byId[action.newCounter],
+                            tickets: [...state.ticketsCounterCollection.byId[action.newCounter].tickets, action.ticket.codigo]
+                        }
+                    }
+                }
+            }
+
         default:
             return state;
     }
