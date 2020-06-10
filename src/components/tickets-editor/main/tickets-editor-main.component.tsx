@@ -16,6 +16,7 @@ import "./tickets-editor-main.style.scss";
 
 import TicketSearch from "../ticket-search/ticket-search.component";
 import TicketDetailList from "../ticket-detail-list/ticket-detail-list.component";
+import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
 
 interface IProps {
   hide: () => void;
@@ -23,9 +24,15 @@ interface IProps {
 }
 
 const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
+
   const { ticketList, searchNumber, setSearchNumber } = useTicketEditor(
     counterToEdit
   );
+
+  const {
+    totalFractionsIndxByFraction,
+    fractionsTotalCount,
+  } = useTicketDevolutionReportState();
 
   return (
     <IonModal isOpen={true} onDidDismiss={hide}>
@@ -56,12 +63,33 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
           ) : (
             <div className="no-tickets">
               <div className="no-tickets-found">
-                <span className="no-tickets-found__warn">
+                <span className="no-tickets-found__warn-icon">
                   <IonIcon icon={warning} />
                 </span>
                 <div>
-                  No se han encontrado billetes con el número{" "}
-                  <span className="no-tickets-found__nro">{searchNumber}</span>
+                  <div className="no-tickets-found__section">
+                    No se han encontrado billetes
+                  </div>
+                  {counterToEdit ? (
+                    <div className="no-tickets-found__section">
+                      Cantidad de fracciones:&nbsp;
+                      <span className="no-tickets-found__nro">
+                        {counterToEdit}
+                      </span>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  {searchNumber ? (
+                    <div className="no-tickets-found__section">
+                      Número :&nbsp;
+                      <span className="no-tickets-found__nro">
+                        {searchNumber}
+                      </span>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
 
@@ -69,7 +97,22 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
                 color="secondary"
                 className="azn-button-capitalize"
                 onClick={() => {
-                  setSearchNumber(undefined);
+                  if (counterToEdit) {
+                    if (
+                      totalFractionsIndxByFraction &&
+                      totalFractionsIndxByFraction[counterToEdit - 1]
+                    ) {
+                      setSearchNumber(undefined);
+                    } else {
+                      hide();
+                    }
+                  } else {
+                    if (fractionsTotalCount) {
+                      setSearchNumber(undefined);
+                    } else {
+                      hide();
+                    }
+                  }
                 }}
               >
                 <IonIcon icon={arrowBack} />

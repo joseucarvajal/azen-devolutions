@@ -17,15 +17,22 @@
         display: flex;
         align-items: center;
         margin-top: 0.5rem;
+        margin-bottom: 1rem;
 
-        &__warn{
+        &__warn-icon{
             color: orangered;
             display: inline-block;
             margin-right: .5rem;
+            position: relative;
+            top: .4rem;
         }        
 
         &__nro{
             font-weight: bolder;
+        }
+
+        &__section {
+            margin-top: .5rem;
         }
     }
 }
