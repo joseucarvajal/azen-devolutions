@@ -10,7 +10,7 @@ import {
   IonButton,
   IonIcon,
 } from "@ionic/react";
-import { arrowBack, reorderFourOutline, warning } from "ionicons/icons";
+import { arrowBack, warning } from "ionicons/icons";
 
 import "./tickets-editor-main.style.scss";
 
@@ -72,8 +72,8 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
                   setSearchNumber(undefined);
                 }}
               >
-                <IonIcon icon={reorderFourOutline} />
-                Mostrar todos
+                <IonIcon icon={arrowBack} />
+                Volver
               </IonButton>
             </div>
           )}

@@ -2,19 +2,29 @@ import React, { SyntheticEvent, useState } from "react";
 
 import "./ticket-search.style.scss";
 import { IonInput, IonList, IonItem, IonButton, IonIcon } from "@ionic/react";
-import { search } from "ionicons/icons";
+import { search, listCircleOutline } from "ionicons/icons";
 
 interface IProps {
   onSearch: (searchValue: string | undefined) => void;
 }
 const TicketSearch: React.FC<IProps> = (props) => {
   const [searchValue, setSearchValue] = useState<string>();
+  const [isShowingResult, setIsShowingResult] = useState<boolean>(false);
 
   const { onSearch } = props;
 
   const onSearchSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(searchValue);
+    
+    if(isShowingResult){
+      onSearch(undefined);
+      setSearchValue('');
+    }
+    else {
+      onSearch(searchValue);
+    }
+
+    setIsShowingResult(!isShowingResult);
   };
 
   return (
@@ -28,6 +38,7 @@ const TicketSearch: React.FC<IProps> = (props) => {
               if (!e || e.detail?.value?.length === 0) {
                 onSearch(undefined); //Bring all of the items
               }
+              setIsShowingResult(false);
               setSearchValue(e.detail.value);
             }}
             required
@@ -37,8 +48,17 @@ const TicketSearch: React.FC<IProps> = (props) => {
             type="submit"
             className="azn-button-capitalize"
           >
-            <IonIcon icon={search} />
-            Buscar
+            {isShowingResult ? (
+              <>
+                <IonIcon icon={listCircleOutline} />
+                Ver todos
+              </>
+            ) : (
+              <>
+                <IonIcon icon={search} />
+                Buscar
+              </>
+            )}
           </IonButton>
         </IonItem>
       </IonList>
