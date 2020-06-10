@@ -6,8 +6,11 @@ import "./ticket-count-list.style.scss";
 import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
 import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
-const TicketCountList: React.FC = () => {
+interface IProps {
+  onCounterSelected: (counterNumber:number) => void;
+}
 
+const TicketCountList: React.FC<IProps> = ({onCounterSelected}) => {
   const { ticketsCounterCollection } = useTicketDevolutionState();
   const ticketDevolutionCounterReport = useTicketDevolutionReportState();
 
@@ -29,7 +32,8 @@ const TicketCountList: React.FC = () => {
           <TicketCountItem
             key={counterCodigo}
             ticketCountObj={currentTicketCounter}
-            fractionsCount={totalFracciones}
+            fractionsCount={totalFracciones}     
+            onCounterSelected={onCounterSelected}       
           />
         );
       })}

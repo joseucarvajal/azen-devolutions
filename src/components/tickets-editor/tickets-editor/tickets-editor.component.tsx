@@ -6,8 +6,8 @@ import TicketsEditorProvider from "../../../providers/tickets-editor/tickets-edi
 import TicketsEditorMain from "../main/tickets-editor-main.component";
 
 interface IProps {
-  show: boolean;
   hide: () => void;
+  counterToEdit:number;
 }
 const TicketsEditor: React.FC<IProps> = (props) => {
   return (

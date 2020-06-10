@@ -58,8 +58,11 @@ export const useTicketDevolutionActions = () => {
         if (isPlatform("mobileweb")) {
 
             addTicket('90150004640879113203');
+            addTicket('90150004640351213203');
+            addTicket('90150004640213713203');
             addTicket('90150004640715400101');
             addTicket('90150004640475119902');
+            addTicket('90150004640249819902');
 
             return;
         }

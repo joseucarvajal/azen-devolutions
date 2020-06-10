@@ -125,11 +125,13 @@ ${fractionsStr}`.trim();
     return fractionsContPlusTickets;
 }
 
-export const getTicketsOrderByReading = (state: ITicketsDevolutionState, searchNumber?: string, searchCantidad?: string): ITicket[] => {
+export const getTicketsOrderByReading = (state: ITicketsDevolutionState, 
+    searchNumber?: string, 
+    searchCounter?: number): ITicket[] => {
 
     let ticketsArray: ITicket[] = [];
 
-    if (searchNumber === undefined) {
+    if (searchNumber === undefined && !searchCounter) {
         return sortTicketArrayByReadingOrder(getTicketsArray(state));
     }
 
@@ -139,8 +141,20 @@ export const getTicketsOrderByReading = (state: ITicketsDevolutionState, searchN
         const { tickets } = (counterObj as ITicketCount);
         for (let i = 0; i < tickets.length; i++) {
             ticket = state.ticketsCollection.byId[counterObj.tickets[i]];
-            if (ticket.numero === searchNumber) {
-                ticketsArray.push(ticket);
+            if (searchNumber && searchCounter) {
+                if (ticket.numero === searchNumber && ticket.cantidadFracciones === searchCounter) {
+                    ticketsArray.push(ticket);
+                }
+            }
+            else if (searchNumber && !searchCounter) {
+                if (ticket.numero === searchNumber) {
+                    ticketsArray.push(ticket);
+                }
+            }
+            else if (searchCounter && !searchNumber) {
+                if (ticket.cantidadFracciones === searchCounter) {
+                    ticketsArray.push(ticket);
+                }
             }
         }
     }

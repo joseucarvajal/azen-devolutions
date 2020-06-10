@@ -46,8 +46,8 @@ const TicketDevolutionMain: React.FC = () => {
   } = useTicketDevolution(agente);
 
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
-
   const [optionMenuSelected, setOptionMenuSelected] = useState<OptionMenu>();
+  const [counterToEdit, setCounterToEdit] = useState(0);
 
   console.log("refresh devolution page");
 
@@ -70,6 +70,7 @@ const TicketDevolutionMain: React.FC = () => {
 
   const hideCurrentMenuOption = () => {
     setOptionMenuSelected(undefined);
+    setCounterToEdit(0);
   };
 
   return (
@@ -92,7 +93,7 @@ const TicketDevolutionMain: React.FC = () => {
           <div className="ticket-devol__content">
             <InfoSorteo />
 
-            <TicketCountList />
+            <TicketCountList onCounterSelected={setCounterToEdit} />
 
             <TicketCountTotal />
 
@@ -134,16 +135,13 @@ const TicketDevolutionMain: React.FC = () => {
         </div>
 
         {optionMenuSelected === "DIGITAR_CODIGO" && (
-          <AddTicketManually
-            show={true}
-            setShow={hideCurrentMenuOption}
-          />
+          <AddTicketManually hide={hideCurrentMenuOption} />
         )}
 
-        {optionMenuSelected === "VER_NUMERACION" && (
+        {(optionMenuSelected === "VER_NUMERACION" || counterToEdit !== 0) && (
           <TicketsEditor
-            show={true}
             hide={hideCurrentMenuOption}
+            counterToEdit={counterToEdit}
           />
         )}
 

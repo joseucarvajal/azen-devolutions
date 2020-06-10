@@ -18,21 +18,25 @@ import TicketSearch from "../ticket-search/ticket-search.component";
 import TicketDetailList from "../ticket-detail-list/ticket-detail-list.component";
 
 interface IProps {
-  show: boolean;
   hide: () => void;
+  counterToEdit: number;
 }
 
-const TicketsEditorMain: React.FC<IProps> = (props) => {
-  const { show, hide } = props;
-
-  const { ticketList, searchNumber, setSearchNumber } = useTicketEditor();
+const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
+  const { ticketList, searchNumber, setSearchNumber } = useTicketEditor(
+    counterToEdit
+  );
 
   return (
-    <IonModal isOpen={show} onDidDismiss={hide}>
+    <IonModal isOpen={true} onDidDismiss={hide}>
       <IonHeader>
         <IonToolbar>
           <IonTitle slot="end">
-            <span className="ver-num__title">Listado numeración</span>
+            <span className="ver-num__title">
+              {counterToEdit
+                ? `Billetes ${counterToEdit} fracciones`
+                : "Listado numeración"}
+            </span>
           </IonTitle>
           <IonButtons slot="start">
             <IonButton onClick={hide}>

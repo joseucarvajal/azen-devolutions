@@ -6,18 +6,15 @@ import { useLongActionIndicatorActions } from "../../../providers/long-action-in
 import { useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
 interface IProps {
-  show: boolean;
-  setShow: (show: boolean) => void;
+  hide: () => void;
 }
-const AddTicketManually: React.FC<IProps> = (props) => {
+const AddTicketManually: React.FC<IProps> = ({hide}) => {
 
   const { addTicket } = useTicketDevolutionActions();
   const { showErrorMessage } = useLongActionIndicatorActions();
 
-  const {show, setShow} = props;
-
   const onCancel = () => {
-    setShow(false);
+    hide();
   };
 
   const onConfirm = (formValues: any) => {
@@ -28,12 +25,12 @@ const AddTicketManually: React.FC<IProps> = (props) => {
       return false;
     }
     addTicket(formValues.codigo);
-    setShow(false);
+    hide();
   };
 
   return (
     <IonAlert
-      isOpen={show}
+      isOpen={true}
       header={"Ingrese el código"}
       inputs={[
         {

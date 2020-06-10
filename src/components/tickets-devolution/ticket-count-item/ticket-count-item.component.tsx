@@ -10,13 +10,14 @@ type Props = {
   key: any;
   ticketCountObj: ITicketCount;
   fractionsCount: number;
-}
+  onCounterSelected: (counterNumber: number) => void;
+};
 
 const TicketCountItem: React.FC<Props> = ({
   ticketCountObj,
   fractionsCount,
+  onCounterSelected,
 }) => {
-
   const ticketsCount = ticketCountObj.tickets.length;
   const nroFraction = ticketCountObj.codigo;
   const cssClassNameByCodigo = `ticket-count-item__frac-nro tolis ticket-count-item__frac--${nroFraction}`;
@@ -31,7 +32,7 @@ const TicketCountItem: React.FC<Props> = ({
       <div className="ticket-count-item__data">
         <div className="ticket-count-item__lbl">
           <span className="azn-bolder-1">
-          {ticketsCount} billetes - {fractionsCount} fracciones
+            {ticketsCount} billetes - {fractionsCount} fracciones
           </span>
         </div>
         <div className="ticket-count-item__actions">
@@ -39,14 +40,19 @@ const TicketCountItem: React.FC<Props> = ({
             color="secondary"
             size="small"
             className="azn-button-capitalize ticket-count-item__btn"
+            disabled={fractionsCount === 0}
+            onClick={() => {
+              onCounterSelected(ticketCountObj.codigo);
+            }}
           >
-            Corregir
+            Revisar
           </IonButton>
           <IonButton
             color="secondary"
             size="small"
             className="azn-button-capitalize ticket-count-item__btn"
-            style={{color:'white'}}
+            style={{ color: "white" }}
+            disabled={fractionsCount === 0}
           >
             Reiniciar
           </IonButton>

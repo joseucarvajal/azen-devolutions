@@ -1,4 +1,4 @@
-import { Dispatch, useState, useEffect, useLayoutEffect } from "react";
+import { Dispatch, useState, useEffect } from "react";
 import { ITicketsEditorState, ITicketEditorAction, SET_CODIGO_TICKET_TO_EDIT } from "./tickets-editor.types";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { TicketsEditorStateContext, TicketsEditorDispatchContext } from "./tickets-editor.context";
@@ -22,7 +22,7 @@ export interface IUseTicketEditor {
 
     setSelectedTicket: (ticketCodigo: string) => void;
 }
-export const useTicketEditor = (): IUseTicketEditor => {
+export const useTicketEditor = (counterToEdit:number): IUseTicketEditor => {
 
     const [ticketList, setTicketList] = useState<ITicket[]>([]);
     const [searchNumber, setSearchNumber] = useState<string | undefined>(undefined);
@@ -30,9 +30,9 @@ export const useTicketEditor = (): IUseTicketEditor => {
     const ticketsEditorDispatch = useTicketEditorDispatch();
 
     useEffect(() => {
-        const ticketListByNumber = getTicketsOrderByReading(ticketsDevolutionState, searchNumber);
+        const ticketListByNumber = getTicketsOrderByReading(ticketsDevolutionState, searchNumber, counterToEdit);
         setTicketList(ticketListByNumber);
-    }, [ticketsDevolutionState, searchNumber]);
+    }, [ticketsDevolutionState, searchNumber, counterToEdit]);
 
     const setSelectedTicket = (ticketCodigo: string) => {
         ticketsEditorDispatch({
