@@ -10,15 +10,18 @@ import {
   IonList,
   IonAvatar,
   IonLabel,
+  IonToggle,
 } from "@ionic/react";
 import {
   pencilOutline,
   businessOutline,
   ellipsisVerticalOutline,
+  barcodeOutline,
 } from "ionicons/icons";
 
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
+import { useTicketDevolutionState, useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
 interface IMenuOption {
   icon: string;
@@ -32,16 +35,22 @@ interface IProps {
 
 const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
 
+  const { leerXFracciones } = useTicketDevolutionState();
+  const { setLeerXFracciones } = useTicketDevolutionActions();
   const ticketDevolutionCounterReport = useTicketDevolutionReportState();
   const [menuOptions, setMenuOptions] = useState<IMenuOption[]>([]);
 
   useEffect(() => {
-
     const menuOpts: IMenuOption[] = [
       {
         icon: pencilOutline,
         label: "Digitar código",
         option: "DIGITAR_CODIGO",
+      },
+      {
+        icon: barcodeOutline,
+        label: "",
+        option: "TOGGLE_LECTURA_FRACCION",
       },
     ];
 
@@ -54,7 +63,6 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
     }
 
     setMenuOptions(menuOpts);
-
   }, [ticketDevolutionCounterReport]);
 
   const [showMenu, setShowMenu] = useState(false);
@@ -88,23 +96,30 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
         }}
       >
         <IonList>
-          {menuOptions.map((optionItem) => (
-            <IonItem
-              key={optionItem.option}
-              onClick={() => {
-                onOptionClick(optionItem.option);
-              }}
-            >
-              <IonAvatar>
-                <div className="menu-item">
-                  <div className="menu-item__icon">
-                    <IonIcon icon={optionItem.icon} />
+          {menuOptions.map((optionItem) =>
+            optionItem.option === "TOGGLE_LECTURA_FRACCION" ? (
+              <IonItem key={optionItem.option}>
+                  <IonToggle mode="ios" color="secondary" checked={leerXFracciones} onIonChange={e => setLeerXFracciones(e.detail.checked)} />
+                  <span onClick={()=>{setLeerXFracciones(!leerXFracciones);}}>&nbsp;Lectura por fracciones</span>
+              </IonItem>
+            ) : (
+              <IonItem
+                key={optionItem.option}
+                onClick={() => {
+                  onOptionClick(optionItem.option);
+                }}
+              >
+                <IonAvatar>
+                  <div className="menu-item">
+                    <div className="menu-item__icon">
+                      <IonIcon icon={optionItem.icon} />
+                    </div>
                   </div>
-                </div>
-              </IonAvatar>
-              <IonLabel>{optionItem.label}</IonLabel>
-            </IonItem>
-          ))}
+                </IonAvatar>
+                <IonLabel>{optionItem.label}</IonLabel>
+              </IonItem>
+            )
+          )}
         </IonList>
       </IonPopover>
     </>

@@ -32,7 +32,7 @@ describe('Utils tests', () => {
             serie: '167',
             readingOrder: 1
         } as ITicket;
-        let ticket = getTicketFromCode(codigo, ticketCounter);
+        let ticket = getTicketFromCode(codigo, ticketCounter, false);
         expect(ticket).toEqual(expectedTicket);
 
         codigo = "90150004635259409303";
@@ -45,7 +45,7 @@ describe('Utils tests', () => {
             serie: '093',
             readingOrder: 4
         } as ITicket;
-        ticket = getTicketFromCode(codigo, ticketCounter);
+        ticket = getTicketFromCode(codigo, ticketCounter, false);
         expect(ticket).toEqual(expectedTicket);
     });
 
@@ -53,6 +53,7 @@ describe('Utils tests', () => {
 
         const state = {
             sorteo: "4640",
+            leerXFracciones: false,
             codigoLoteria: '',
             ticketsCounter: 6,
             ticketsCounterCollection: {

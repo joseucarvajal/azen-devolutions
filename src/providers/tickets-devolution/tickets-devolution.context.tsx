@@ -8,6 +8,7 @@ import { reducer } from "./tickets-devolution.reducer";
 
 export const initialState = {
   ticketsCounter: 0,
+  leerXFracciones: false,
   codigoLoteria: "",
   sorteo: "",
   ticketsCounterCollection: {

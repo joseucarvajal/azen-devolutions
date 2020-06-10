@@ -10,7 +10,7 @@ import {
  * @param codigo ticket code, should be wellformed. This method doesnt perform codigo validations
  * @param readingOrder major counter
  */
-export const getTicketFromCode = (codigo: string, readingOrder: number): ITicket => {
+export const getTicketFromCode = (codigo: string, readingOrder: number, leerXFracciones: boolean): ITicket => {
 
     const fraccion = codigo.substr(18, 2);
 
@@ -19,7 +19,7 @@ export const getTicketFromCode = (codigo: string, readingOrder: number): ITicket
         numero: codigo.substr(11, 4),
         serie: codigo.substr(15, 3),
         fraccion: fraccion,
-        cantidadFracciones: +fraccion,
+        cantidadFracciones: leerXFracciones ? 1 : +fraccion,
         readingOrder
     } as ITicket;
 };
@@ -125,8 +125,8 @@ ${fractionsStr}`.trim();
     return fractionsContPlusTickets;
 }
 
-export const getTicketsOrderByReading = (state: ITicketsDevolutionState, 
-    searchNumber?: string, 
+export const getTicketsOrderByReading = (state: ITicketsDevolutionState,
+    searchNumber?: string,
     searchCounter?: number): ITicket[] => {
 
     let ticketsArray: ITicket[] = [];

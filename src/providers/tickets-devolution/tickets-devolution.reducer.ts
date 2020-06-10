@@ -1,4 +1,4 @@
-import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD, REMOVE_TICKET, RESET_COUNTER, ITicket } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD, REMOVE_TICKET, RESET_COUNTER, ITicket, SET_LEERXFRACCIONES } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -19,7 +19,7 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
             }
 
             let ticketsCounter = state.ticketsCounter;
-            const newTicket = buildTicketFromCode(action.codigo, ticketsCounter);
+            const newTicket = buildTicketFromCode(action.codigo, ticketsCounter, state.leerXFracciones);
 
             let existingTicketToRemoveFromCounterIndex = -1;
             let existingFractionTickets: string[] = [];
@@ -232,6 +232,11 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
                 }
             };
 
+        case SET_LEERXFRACCIONES:
+            return {
+                ...state,
+                leerXFracciones: action.value
+            };
 
         default:
             return state;

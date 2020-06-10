@@ -21,7 +21,8 @@ import {
     ITicket,
     UPDATE_TICKET_CANTIDAD,
     REMOVE_TICKET,
-    RESET_COUNTER
+    RESET_COUNTER,
+    SET_LEERXFRACCIONES
 } from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
@@ -36,9 +37,10 @@ export const useTicketDevolutionState = (): ITicketsDevolutionState => {
 export interface ITicketDevolutionActions {
     startScanning: () => Promise<void>;
     addTicket: (codigo: string) => void;
-    updateTicketCantidad: (newTicket: ITicket, previousCounter:number) => void;
-    removeTicket: (ticket:ITicket) => void;
-    resetCounter: (counter:number) => void;
+    updateTicketCantidad: (newTicket: ITicket, previousCounter: number) => void;
+    removeTicket: (ticket: ITicket) => void;
+    resetCounter: (counter: number) => void;
+    setLeerXFracciones: (value: boolean) => void;
     sendDevolutionFile: (state: ITicketsDevolutionState, agente: string) => void;
 }
 
@@ -86,7 +88,7 @@ export const useTicketDevolutionActions = () => {
         }
     }
 
-    const updateTicketCantidad = (ticket: ITicket, newCounter:number) => {
+    const updateTicketCantidad = (ticket: ITicket, newCounter: number) => {
         dispatch({
             type: UPDATE_TICKET_CANTIDAD,
             ticket,
@@ -94,17 +96,24 @@ export const useTicketDevolutionActions = () => {
         });
     }
 
-    const removeTicket = (ticket:ITicket) => {
+    const removeTicket = (ticket: ITicket) => {
         dispatch({
             type: REMOVE_TICKET,
             ticket
         });
     }
 
-    const resetCounter = (counter:number) => {
+    const resetCounter = (counter: number) => {
         dispatch({
             type: RESET_COUNTER,
             counter
+        });
+    }
+
+    const setLeerXFracciones = (value: boolean) => {
+        dispatch({
+            type: SET_LEERXFRACCIONES,
+            value
         });
     }
 
@@ -147,6 +156,7 @@ export const useTicketDevolutionActions = () => {
         updateTicketCantidad,
         removeTicket,
         resetCounter,
+        setLeerXFracciones,
         sendDevolutionFile
     } as ITicketDevolutionActions;
 }
@@ -170,7 +180,7 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
         setTicketDevolutionCounterReport(newTicketCounterReport);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, agente, setTicketDevolutionCounterReport]);
+    }, [state.ticketsCollection, agente]);
 
     const sendDevolutionFile = () => {
         ticketDevolutionActions.sendDevolutionFile(state, agente);
@@ -180,8 +190,8 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
         state,
 
         ...ticketDevolutionActions,
-        
-        ticketDevolutionCounterReport,       
+
+        ticketDevolutionCounterReport,
         sendDevolutionFile,
     } as IUseTicketDevolution;
 }

@@ -45,8 +45,11 @@ const TicketDetailList: React.FC<IProps> = (props) => {
       {selectedTicket && (
         <EditTicket
           ticket={selectedTicket}
-          onHide={() => {
-            if (ticketsCollection.byId[selectedTicket.codigo]) {
+          onHide={(forceHide:boolean) => {
+            if(forceHide){
+              setSelectedTicket(null);
+            }
+            else if (ticketsCollection.byId[selectedTicket.codigo]) {
               if(ticketList?.length > 0 && ticketList[0].codigo === ticketsCollection.byId[selectedTicket.codigo].codigo){
                 return;
               }
