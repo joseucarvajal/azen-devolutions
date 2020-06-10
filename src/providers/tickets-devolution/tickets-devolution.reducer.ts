@@ -1,4 +1,4 @@
-import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD, REMOVE_TICKET } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, UPDATE_TICKET_CANTIDAD, REMOVE_TICKET, RESET_COUNTER, ITicket } from "./tickets-devolution.types";
 
 import {
     ActionType,
@@ -7,6 +7,7 @@ import {
 } from "./tickets-devolution.types";
 
 import { getTicketFromCode as buildTicketFromCode, getSorteoFromCode, getLoteriaFromCode } from "./tickets-devolution.utils";
+import { ISTringIndexEntity } from "../../shared/contracts/shared.contracts";
 
 export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITicketsDevolutionState => {
 
@@ -195,6 +196,42 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
                     }
                 };
             }
+
+        case RESET_COUNTER:
+
+            let { [action.counter]: removedCounter, ...updatedTicketsCounterCollection } = state.ticketsCounterCollection.byId;
+
+            if (!removedCounter) {
+                return state;
+            }
+
+            let newTicketsById: ISTringIndexEntity<ITicket> = {};
+            let newTicketsAllIds: string[] = [];
+            for (let [ticketCode, ticket] of Object.entries(state.ticketsCollection.byId)) {
+                if (false === removedCounter.tickets.some(t => t === ticketCode)) {
+                    newTicketsById[ticketCode] = ticket;
+                    newTicketsAllIds.push(ticketCode);
+                }
+            }
+
+            return {
+                ...state,
+                ticketsCounterCollection: {
+                    byId: {
+                        ...updatedTicketsCounterCollection,
+                        [action.counter]: {
+                            codigo: action.counter,
+                            tickets: []
+                        }
+                    },
+                    allIds: state.ticketsCounterCollection.allIds
+                },
+                ticketsCollection: {
+                    byId: newTicketsById,
+                    allIds: newTicketsAllIds
+                }
+            };
+
 
         default:
             return state;

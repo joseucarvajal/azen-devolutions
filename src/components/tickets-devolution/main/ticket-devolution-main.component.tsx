@@ -39,15 +39,17 @@ const TicketDevolutionMain: React.FC = () => {
   const agente = "azen";
 
   const {
-    state,
     ticketDevolutionCounterReport,
     startScanning,
+    resetCounter,
     sendDevolutionFile,
   } = useTicketDevolution(agente);
 
   const [showSendFileConfirm, setShowSendFileConfirm] = useState(false);
   const [optionMenuSelected, setOptionMenuSelected] = useState<OptionMenu>();
   const [counterToEdit, setCounterToEdit] = useState(0);
+
+  const [counterToReset, setCounterToReset] = useState(0);
 
   console.log("refresh devolution page");
 
@@ -62,6 +64,19 @@ const TicketDevolutionMain: React.FC = () => {
   const onConfirmSendReportFile = () => {
     sendDevolutionFile();
     setShowSendFileConfirm(false);
+  };
+
+  const onResetCounter = (counter:number) => {
+    setCounterToReset(counter);
+  };
+
+  const onCancelResetCounter = () => {
+    setCounterToReset(0);
+  };
+  
+  const onConfirmResetCounter = () => {
+    resetCounter(counterToReset);
+    setCounterToReset(0);
   };
 
   const onMenuOptionClicked = (option: OptionMenu) => {
@@ -93,11 +108,14 @@ const TicketDevolutionMain: React.FC = () => {
           <div className="ticket-devol__content">
             <InfoSorteo />
 
-            <TicketCountList onCounterSelected={setCounterToEdit} />
+            <TicketCountList
+              onCounterRevisar={setCounterToEdit}
+              onCounterReiniciar={onResetCounter}
+            />
 
             <TicketCountTotal />
 
-            {state.sorteo ? (
+            {ticketDevolutionCounterReport?.fractionsTotalCount > 0 ? (
               <div className="send-devolution">
                 <IonButton
                   color="secondary"
@@ -129,6 +147,23 @@ const TicketDevolutionMain: React.FC = () => {
               {
                 text: "Enviar",
                 handler: onConfirmSendReportFile,
+              },
+            ]}
+          />
+
+          <IonAlert
+            isOpen={counterToReset !== 0}
+            header={"Confirmar reinicio"}
+            message={`¿Desea reiniciar el conteo para la fracción <strong>${counterToReset}</strong>?`}
+            buttons={[
+              {
+                text: "Cancelar",
+                role: "cancel",
+                handler: onCancelResetCounter,
+              },
+              {
+                text: "Reiniciar",
+                handler: onConfirmResetCounter,
               },
             ]}
           />

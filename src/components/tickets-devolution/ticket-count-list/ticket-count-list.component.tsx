@@ -7,10 +7,14 @@ import { useTicketDevolutionReportState } from "../../../providers/tickets-devol
 import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
 
 interface IProps {
-  onCounterSelected: (counterNumber:number) => void;
+  onCounterRevisar: (counterNumber: number) => void;
+  onCounterReiniciar: (counterNumber: number) => void;
 }
 
-const TicketCountList: React.FC<IProps> = ({onCounterSelected}) => {
+const TicketCountList: React.FC<IProps> = ({
+  onCounterRevisar,
+  onCounterReiniciar,
+}) => {
   const { ticketsCounterCollection } = useTicketDevolutionState();
   const ticketDevolutionCounterReport = useTicketDevolutionReportState();
 
@@ -32,8 +36,9 @@ const TicketCountList: React.FC<IProps> = ({onCounterSelected}) => {
           <TicketCountItem
             key={counterCodigo}
             ticketCountObj={currentTicketCounter}
-            fractionsCount={totalFracciones}     
-            onCounterSelected={onCounterSelected}       
+            fractionsCount={totalFracciones}
+            onCounterRevisar={onCounterRevisar}
+            onCounterReiniciar={onCounterReiniciar}
           />
         );
       })}

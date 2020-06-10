@@ -111,9 +111,11 @@ export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
 export const SET_NEW_TICKET_DEVOLUTION_STATE = "SET_NEW_TICKET_DEVOLUTION_STATE";
 export const UPDATE_TICKET_CANTIDAD = "UPDATE_TICKET_CANTIDAD";
 export const REMOVE_TICKET = "REMOVE_TICKET";
+export const RESET_COUNTER = "RESET_COUNTER";
 
 export type ActionType =
     | { type: typeof ADD_LOTTERY_TICKET, codigo:string }
     | { type: typeof SET_NEW_TICKET_DEVOLUTION_STATE; newState:ITicketsDevolutionState }
     | { type: typeof UPDATE_TICKET_CANTIDAD; ticket:ITicket, newCounter:number }
     | { type: typeof REMOVE_TICKET; ticket:ITicket }
+    | { type: typeof RESET_COUNTER; counter:number }

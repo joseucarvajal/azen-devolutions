@@ -82,7 +82,7 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
                   )}
                   {searchNumber ? (
                     <div className="no-tickets-found__section">
-                      Número :&nbsp;
+                      Billete número :&nbsp;
                       <span className="no-tickets-found__nro">
                         {searchNumber}
                       </span>

@@ -20,7 +20,8 @@ import {
     SET_NEW_TICKET_DEVOLUTION_STATE,
     ITicket,
     UPDATE_TICKET_CANTIDAD,
-    REMOVE_TICKET
+    REMOVE_TICKET,
+    RESET_COUNTER
 } from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/utils/file-upload.util";
@@ -37,6 +38,7 @@ export interface ITicketDevolutionActions {
     addTicket: (codigo: string) => void;
     updateTicketCantidad: (newTicket: ITicket, previousCounter:number) => void;
     removeTicket: (ticket:ITicket) => void;
+    resetCounter: (counter:number) => void;
     sendDevolutionFile: (state: ITicketsDevolutionState, agente: string) => void;
 }
 
@@ -99,6 +101,13 @@ export const useTicketDevolutionActions = () => {
         });
     }
 
+    const resetCounter = (counter:number) => {
+        dispatch({
+            type: RESET_COUNTER,
+            counter
+        });
+    }
+
     const sendDevolutionFile = async (state: ITicketsDevolutionState, agente: string) => {
         try {
 
@@ -113,7 +122,7 @@ export const useTicketDevolutionActions = () => {
             );
 
             if (uploadResult.responseCode === 201 && uploadResult.response.toString() === '1') {
-                showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" cargado con éxito`);
+                showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" enviado con éxito`);
                 resetState();
             }
             else {
@@ -137,6 +146,7 @@ export const useTicketDevolutionActions = () => {
         addTicket,
         updateTicketCantidad,
         removeTicket,
+        resetCounter,
         sendDevolutionFile
     } as ITicketDevolutionActions;
 }
@@ -152,7 +162,7 @@ export interface IUseTicketDevolution extends ITicketDevolutionActions {
 export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
 
     const state = useTicketDevolutionState();
-    const { startScanning, sendDevolutionFile: sendDevolutionFileAction, addTicket } = useTicketDevolutionActions();
+    const ticketDevolutionActions = useTicketDevolutionActions();
 
     const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useTicketDevolutionReport();
 
@@ -163,15 +173,15 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     }, [state, agente, setTicketDevolutionCounterReport]);
 
     const sendDevolutionFile = () => {
-        sendDevolutionFileAction(state, agente)
+        ticketDevolutionActions.sendDevolutionFile(state, agente);
     }
 
     return {
         state,
-        ticketDevolutionCounterReport,
 
-        startScanning,
-        addTicket,
-        sendDevolutionFile
+        ...ticketDevolutionActions,
+        
+        ticketDevolutionCounterReport,       
+        sendDevolutionFile,
     } as IUseTicketDevolution;
 }

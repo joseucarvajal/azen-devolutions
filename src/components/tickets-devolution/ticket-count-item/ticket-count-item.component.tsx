@@ -6,17 +6,18 @@ import { ITicketCount } from "../../../providers/tickets-devolution/tickets-devo
 
 import "./ticket-count-item.style.scss";
 
-type Props = {
-  key: any;
+type Props = {  
   ticketCountObj: ITicketCount;
   fractionsCount: number;
-  onCounterSelected: (counterNumber: number) => void;
+  onCounterRevisar: (counterNumber: number) => void;
+  onCounterReiniciar: (counterNumber: number) => void;
 };
 
 const TicketCountItem: React.FC<Props> = ({
   ticketCountObj,
   fractionsCount,
-  onCounterSelected,
+  onCounterRevisar,
+  onCounterReiniciar
 }) => {
   const ticketsCount = ticketCountObj.tickets.length;
   const nroFraction = ticketCountObj.codigo;
@@ -42,7 +43,7 @@ const TicketCountItem: React.FC<Props> = ({
             className="azn-button-capitalize ticket-count-item__btn"
             disabled={fractionsCount === 0}
             onClick={() => {
-              onCounterSelected(ticketCountObj.codigo);
+              onCounterRevisar(ticketCountObj.codigo);
             }}
           >
             Revisar
@@ -53,6 +54,9 @@ const TicketCountItem: React.FC<Props> = ({
             className="azn-button-capitalize ticket-count-item__btn"
             style={{ color: "white" }}
             disabled={fractionsCount === 0}
+            onClick={()=>{
+              onCounterReiniciar(ticketCountObj.codigo);
+            }}
           >
             Reiniciar
           </IonButton>
