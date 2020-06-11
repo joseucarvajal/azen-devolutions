@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 
 import azenLogo from "../../../assets/img/azen-logo.jpg";
 
@@ -6,21 +6,27 @@ import "./authentication-main.style.scss";
 
 import { IonContent, IonPage, IonIcon, IonButton } from "@ionic/react";
 import { personOutline, keyOutline } from "ionicons/icons";
-import { useAuthenticationActions } from "../../../providers/authentication/authentication.hooks";
+import { useAuthentication } from "../../../providers/authentication/authentication.hooks";
 
 const AuthenticationMain: React.FC = () => {
 
-  const { authenticateUser } = useAuthenticationActions();
-  
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [
+    { userName, password },
+    { setAuthenticationValues, authenticateUser }
+  ] = useAuthentication();
 
   const onUserNameChange = (e: FormEvent<HTMLInputElement>) => {
-    setUserName(e.currentTarget.value);
+    setAuthenticationValues({
+      userName: e.currentTarget.value,
+      password: password
+    });
   };
 
   const onPasswordChange = (e: FormEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
+    setAuthenticationValues({
+      userName: userName,
+      password: e.currentTarget.value
+    });    
   };
 
   const onAuthSubmit = (e: FormEvent<HTMLElement>) => {

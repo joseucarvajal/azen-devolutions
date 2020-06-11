@@ -19,14 +19,19 @@ const TicketDetail: React.FC<IProps> = ({ ticket, showRadio }) => {
       )}
       <div className="ticket-detail__serie">
         <span className="ticket-detail__serie-lbl">Serie</span>
-        <NumberWord number={ticket.serie} />
+        <NumberWord
+          number={ticket.serie}
+          digitValueStyle={{
+            fontSize: "1.2rem",
+          }}
+        />
       </div>
       <div className="ticket-detail__numero">
         <span className="ticket-detail__numero-lbl">Número</span>
         <NumberWord
           number={ticket.numero}
           digitValueStyle={{
-            fontSize: "2.4rem",
+            fontSize: "1.6rem",
           }}
           digitStyle={{
             boxShadow: "none",

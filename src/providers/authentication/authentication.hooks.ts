@@ -1,10 +1,10 @@
 import { useContextValue } from "../../shared/hooks/use-context-value-hook"
-import { IAuthenticationState, ISetAuthenticationValues, SET_USER } from "./authentication-types"
+import { IAuthenticationState, ISetAuthenticationValues, SET_USER, SET_AUTHENTICATION_VALUES } from "./authentication-types"
 import { AuthenticationStateContext, AuthenticationDispatchContext } from "./authentication.context"
 import { useContext } from "react"
 import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks"
 
-import { authenticateUser as authenticateUserUtil } from './authentication.utils';
+import { authenticateUser as authenticateUserService } from './authentication.api';
 import { useGlobalSetupState } from "../global-setup/global-setup.hooks"
 
 export const useAuthenticationState = (): IAuthenticationState => {
@@ -12,6 +12,7 @@ export const useAuthenticationState = (): IAuthenticationState => {
 }
 
 export interface IUseAuthenticationActions {
+    setAuthenticationValues: (authValues: ISetAuthenticationValues) => void;
     authenticateUser: (payload: ISetAuthenticationValues) => void;
 }
 
@@ -29,8 +30,8 @@ export const useAuthenticationActions = (): IUseAuthenticationActions => {
     const authenticateUser = async (payload: ISetAuthenticationValues) => {
         try {
             showLoading();
-            const tkna = await authenticateUserUtil(payload, apiBaseURL);
-            setUserToken(tkna);
+            const tkna = await authenticateUserService(payload, apiBaseURL);
+            setUserToken(tkna);            
             hideLoading();
         }
         catch (err) {
@@ -46,8 +47,15 @@ export const useAuthenticationActions = (): IUseAuthenticationActions => {
             }
         });
     }
-
+ 
+    const setAuthenticationValues = (authValues: ISetAuthenticationValues) => {
+        dispatch({
+            type: SET_AUTHENTICATION_VALUES,
+            authValues
+        });
+    }
     return {
+        setAuthenticationValues,
         authenticateUser
     };
 }

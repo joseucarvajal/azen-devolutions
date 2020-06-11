@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: var(--azn-border-1);
-    padding-bottom: .9rem;
+    padding-bottom: .3rem;
     width: 97%;
 
     &:first-child {
@@ -14,10 +14,10 @@
         margin-top: .2rem;
     }
 
-    &__radio {        
+    &__radio {
         position: relative;
         top: .5rem;
-        margin-right: 0.6rem;
+        margin-right: .6rem;
         display: flex;
         align-items: center;
         &-circle {
@@ -32,31 +32,32 @@
     &__serie {
         flex: 0 0 6rem;
         &-lbl {
-            font-size: 0.8rem;
+            font-size: .8rem;
         }
     }
 
     &__numero {
         flex: 1;
-        margin: 0rem 1rem;
+        margin: .1rem 1rem;
+        background-color: #eee;
+        max-height: 3rem;
+        padding: 0rem .3rem 0rem;
         &-lbl {
-            font-size: 0.8rem;            
+            font-size: .78rem;
         }
         &-nro {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             max-height: 1rem;
         }
     }
 
     &__fraccion {
-        position: relative;
-        height: 2.6rem;
-        top: 0.5rem;
+        height: 2.3rem;
         flex: 0 0 1rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        font-size: 0.8rem;
+        font-size: .8rem;
 
         &-row {
             display: flex;
@@ -66,11 +67,11 @@
                 border-bottom: var(--azn-border-3);
             }
         }
-                
+
         &-lbl {
-            margin-right: 0.3rem;            
+            margin-right: .3rem;
         }
-        
+
         &-vlr {
             font-weight: bold;
         }

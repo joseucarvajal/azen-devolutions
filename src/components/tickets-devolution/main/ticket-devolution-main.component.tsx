@@ -23,7 +23,6 @@ import { useTicketDevolution } from "../../../providers/tickets-devolution/ticke
 import TicketCountList from "../ticket-count-list/ticket-count-list.component";
 import InfoSorteo from "../info-sorteo/info-sorteo";
 import TicketCountTotal from "../ticket-count-total/ticket-count-total.component";
-import FooterInfo from "../footer-info/footer-info.component";
 import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
 
 import AddTicketManually from "../add-ticket-manually/add-ticket-manually.component";
@@ -32,6 +31,7 @@ import TicketsDevolutionMenu from "../menu/tickets-devolution-menu.component";
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketsEditor from "../../tickets-editor/tickets-editor/tickets-editor.component";
 import { useAuthenticationState } from "../../../providers/authentication/authentication.hooks";
+import Footer from "../../../shared/components/footer/footer.component";
 
 const TicketDevolutionMain: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -131,7 +131,7 @@ const TicketDevolutionMain: React.FC = () => {
             )}
           </div>
           <div className="ticket-devol-footer">
-            <FooterInfo />
+            <Footer />
           </div>
 
           <IonAlert

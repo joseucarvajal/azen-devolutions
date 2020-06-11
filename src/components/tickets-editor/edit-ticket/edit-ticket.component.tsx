@@ -17,18 +17,20 @@ import {
   IonItem,
   IonLabel,
   IonAlert,
+  IonFooter,
 } from "@ionic/react";
 
 import { ITicket } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketDetail from "../ticket-detail/ticket-detail.component";
 import { arrowBack, trashBinOutline } from "ionicons/icons";
 import { useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
+import Footer from "../../../shared/components/footer/footer.component";
 
 const cantidades = [1, 2, 3];
 
 interface IProps {
   ticket: ITicket;
-  onHide: (forceHide:boolean) => void;
+  onHide: (forceHide: boolean) => void;
 }
 
 const EditTicket: React.FC<IProps> = ({ ticket, onHide }) => {
@@ -37,14 +39,23 @@ const EditTicket: React.FC<IProps> = ({ ticket, onHide }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   return (
-    <IonModal isOpen={ticket !== null} onDidDismiss={()=>{onHide(false)}}>
+    <IonModal
+      isOpen={ticket !== null}
+      onDidDismiss={() => {
+        onHide(false);
+      }}
+    >
       <IonHeader>
         <IonToolbar>
           <IonTitle slot="end">
             <span className="ver-num__title">Información de número</span>
           </IonTitle>
           <IonButtons slot="start">
-            <IonButton onClick={()=>{onHide(true)}}>
+            <IonButton
+              onClick={() => {
+                onHide(true);
+              }}
+            >
               <IonIcon icon={arrowBack} />
               Volver
             </IonButton>
@@ -95,7 +106,9 @@ const EditTicket: React.FC<IProps> = ({ ticket, onHide }) => {
             <IonButton
               color="secondary"
               className="azn-button-capitalize"
-              onClick={()=>{onHide(true)}}
+              onClick={() => {
+                onHide(true);
+              }}
             >
               <IonIcon icon={arrowBack} />
               Volver
@@ -125,6 +138,9 @@ const EditTicket: React.FC<IProps> = ({ ticket, onHide }) => {
           ]}
         />
       </IonContent>
+      <IonFooter>
+        <Footer />
+      </IonFooter>
     </IonModal>
   );
 };

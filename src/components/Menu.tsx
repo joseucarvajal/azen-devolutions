@@ -8,12 +8,14 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonFooter,
 } from "@ionic/react";
 
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { arrowUndo } from "ionicons/icons";
 import "./Menu.css";
+import Footer from "../shared/components/footer/footer.component";
 
 interface AppPage {
   url: string;
@@ -60,6 +62,9 @@ const Menu: React.FC = () => {
           })}
         </IonList>
       </IonContent>
+      <IonFooter>
+        <Footer />
+      </IonFooter>
     </IonMenu>
   );
 };

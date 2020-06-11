@@ -31,7 +31,20 @@ import SafeZone from "./SafeZone";
 import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
 import GlobalSetupProvider from "./providers/global-setup/global-setup.context";
 
+declare var navigator:any;
+
 const App: React.FC = () => {
+
+  document.addEventListener('ionBackButton', (ev:any) => {
+    ev.detail.register(10, () => {
+      // eslint-disable-next-line no-restricted-globals
+      const res = confirm('¿Desea salir de la aplicación?');
+      if(res){
+        navigator['app'].exitApp();
+      }
+    });
+  });
+
   return (
     <IonApp>
       <GlobalSetupProvider>

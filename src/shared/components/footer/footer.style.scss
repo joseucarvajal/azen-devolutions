@@ -1,0 +1,19 @@
+
+.footer-info {
+
+    display: flex;
+    align-items: flex-end;
+    align-items: center;
+    color: #343334;
+    padding: .2rem .5rem 0rem;
+
+    max-width: 90%;
+
+    font-size: .85rem;
+
+    &__img{
+        width: 2.5rem;
+        height: 3.5rem;
+        margin-right: 1rem;
+    }
+}

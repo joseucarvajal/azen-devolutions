@@ -10,7 +10,7 @@ const TicketCountTotal: React.FC = () => {
   return (
     <div className="tickets-count-total">
       <div className="ticket-count__frac">
-        <span>Conteo fracciones:</span>
+        <span>Total fracciones:</span>
         <span className="tickets-count-total__vlr">
           {ticketDevolutionCounterReport
             ? ticketDevolutionCounterReport.fractionsTotalCount
@@ -18,7 +18,7 @@ const TicketCountTotal: React.FC = () => {
         </span>
       </div>
       <div className="ticket-count__ticket">
-        <span>Conteo billetes:</span>
+        <span>Total billetes:</span>
         <span className="tickets-count-total__vlr">
           {ticketDevolutionCounterReport
             ? ticketDevolutionCounterReport.ticketsTotalCount

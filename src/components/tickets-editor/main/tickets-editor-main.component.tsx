@@ -9,6 +9,7 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
+  IonFooter,
 } from "@ionic/react";
 import { arrowBack, warning } from "ionicons/icons";
 
@@ -17,6 +18,7 @@ import "./tickets-editor-main.style.scss";
 import TicketSearch from "../ticket-search/ticket-search.component";
 import TicketDetailList from "../ticket-detail-list/ticket-detail-list.component";
 import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
+import Footer from "../../../shared/components/footer/footer.component";
 
 interface IProps {
   hide: () => void;
@@ -122,6 +124,9 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
           )}
         </div>
       </IonContent>
+      <IonFooter>
+        <Footer/>
+      </IonFooter>
     </IonModal>
   );
 };

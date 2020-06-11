@@ -85,9 +85,11 @@
     }
 
     &__lbl {
-        font-size: 1rem;
-        //font-weight: bolder;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;        
         margin-bottom: 0.5rem;
+        max-width: 22%;
     }
 
     &__actions {
@@ -104,6 +106,11 @@
     
     
     @media only screen and (max-width: $bp-small-5) {
+
+        &__lbl {
+            max-width: 25%;
+        }
+
         &__frac {
             &::after {
                 margin-left: 55%;
@@ -115,7 +122,10 @@
         }
     }
 
-    @media only screen and (max-width: $bp-small-4) {
+    @media only screen and (max-width: $bp-small-4) {     
+        &__lbl {
+            max-width: 30%;
+        }           
         &__frac {
             &::after {
                 margin-left: 47%;
@@ -128,6 +138,11 @@
     }
 
     @media only screen and (max-width: $bp-small-3-2) {
+
+        &__lbl {
+            max-width: 35%;
+        }
+
         &__frac {            
 
             &::after {
@@ -141,14 +156,15 @@
     }
 
     @media only screen and (max-width: $bp-small-3-1) {
+        &__lbl {
+            max-width: 50%;
+        }
+
         &__frac {
-
             flex: 0 0 14%;
-
             &::after {
                 margin-left: 42%;
             }
-
             &-nro {
                 background-size: 75%;
             }
@@ -156,6 +172,11 @@
     }
 
     @media only screen and (max-width: $bp-small-3-1-1) {
+
+        &__lbl {
+            max-width: 60%;
+        }
+
         &__frac {
 
             &::after {
@@ -169,6 +190,10 @@
     }
 
     @media only screen and (max-width: $bp-small-3) {
+        &__lbl {
+            max-width: 75%;
+        }
+
         &__frac {
 
             flex: 0 0 15%;
@@ -180,12 +205,17 @@
     }
 
     @media only screen and (max-width: $bp-small-2) {
+
+        &__lbl {
+            max-width: 82%;
+        }
+
         &__frac {
 
             flex: 0 0 17%;
 
             &::after {
-                margin-left: 31%;
+                margin-left: 33%;
             }
 
             &-nro {
@@ -195,6 +225,10 @@
     }
 
     @media only screen and (max-width: $bp-small-1) {
+        &__lbl {
+            max-width: 90%;
+        }
+
         &__frac {
 
             flex: 0 0 20%;

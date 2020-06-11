@@ -17,5 +17,5 @@ export interface ISetAuthenticationValues {
 export const SET_USER = 'SET_USER';
 
 export type IAuthenticationActionType = 
-    | { type: typeof SET_AUTHENTICATION_VALUES, payload:ISetAuthenticationValues }
+    | { type: typeof SET_AUTHENTICATION_VALUES, authValues:ISetAuthenticationValues }
     | { type: typeof SET_USER, user:IUser }

@@ -8,6 +8,7 @@ import TicketDevolutionMain from "../../components/tickets-devolution/main/ticke
 import TicketDevolutionReportProvider from "../../providers/tickets-devolution/tickets-devolution.report.context";
 
 const TicketDevolutionPage: React.FC = () => {
+
   return (
     <TicketDevolutionProvider>
       <TicketDevolutionReportProvider>

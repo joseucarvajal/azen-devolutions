@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect, useCallback, useState } from "react";
 
 import { isPlatform } from "@ionic/react";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
@@ -8,7 +8,8 @@ import { initialState, TicketsDevolutionStateContext, TicketsDevolutionDispatchC
 import {
     getTicketCounterReport as utilsGetTicketCounterReport,
     getFileReportStr as buildFileReportStr,
-    getDevolutionFileName as buildDevolutionFileName
+    getDevolutionFileName as buildDevolutionFileName,
+    padLeft
 } from "./tickets-devolution.utils";
 
 import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks";
@@ -25,17 +26,18 @@ import {
     SET_LEERXFRACCIONES
 } from "./tickets-devolution.types";
 
-import { uploadFile } from "../../shared/utils/file-upload.util";
+import { uploadFile } from "../../shared/api/file-upload.api";
 import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { useGlobalSetupState } from "../global-setup/global-setup.hooks";
-
 
 export const useTicketDevolutionState = (): ITicketsDevolutionState => {
     return useContextValue<ITicketsDevolutionState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
 }
 
 export interface ITicketDevolutionActions {
+    readingInProgress: boolean;
+    forceCounterReportUdate: boolean;
     startScanning: () => Promise<void>;
     addTicket: (codigo: string) => void;
     updateTicketCantidad: (newTicket: ITicket, previousCounter: number) => void;
@@ -47,10 +49,12 @@ export interface ITicketDevolutionActions {
 
 export const useTicketDevolutionActions = () => {
 
-    const { apiBaseURL } = useGlobalSetupState();
     const dispatch = useContext(TicketsDevolutionDispatchContext);
-
     const { showLoading, showErrorMessage, showSuccessMessage } = useLongActionIndicatorActions();
+    const { apiBaseURL } = useGlobalSetupState();
+
+    const [readingInProgress, setReadingInProgress] = useState(false);
+    const [forceCounterReportUdate, setForceCounterReportUpdate] = useState(false);
 
     const addTicket = useCallback((codigo: string) => {
         dispatch({
@@ -61,18 +65,19 @@ export const useTicketDevolutionActions = () => {
 
     const startScanning = async () => {
 
+        setReadingInProgress(true);
+
         if (isPlatform("mobileweb")) {
-
-            addTicket('90150004640879113203');
-            addTicket('90150004640351213203');
-            addTicket('90150004640213713203');
-            addTicket('90150004640715400101');
-            addTicket('90150004640475119902');
-            addTicket('90150004640249819902');
-
-            return;
+            await startScanningFakeWeb();
+        }
+        else {
+            await startScanningMobile();
         }
 
+        setReadingInProgress(false);
+    }
+
+    const startScanningMobile = async () => {
         let data = {
             cancelled: false,
             text: "",
@@ -80,7 +85,7 @@ export const useTicketDevolutionActions = () => {
         while (!data.cancelled) {
             data = await BarcodeScanner.scan({
                 showTorchButton: true, // iOS and Android
-                prompt: "Acerque la línea verde al código de barras del billete", // Android
+                prompt: "Acerque la línea roja al código de barras del billete", // Android
                 formats: "CODE_128",
             });
 
@@ -88,6 +93,37 @@ export const useTicketDevolutionActions = () => {
                 addTicket(data.text);
             }
         }
+    }
+
+    const startScanningFakeWeb = async () => {
+        const max = 1;
+        let counter = 0;
+        let data = {
+            cancelled: false,
+            text: "",
+        };
+        while (!data.cancelled) {
+            data = await produceScanFakeNumber(max, counter++);
+            if (!data.cancelled) {
+                addTicket(data.text);
+            }
+        }
+    }
+
+    const produceScanFakeNumber = (counter: number, max: number): Promise<any> => {
+        return new Promise<any>((resolve, reject) => {
+            let timer = setTimeout(() => {
+                const serie = padLeft(Math.floor(Math.random() * 999), 3);
+                const nro = padLeft(Math.floor(Math.random() * 9999), 4);
+                const fraccion = padLeft(Math.floor(Math.random() * 3) + 1, 2);
+                const codigo = `90150004640${nro}${serie}${fraccion}`;
+                clearTimeout(timer);
+                resolve({
+                    cancelled: counter === max,
+                    text: codigo
+                })
+            }, 300);
+        });
     }
 
     const updateTicketCantidad = (ticket: ITicket, newCounter: number) => {
@@ -126,6 +162,9 @@ export const useTicketDevolutionActions = () => {
 
             const fileName = buildDevolutionFileName(state, agente);
             const dataToWrite = buildFileReportStr(state, agente);
+            if (isPlatform("mobileweb")) {
+                console.log(dataToWrite);
+            }
             const uploadResult = await uploadFile(
                 `${apiBaseURL}/azenupl/FileUploadServlet`,
                 fileName,
@@ -150,9 +189,12 @@ export const useTicketDevolutionActions = () => {
             type: SET_NEW_TICKET_DEVOLUTION_STATE,
             newState: initialState
         });
+        setForceCounterReportUpdate(!forceCounterReportUdate); //Force state report clean-up
     }
 
     return {
+        readingInProgress,
+        forceCounterReportUdate,
         startScanning,
         addTicket,
         updateTicketCantidad,
@@ -175,14 +217,18 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
 
     const state = useTicketDevolutionState();
     const ticketDevolutionActions = useTicketDevolutionActions();
+    const { readingInProgress, forceCounterReportUdate } = ticketDevolutionActions;
 
     const [ticketDevolutionCounterReport, setTicketDevolutionCounterReport] = useTicketDevolutionReport();
 
     useEffect(() => {
+        if (readingInProgress === true) {
+            return;
+        }
         const newTicketCounterReport = utilsGetTicketCounterReport(state, agente);
         setTicketDevolutionCounterReport(newTicketCounterReport);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.ticketsCollection, agente]);
+    }, [state, readingInProgress, forceCounterReportUdate]);
 
     const sendDevolutionFile = () => {
         ticketDevolutionActions.sendDevolutionFile(state, agente);

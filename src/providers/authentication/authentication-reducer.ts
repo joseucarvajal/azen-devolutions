@@ -7,8 +7,8 @@ export const authenticationReducer = (state: IAuthenticationState, action: IAuth
         case SET_AUTHENTICATION_VALUES:
             return {
                 ...state,
-                userName: action.payload.userName,
-                password: action.payload.password
+                userName: action.authValues.userName,
+                password: action.authValues.password
             };
 
         case SET_USER:
