@@ -8,7 +8,7 @@ import { authenticationReducer } from "./authentication-reducer";
 import { Context } from "react";
 
 const initialState = {
-  userName: '',
+  userName: 'novalid',
   password: '',
 } as IAuthenticationState;
 export const AuthenticationStateContext = createContext(initialState);

@@ -28,6 +28,7 @@ import {
 import { uploadFile } from "../../shared/utils/file-upload.util";
 import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
+import { useGlobalSetupState } from "../global-setup/global-setup.hooks";
 
 
 export const useTicketDevolutionState = (): ITicketsDevolutionState => {
@@ -46,6 +47,7 @@ export interface ITicketDevolutionActions {
 
 export const useTicketDevolutionActions = () => {
 
+    const { apiBaseURL } = useGlobalSetupState();
     const dispatch = useContext(TicketsDevolutionDispatchContext);
 
     const { showLoading, showErrorMessage, showSuccessMessage } = useLongActionIndicatorActions();
@@ -125,7 +127,7 @@ export const useTicketDevolutionActions = () => {
             const fileName = buildDevolutionFileName(state, agente);
             const dataToWrite = buildFileReportStr(state, agente);
             const uploadResult = await uploadFile(
-                `http://52.42.49.101:8080/azenupl/FileUploadServlet`,
+                `${apiBaseURL}/azenupl/FileUploadServlet`,
                 fileName,
                 dataToWrite
             );

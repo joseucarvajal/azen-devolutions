@@ -5,6 +5,7 @@ import { useContext } from "react"
 import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks"
 
 import { authenticateUser as authenticateUserUtil } from './authentication.utils';
+import { useGlobalSetupState } from "../global-setup/global-setup.hooks"
 
 export const useAuthenticationState = (): IAuthenticationState => {
     return useContextValue<IAuthenticationState>('AuthenticationStateContext', AuthenticationStateContext)
@@ -16,6 +17,7 @@ export interface IUseAuthenticationActions {
 
 export const useAuthenticationActions = (): IUseAuthenticationActions => {
     
+    const { apiBaseURL } = useGlobalSetupState();
     const { showLoading, hideLoading, showErrorMessage } = useLongActionIndicatorActions();
 
     const dispatch = useContext(AuthenticationDispatchContext);
@@ -27,7 +29,7 @@ export const useAuthenticationActions = (): IUseAuthenticationActions => {
     const authenticateUser = async (payload: ISetAuthenticationValues) => {
         try {
             showLoading();
-            const tkna = await authenticateUserUtil(payload);
+            const tkna = await authenticateUserUtil(payload, apiBaseURL);
             setUserToken(tkna);
             hideLoading();
         }

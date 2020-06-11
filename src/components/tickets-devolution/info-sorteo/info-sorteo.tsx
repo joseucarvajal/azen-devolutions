@@ -4,9 +4,10 @@ import "./info-sorteo.scss";
 
 import EmptyResultMsgComponent from "../empty-results-msg/empty-results-msg.component";
 import { useTicketDevolutionState } from "../../../providers/tickets-devolution/tickets-devolution.hook";
+import { useAuthenticationState } from "../../../providers/authentication/authentication.hooks";
 
 const TicketCountList: React.FC = () => {
-
+  const { userName: agente } = useAuthenticationState();
   const { sorteo } = useTicketDevolutionState();
 
   return (
@@ -17,7 +18,7 @@ const TicketCountList: React.FC = () => {
           <div className="info-sorteo__info">
             <div className="info-sorteo__info-row">
               <span className="info-sorteo__info-lbl">Agente</span>
-              <span className="info-sorteo__info-vlr">Azen</span>
+              <span className="info-sorteo__info-vlr">{agente}</span>
             </div>
             <div className="info-sorteo__info-row">
               <span className="info-sorteo__info-lbl">Sorteo</span>
@@ -26,7 +27,7 @@ const TicketCountList: React.FC = () => {
           </div>
         ) : (
           <div className="info-sorteo__info-row info-sorteo__no-lectura">
-            <EmptyResultMsgComponent/>
+            <EmptyResultMsgComponent />
           </div>
         )}
       </div>

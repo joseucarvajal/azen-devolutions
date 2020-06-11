@@ -24,22 +24,24 @@ import "./App.scss";
 
 /**Custom scss */
 
-
 import LongActionIndicatorProvider from "./providers/long-action-indicator/long-action-indicator.context";
 
 import AuthenticationProvider from "./providers/authentication/authentication.context";
 import SafeZone from "./SafeZone";
 import LongActionIndicator from "./components/long-action-indicator/long-action-indicator.component";
+import GlobalSetupProvider from "./providers/global-setup/global-setup.context";
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <LongActionIndicatorProvider>
-        <AuthenticationProvider>
-          <SafeZone />
-          <LongActionIndicator />
-        </AuthenticationProvider>
-      </LongActionIndicatorProvider>
+      <GlobalSetupProvider>
+        <LongActionIndicatorProvider>
+          <AuthenticationProvider>
+            <SafeZone />
+            <LongActionIndicator />
+          </AuthenticationProvider>
+        </LongActionIndicatorProvider>
+      </GlobalSetupProvider>
     </IonApp>
   );
 };

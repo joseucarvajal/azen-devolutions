@@ -31,12 +31,12 @@ import { useParams } from "react-router";
 import TicketsDevolutionMenu from "../menu/tickets-devolution-menu.component";
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketsEditor from "../../tickets-editor/tickets-editor/tickets-editor.component";
+import { useAuthenticationState } from "../../../providers/authentication/authentication.hooks";
 
 const TicketDevolutionMain: React.FC = () => {
   const { name } = useParams<{ name: string }>();
 
-  //TODO: replace with real agente value
-  const agente = "azen";
+  const { userName: agente } = useAuthenticationState();
 
   const {
     ticketDevolutionCounterReport,
@@ -66,14 +66,14 @@ const TicketDevolutionMain: React.FC = () => {
     setShowSendFileConfirm(false);
   };
 
-  const onResetCounter = (counter:number) => {
+  const onResetCounter = (counter: number) => {
     setCounterToReset(counter);
   };
 
   const onCancelResetCounter = () => {
     setCounterToReset(0);
   };
-  
+
   const onConfirmResetCounter = () => {
     resetCounter(counterToReset);
     setCounterToReset(0);
