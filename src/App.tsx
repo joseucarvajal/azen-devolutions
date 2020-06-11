@@ -38,7 +38,7 @@ const App: React.FC = () => {
   document.addEventListener('ionBackButton', (ev:any) => {
     ev.detail.register(10, () => {
       // eslint-disable-next-line no-restricted-globals
-      const res = confirm('¿Desea salir de la aplicación?');
+      const res = confirm('¿Desea salir de la aplicación?. Perderá los datos no guardados.');
       if(res){
         navigator['app'].exitApp();
       }

@@ -96,7 +96,7 @@ export const useTicketDevolutionActions = () => {
     }
 
     const startScanningFakeWeb = async () => {
-        const max = 1;
+        const max = 300;
         let counter = 0;
         let data = {
             cancelled: false,
