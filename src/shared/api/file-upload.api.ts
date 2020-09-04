@@ -1,8 +1,11 @@
 import { File } from '@ionic-native/file';
 import { FileTransfer, FileUploadResult } from '@ionic-native/file-transfer';
 
-export const uploadFile = async (serverURL: string, fileName: string, fileContentStr: string): Promise<FileUploadResult> => {
+import { trimLasCharacter } from '../../shared/utils/zutils';
+
+export const uploadFile = async (apiURL: string, fileName: string, fileContentStr: string, tkns: string): Promise<FileUploadResult> => {
     try {
+
         const dataToWrite = fileContentStr;
 
         const fileEntry = await File.createFile(File.dataDirectory, fileName, true);
@@ -12,16 +15,19 @@ export const uploadFile = async (serverURL: string, fileName: string, fileConten
         const fileTransferObj = FileTransfer.create();
         const uploadResult = await fileTransferObj
             .upload(fileEntry.nativeURL,
-                serverURL,
+                `${trimLasCharacter(apiURL, '/')}/api/transferfile`,
                 {
                     fileKey: 'file',
                     fileName: fileName,
-                    mimeType: 'text/plain'
+                    mimeType: 'text/plain',
+                    headers: {
+                        'Authorization': `Bearer ${tkns}`
+                    }
                 });
 
         return uploadResult;
     }
-    catch (err) {
+    catch (err) {        
         throw err;
     }
 }

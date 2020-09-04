@@ -45,3 +45,8 @@ export interface IStateContext<IState> {
 export interface IDispatchContext<IActionType> {
     dispatch: React.Dispatch<IActionType>;
 }
+
+export interface IAzenErrorInfo {
+    Title: string;
+    Errors: string[];
+}

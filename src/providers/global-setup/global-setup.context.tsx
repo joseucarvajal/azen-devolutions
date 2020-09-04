@@ -3,7 +3,7 @@ import { GlobalSetupState } from "./global-setup.types";
 import { globalSetupReducer } from "./global-setup.reducer";
 
 const initialState = {
-  apiBaseURL: "http://52.42.49.101:8080",
+  apiBaseURL: "http://52.42.49.101:8080/",
 } as GlobalSetupState;
 
 export const GlobalSetupDataContext = createContext(initialState);

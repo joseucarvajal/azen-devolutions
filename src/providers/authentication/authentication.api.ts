@@ -1,25 +1,37 @@
 import { ISetAuthenticationValues } from "./authentication-types";
+import { IAzenErrorInfo } from "../../shared/contracts/shared.contracts";
+import { trimLasCharacter } from '../../shared/utils/zutils';
 
-export const authenticateUser = async (authenticationData: ISetAuthenticationValues, apiURL:string) => {
-    try {
+import { getCipherText } from '../../shared/encryption/zcriptography';
 
-        console.log(`${apiURL}azen/Sesion?cmd=-3&buffer=<cm>LOGIN</cm><usr>${authenticationData.userName}</usr><vc>${authenticationData.password}</vc>&idApl=null&dominio=*`);
+/**
+ * @param authenticationData Authentication user data.
+ * @param apiURL base API URI
+ */
+export const authenticateUser = async (
+  authenticationData: ISetAuthenticationValues,
+  apiURL: string
+) => {
+  try {
+    const response = await fetch(`${trimLasCharacter(apiURL, '/')}/api/service/login`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+          userName: getCipherText(authenticationData.userName),
+          password: getCipherText(authenticationData.password),
+      }),
+    });
 
-        const response = await fetch(`${apiURL}/azen/Sesion?cmd=-3&buffer=<cm>LOGIN</cm><usr>${authenticationData.userName}</usr><vc>${authenticationData.password}</vc>&idApl=null&dominio=*`);
-        const responseText: string = await response.text();
-
-        const tknaStartIndx = responseText.indexOf('<tkna>');
-
-        if (tknaStartIndx === -1) {
-            const errorStartIndx = responseText.indexOf('<msj>');
-            const errorEndIndx = responseText.indexOf('</msj>');
-            throw new Error(responseText.substring(errorStartIndx, errorEndIndx));
-        }
-
-        const tknaEndIndx = responseText.indexOf('</tkna>');
-        return responseText.substring(tknaStartIndx + '<tkna>'.length, tknaEndIndx);
+    if(response.status === 401){
+        const errorInfo = await response.json() as IAzenErrorInfo;
+        throw new Error(errorInfo.Title);
     }
-    catch (err) {
-        throw err;
-    }
-}
+
+    return await response.text();
+
+  } catch (err) {
+    throw err;
+  }
+};

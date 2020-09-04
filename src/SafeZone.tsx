@@ -10,12 +10,12 @@ import AuthenticationPage from "./pages/authentication/authentication.page";
 import { useAuthenticationState } from "./providers/authentication/authentication.hooks";
 
 const SafeZone: React.FC = () => {
-
   const { user } = useAuthenticationState();
 
   return (
     <IonReactRouter>
-      {user || isPlatform('mobileweb') ? (
+      {/* {user ? ( */}
+      {user || isPlatform("mobileweb") ? (
         <>
           <Menu />
           <IonSplitPane contentId="main">
@@ -25,10 +25,7 @@ const SafeZone: React.FC = () => {
                 component={TicketDevolutionPage}
                 exact
               />
-              <Redirect
-                from="/"
-                to="/ticket-devolution/Devolución"
-              />
+              <Redirect from="/" to="/ticket-devolution/Devolución" />
             </IonRouterOutlet>
           </IonSplitPane>
         </>

@@ -15,10 +15,18 @@ const LongActionIndicator: React.FC = () => {
       status,
       messagePosition,
     },
-    actions:{
-      hideMessage
-    }
+    actions: { hideMessage },
   } = useLongActionIndicator();
+
+  const errorMsgIndx =
+    resultMessage.indexOf("error") +
+    resultMessage.indexOf("ERROR") +
+    resultMessage.indexOf("Error");
+
+  let errorMsg = "";
+  if (errorMsgIndx  === -3) {
+    errorMsg = "ERROR: ";
+  }
 
   return (
     <>
@@ -26,7 +34,9 @@ const LongActionIndicator: React.FC = () => {
 
       <IonToast
         isOpen={resultMessage.length > 0}
-        message={status === "error" ? `ERROR: ${resultMessage}` : resultMessage}
+        message={
+          status === "error" ? `${errorMsg} ${resultMessage}` : resultMessage
+        }
         duration={5000}
         position={messagePosition}
         color={status === "error" ? "danger" : "success"}

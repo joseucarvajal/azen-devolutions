@@ -30,8 +30,8 @@ export const useAuthenticationActions = (): IUseAuthenticationActions => {
     const authenticateUser = async (payload: ISetAuthenticationValues) => {
         try {
             showLoading();
-            const tkna = await authenticateUserService(payload, apiBaseURL);
-            setUserToken(tkna);            
+            const tkns = await authenticateUserService(payload, apiBaseURL);
+            setUserToken(tkns);            
             hideLoading();
         }
         catch (err) {

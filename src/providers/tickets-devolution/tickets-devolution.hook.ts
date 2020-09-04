@@ -30,6 +30,7 @@ import { uploadFile } from "../../shared/api/file-upload.api";
 import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { useGlobalSetupState } from "../global-setup/global-setup.hooks";
+import { useAuthentication } from "../authentication/authentication.hooks";
 
 export const useTicketDevolutionState = (): ITicketsDevolutionState => {
     return useContextValue<ITicketsDevolutionState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
@@ -48,6 +49,8 @@ export interface ITicketDevolutionActions {
 }
 
 export const useTicketDevolutionActions = () => {
+
+     const [ {user} ] = useAuthentication();
 
     const dispatch = useContext(TicketsDevolutionDispatchContext);
     const { showLoading, showErrorMessage, showSuccessMessage } = useLongActionIndicatorActions();
@@ -96,7 +99,7 @@ export const useTicketDevolutionActions = () => {
     }
 
     const startScanningFakeWeb = async () => {
-        const max = 300;
+        const max = 1;
         let counter = 0;
         let data = {
             cancelled: false,
@@ -165,13 +168,15 @@ export const useTicketDevolutionActions = () => {
             if (isPlatform("mobileweb")) {
                 console.log(dataToWrite);
             }
+
             const uploadResult = await uploadFile(
-                `${apiBaseURL}/azenupl/FileUploadServlet`,
+                `${apiBaseURL}`,
                 fileName,
-                dataToWrite
+                dataToWrite,
+                user.tkna
             );
 
-            if (uploadResult.responseCode === 201 && uploadResult.response.toString() === '1') {
+            if (uploadResult.responseCode === 201 && uploadResult.response.toString().length > 0) {
                 showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" enviado con éxito`);
                 resetState();
             }

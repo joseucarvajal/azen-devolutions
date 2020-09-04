@@ -9,7 +9,7 @@ import { Context } from "react";
 import { isPlatform } from "@ionic/react";
 
 const initialState = {
-  userName: isPlatform('mobileweb') ? 'novalid' : '',
+  userName: '',
   password: '',
 } as IAuthenticationState;
 export const AuthenticationStateContext = createContext(initialState);
