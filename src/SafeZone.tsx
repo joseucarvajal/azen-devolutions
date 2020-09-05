@@ -14,8 +14,8 @@ const SafeZone: React.FC = () => {
 
   return (
     <IonReactRouter>
-      {/* {user ? ( */}
-      {user || isPlatform("mobileweb") ? (
+      {/* {user || isPlatform("mobileweb") ? ( */}
+      {user ? ( 
         <>
           <Menu />
           <IonSplitPane contentId="main">

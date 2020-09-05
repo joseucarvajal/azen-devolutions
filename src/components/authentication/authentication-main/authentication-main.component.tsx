@@ -4,9 +4,10 @@ import azenLogo from "../../../assets/img/azen-logo.jpg";
 
 import "./authentication-main.style.scss";
 
-import { IonContent, IonPage, IonIcon, IonButton } from "@ionic/react";
+import { IonContent, IonPage, IonIcon, IonButton, IonHeader, IonToolbar, IonButtons } from "@ionic/react";
 import { personOutline, keyOutline } from "ionicons/icons";
 import { useAuthentication } from "../../../providers/authentication/authentication.hooks";
+import GlobalSetupForm from "../../global-setup/globa-setup-form/global-setup-form";
 
 const AuthenticationMain: React.FC = () => {
 
@@ -36,6 +37,13 @@ const AuthenticationMain: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="end">
+            <GlobalSetupForm/>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
         <div className="auth">
           <h1 className="azn-heading-1 auth__heading">Azen devoluciones</h1>

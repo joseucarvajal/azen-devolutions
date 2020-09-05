@@ -1,22 +1,36 @@
-import React, { createContext, useReducer } from "react";
-import { GlobalSetupState } from "./global-setup.types";
+import React, { createContext, useReducer, Dispatch, useEffect, useState } from "react";
+import { GlobalSetupState, GlobalSetupActionType, INITIALIZE_STATE } from "./global-setup.types";
 import { globalSetupReducer } from "./global-setup.reducer";
+import { NativeStorage } from "@ionic-native/native-storage";
 
-const initialState = {
-  apiBaseURL: "http://52.42.49.101:8080/",
-} as GlobalSetupState;
 
-export const GlobalSetupDataContext = createContext(initialState);
 
-const GlobalSetupProvider: React.FC = ({children}) => {
+export const GlobalSetupDataContext = createContext<GlobalSetupState>({} as GlobalSetupState);
 
-  const [state] = useReducer(globalSetupReducer, initialState);
+export const GlobalSetupActionsContext = createContext<
+Dispatch<GlobalSetupActionType>
+>(() => {});
+
+const GlobalSetupProvider: React.FC = ({ children }) => {
+  
+  const [state, dispatch] = useReducer(globalSetupReducer, {} as GlobalSetupState);
+  
+  useEffect(()=>{
+    (async ()=>{
+      const initialStateFromStorage = await NativeStorage.getItem('GlobalSetupState');
+      dispatch({
+        type: INITIALIZE_STATE,
+        state: initialStateFromStorage ?? {}
+      });
+    })();
+  }, []);
+  
 
   return (
-    <GlobalSetupDataContext.Provider
-      value={state}
-    >
+    <GlobalSetupDataContext.Provider value={state}>
+      <GlobalSetupActionsContext.Provider value={dispatch}>
         {children}
+      </GlobalSetupActionsContext.Provider>
     </GlobalSetupDataContext.Provider>
   );
 };

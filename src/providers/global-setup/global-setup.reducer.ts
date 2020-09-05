@@ -1,7 +1,8 @@
 import {
     GlobalSetupState,
     GlobalSetupActionType,
-    SET_API_URL
+    SET_API_URL,
+    INITIALIZE_STATE
 } from "./global-setup.types";
 
 export const globalSetupReducer = (state: GlobalSetupState, action: GlobalSetupActionType): GlobalSetupState => {
@@ -12,6 +13,9 @@ export const globalSetupReducer = (state: GlobalSetupState, action: GlobalSetupA
                 ...state,
                 apiBaseURL: action.value
             };
+
+        case INITIALIZE_STATE:
+            return action.state;
 
         default:
             return state;
