@@ -36,6 +36,6 @@ export const authenticateUser = async (
 
     return await response.text();
   } catch (err) {
-    throw err;
+    throw new Error('Por favor verifique la disponibilidad y dirección del servicio');
   }
 };
