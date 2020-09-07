@@ -1,7 +1,7 @@
-import { ITicket, ITicketsDevolutionState, ITicketDevolutionReport } from "./tickets-devolution.types";
-import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "./tickets-devolution.utils";
+import { ITicket, ITicketsDevolutionState, ITicketDevolutionReport } from "../tickets-devolution.types";
+import { padLeft, getTicketFromCode, getTicketCounterReport, getSorteoFromCode, getLoteriaFromCode, getFileReportStr } from "../tickets-devolution.utils";
 
-import { initialState } from "./tickets-devolution.context";
+import { initialState } from "../tickets-devolution.context";
 
 describe('Utils tests', () => {
 

@@ -109,6 +109,11 @@ export interface ITicketDevolutionReport {
     ticketsTotalCount: number;
 }
 
+export interface IDevolutionEntity {
+    sorteo:string;
+    agente: string;
+    archivoDevol: string;
+}
 
 export type OptionMenu = 'VER_NUMERACION' | 'DIGITAR_CODIGO' | "TOGGLE_LECTURA_FRACCION" | undefined ;
 

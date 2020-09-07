@@ -1,7 +1,7 @@
-import { ITicketsDevolutionState, ITicket, ADD_LOTTERY_TICKET } from "./tickets-devolution.types";
+import { ITicketsDevolutionState, ITicket, ADD_LOTTERY_TICKET } from "../tickets-devolution.types";
 
-import { reducer } from "./tickets-devolution.reducer";
-import { initialState } from "./tickets-devolution.context";
+import { reducer } from "../tickets-devolution.reducer";
+import { initialState } from "../tickets-devolution.context";
 
 describe('Add tickets', () => {
 
@@ -166,6 +166,7 @@ describe('Add tickets', () => {
 });
 
 const _empty_initial_state = {
+    leerXFracciones: false,
     codigoLoteria: '',
     sorteo: '',
     ticketsCounter: 0,

@@ -23,7 +23,8 @@ import {
     UPDATE_TICKET_CANTIDAD,
     REMOVE_TICKET,
     RESET_COUNTER,
-    SET_LEERXFRACCIONES
+    SET_LEERXFRACCIONES,
+    IDevolutionEntity
 } from "./tickets-devolution.types";
 
 import { uploadFile } from "../../shared/api/file-upload.api";
@@ -31,6 +32,7 @@ import { useTicketDevolutionReport } from "./tickets-devolution.report.hooks";
 import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { useGlobalSetupState } from "../global-setup/global-setup.hooks";
 import { useAuthentication } from "../authentication/authentication.hooks";
+import { saveTicketDevolutionEntity } from "./tickets-devolution.api";
 
 export const useTicketDevolutionState = (): ITicketsDevolutionState => {
     return useContextValue<ITicketsDevolutionState>('TicketsDevolutionStateContext', TicketsDevolutionStateContext)
@@ -177,6 +179,15 @@ export const useTicketDevolutionActions = () => {
             );
 
             if (uploadResult.responseCode === 201 && uploadResult.response.toString().length > 0) {
+
+                const devolutionEntity = { 
+                    agente: agente,
+                    sorteo: state.sorteo,
+                    archivoDevol: fileName
+                } as IDevolutionEntity;
+
+                saveTicketDevolutionEntity(devolutionEntity, apiBaseURL, user.tkna);
+
                 showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" enviado con éxito`);
                 resetState();
             }
