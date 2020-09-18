@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
 
+import {
+  List,
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+} from "react-virtualized";
+
 import "./ticket-detail-list.style.scss";
 import { ITicket } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import TicketDetail from "../ticket-detail/ticket-detail.component";
@@ -12,11 +19,16 @@ interface IProps {
 }
 
 const TicketDetailList: React.FC<IProps> = (props) => {
+  const { ticketsCollection } = useTicketDevolutionState();
   const { ticketList } = props;
-
   const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
 
-  const { ticketsCollection } = useTicketDevolutionState();
+  const virtualizedCache = React.useRef(
+    new CellMeasurerCache({
+      fixedWidth: true,
+      defaultHeight: 100,
+    })
+  );
 
   useEffect(() => {
     if (selectedTicket) {
@@ -31,26 +43,56 @@ const TicketDetailList: React.FC<IProps> = (props) => {
         <span>Seleccione un número para modificarlo</span>
       </Tip>
 
-      {ticketList.map((ticket) => (
-        <div
-          className="ticket-detail-ticket"
-          key={ticket.codigo}
-          onClick={() => {
-            setSelectedTicket(ticket);
-          }}
-        >
-          <TicketDetail ticket={ticket} showRadio={true} />
-        </div>
-      ))}
+      <div style={{ height: "100vh" }}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              width={width}
+              height={height}
+              rowHeight={virtualizedCache.current.rowHeight}
+              deferredMeasurementCache={virtualizedCache.current}
+              rowCount={ticketList.length}
+              rowRenderer={({ key, index, style, parent }) => {
+                const ticket = ticketList[index];
+                return (
+                  <CellMeasurer
+                    key={key}
+                    cache={virtualizedCache.current}
+                    parent={parent}
+                    columnIndex={0}
+                    rowIndex={index}
+                  >
+                    <div style={style}>
+                      <div
+                        className="ticket-detail-ticket"
+                        key={ticket.codigo}
+                        onClick={() => {
+                          setSelectedTicket(ticket);
+                        }}
+                      >
+                        <TicketDetail ticket={ticket} showRadio={true} />
+                      </div>
+                    </div>
+                  </CellMeasurer>
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
+      </div>
+
       {selectedTicket && (
         <EditTicket
           ticket={selectedTicket}
-          onHide={(forceHide:boolean) => {
-            if(forceHide){
+          onHide={(forceHide: boolean) => {
+            if (forceHide) {
               setSelectedTicket(null);
-            }
-            else if (ticketsCollection.byId[selectedTicket.codigo]) {
-              if(ticketList?.length > 0 && ticketList[0].codigo === ticketsCollection.byId[selectedTicket.codigo].codigo){
+            } else if (ticketsCollection.byId[selectedTicket.codigo]) {
+              if (
+                ticketList?.length > 0 &&
+                ticketList[0].codigo ===
+                  ticketsCollection.byId[selectedTicket.codigo].codigo
+              ) {
                 return;
               }
               setSelectedTicket(null);

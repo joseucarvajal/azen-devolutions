@@ -18,7 +18,7 @@ const TicketDetail: React.FC<IProps> = ({ ticket, showRadio }) => {
         </div>
       )}
       <div className="ticket-detail__serie">
-        <span className="ticket-detail__serie-lbl">Serie</span>
+      <span className="ticket-detail__serie-lbl">Serie {ticket.readingOrder}</span>
         <NumberWord
           number={ticket.serie}
           digitValueStyle={{

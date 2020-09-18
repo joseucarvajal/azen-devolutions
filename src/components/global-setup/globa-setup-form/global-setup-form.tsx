@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { IonButton, IonIcon, IonAlert } from "@ionic/react";
-import { ellipsisVerticalOutline } from "ionicons/icons";
+import { settingsSharp } from "ionicons/icons";
 import { useGlobalSetup } from "../../../providers/global-setup/global-setup.hooks";
 
 const GlobalSetupForm: React.FC = () => {
@@ -17,7 +17,7 @@ const GlobalSetupForm: React.FC = () => {
   return (
     <>
       <IonButton onClick={toogleShowForm}>
-        <IonIcon icon={ellipsisVerticalOutline} />
+        <IonIcon icon={settingsSharp} />
         <span className="pop-over-btn">Configuración</span>
       </IonButton>
 

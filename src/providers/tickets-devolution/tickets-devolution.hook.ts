@@ -101,7 +101,7 @@ export const useTicketDevolutionActions = () => {
     }
 
     const startScanningFakeWeb = async () => {
-        const max = 1;
+        const max = 20;
         let counter = 0;
         let data = {
             cancelled: false,
@@ -127,7 +127,7 @@ export const useTicketDevolutionActions = () => {
                     cancelled: counter === max,
                     text: codigo
                 })
-            }, 300);
+            }, 0);
         });
     }
 
