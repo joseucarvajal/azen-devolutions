@@ -48,5 +48,12 @@ export interface IDispatchContext<IActionType> {
 
 export interface IAzenErrorInfo {
     Title: string;
-    Errors: string[];
+    Errors: string[];    
+}
+
+export interface ZServiceResponse {
+    type: string;
+    data: object;
+    title: string;
+    errors: Map<string, string[]>;
 }

@@ -186,10 +186,12 @@ export const useTicketDevolutionActions = () => {
                     archivoDevol: fileName
                 } as IDevolutionEntity;
 
-                saveTicketDevolutionEntity(devolutionEntity, apiBaseURL, user.tkna);
+                const zservicesResponse = await saveTicketDevolutionEntity(devolutionEntity, apiBaseURL, user.tkna);
+                alert(zservicesResponse.data);
 
-                showSuccessMessage(`Archivo devolución "${fileName.replace('.txt', '')}" enviado con éxito`);
                 resetState();
+
+                showSuccessMessage('Operación realizada con éxito');
             }
             else {
                 showErrorMessage(JSON.stringify(uploadResult.response));

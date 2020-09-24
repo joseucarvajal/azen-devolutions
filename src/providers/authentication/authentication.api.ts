@@ -27,15 +27,19 @@ export const authenticateUser = async (
       }
     );
 
-    if (response.status === 401) {
+    if (response.status !== 200) {
       const errorInfo = (await response.json()) as IAzenErrorInfo;
-      throw new Error(errorInfo.Title);
-    } else if (response.status !== 200) {
-      throw new Error("Por favor verifique la dirección del servicio");
+      const err = new Error();
+      err.name = 'error de acceso';
+      err.message = errorInfo.Title;
+      throw err;
     }
 
     return await response.text();
   } catch (err) {
+    if(err.name === 'error de acceso'){
+      throw err;
+    }
     throw new Error('Por favor verifique la disponibilidad y dirección del servicio');
   }
 };

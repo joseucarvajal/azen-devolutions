@@ -28,6 +28,7 @@
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-nativestorage": "^2.3.2",
     "crypto-js": "^4.0.0",
+    "i": "^0.3.6",
     "ionicons": "^5.0.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "react": "^16.13.0",
