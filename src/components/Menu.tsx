@@ -26,7 +26,7 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: "Devoluciones",
+    title: "Devoluciones v1.0",
     url: "/ticket-devolution/Inbox",
     iosIcon: arrowUndo,
     mdIcon: arrowUndo,
@@ -55,7 +55,7 @@ const Menu: React.FC = () => {
                   detail={false}
                 >
                   <IonIcon slot="start" icon={appPage.iosIcon} />
-                  <IonLabel>{appPage.title} 1 </IonLabel>
+                  <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );

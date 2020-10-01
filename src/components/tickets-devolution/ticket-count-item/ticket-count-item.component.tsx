@@ -35,7 +35,7 @@ const TicketCountItem: React.FC<Props> = ({
           <div className="ticket-count-item__lbl">
             <div>
               <span className="azn-bolder-1">{ticketsCount}</span>
-              &nbsp;billetes
+              &nbsp;lecturas
             </div>
             <span>-</span>
             <div>

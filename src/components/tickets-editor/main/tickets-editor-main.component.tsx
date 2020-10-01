@@ -43,7 +43,7 @@ const TicketsEditorMain: React.FC<IProps> = ({ hide, counterToEdit }) => {
           <IonTitle slot="end">
             <span className="ver-num__title">
               {counterToEdit
-                ? `Billetes ${counterToEdit} fracciones`
+                ? `Lecturas de ${counterToEdit} fracciones`
                 : "Listado numeración"}
             </span>
           </IonTitle>

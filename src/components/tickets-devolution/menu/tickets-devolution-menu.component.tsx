@@ -17,6 +17,8 @@ import {
   businessOutline,
   ellipsisVerticalOutline,
   barcodeOutline,
+  calculatorOutline,
+  calculatorSharp,
 } from "ionicons/icons";
 
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
@@ -56,8 +58,8 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
 
     if (ticketDevolutionCounterReport.ticketsTotalCount) {
       menuOpts.unshift({
-        icon: businessOutline,
-        label: "Ver numeración",
+        icon: calculatorSharp,
+        label: "Revisar numeración",
         option: "VER_NUMERACION",
       });
     }

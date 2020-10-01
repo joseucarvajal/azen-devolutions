@@ -27,11 +27,14 @@ export const saveTicketDevolutionEntity = async (
 
     if (response.status !== 200) {
 
-      const errorInfo = await response.json() as IAzenErrorInfo;
+      const errorInfoGral = await response.json();
+      alert(JSON.stringify(errorInfoGral));
+
+      const errorInfo = errorInfoGral as IAzenErrorInfo;
       if(errorInfo){
         throw new Error(errorInfo.Title);
       }
-      
+            
       throw new Error("Por favor verifique la dirección del servicio");
     }
     
@@ -41,6 +44,7 @@ export const saveTicketDevolutionEntity = async (
     return zresponse;
     
   } catch (err) {
+    alert(`Error no identificado\n${JSON.stringify(err)}`);
     throw err;
   }
 };

@@ -13,13 +13,13 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
 
     switch (action.type) {
         case ADD_LOTTERY_TICKET: //It receives the entire ticket code
-
+        
             if (!action.codigo || action.codigo.length !== 20) {
                 return state;
             }
 
             let ticketsCounter = state.ticketsCounter;
-            const newTicket = buildTicketFromCode(action.codigo, ticketsCounter, state.leerXFracciones);
+            const newTicket = buildTicketFromCode(action.codigo, ticketsCounter, state.leerXFracciones);            
 
             let existingTicketToRemoveFromCounterIndex = -1;
             let existingFractionTickets: string[] = [];
@@ -90,7 +90,7 @@ export const reducer = (state: ITicketsDevolutionState, action: ActionType): ITi
                             },
                         }
                         : //Counter doesn't exist
-                        existingTicket
+                        existingTicket && !state.leerXFracciones
                             ? //Ticket already exists
                             {
                                 ...state.ticketsCounterCollection.byId,

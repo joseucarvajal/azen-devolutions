@@ -33,6 +33,8 @@ const TicketCountList: React.FC<IProps> = ({
             : 0;
 
         return (
+          totalFracciones > 0 
+          ?
           <TicketCountItem
             key={counterCodigo}
             ticketCountObj={currentTicketCounter}
@@ -40,6 +42,7 @@ const TicketCountList: React.FC<IProps> = ({
             onCounterRevisar={onCounterRevisar}
             onCounterReiniciar={onCounterReiniciar}
           />
+          : null
         );
       })}
     </div>
