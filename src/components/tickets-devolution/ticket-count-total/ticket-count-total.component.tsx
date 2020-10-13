@@ -10,19 +10,19 @@ const TicketCountTotal: React.FC = () => {
   return (
     <div className="tickets-count-total">
       <div className="ticket-count__frac">
-        <span>Total fracciones:</span>
-        <span className="tickets-count-total__vlr">
-          {ticketDevolutionCounterReport
-            ? ticketDevolutionCounterReport.fractionsTotalCount
-            : 0}
-        </span>
-      </div>
-      <div className="ticket-count__ticket">
         <span>Total lecturas:</span>
         <span className="tickets-count-total__vlr">
           {ticketDevolutionCounterReport
             ? ticketDevolutionCounterReport.ticketsTotalCount
-            : 0}
+            : 0}          
+        </span>
+      </div>
+      <div className="ticket-count__ticket">
+        <span>Total fracciones:</span>
+        <span className="tickets-count-total__vlr">
+          {ticketDevolutionCounterReport
+            ? ticketDevolutionCounterReport.fractionsTotalCount
+            : 0}            
         </span>
       </div>
     </div>

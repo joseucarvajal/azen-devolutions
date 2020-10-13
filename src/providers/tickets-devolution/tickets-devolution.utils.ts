@@ -14,8 +14,8 @@ export const getTicketFromCode = (codigo: string, readingOrder: number, leerXFra
 
     const fraccion = codigo.substr(18, 2);
 
-    return {
-        codigo: codigo.substr(0, codigo.length - 2),
+    return {        
+        codigo: leerXFracciones ? codigo : codigo.substr(0, codigo.length - 2),
         numero: codigo.substr(11, 4),
         serie: codigo.substr(15, 3),
         fraccion: fraccion,

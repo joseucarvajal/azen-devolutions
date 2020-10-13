@@ -8,7 +8,7 @@ import { useAuthenticationState } from "../../../providers/authentication/authen
 
 const TicketCountList: React.FC = () => {
   const { userName: agente } = useAuthenticationState();
-  const { sorteo } = useTicketDevolutionState();
+  const { sorteo, leerXFracciones } = useTicketDevolutionState();
 
   return (
     <>
@@ -18,7 +18,7 @@ const TicketCountList: React.FC = () => {
           <div className="info-sorteo__info">
             <div className="info-sorteo__info-row">
               <span className="info-sorteo__info-lbl">Agente</span>
-              <span className="info-sorteo__info-vlr">{agente}</span>
+              <span className="info-sorteo__info-vlr">{agente} - Lectura por <b><u>{leerXFracciones ? 'Fracciones' : 'Billetes'}</u></b></span>
             </div>
             <div className="info-sorteo__info-row">
               <span className="info-sorteo__info-lbl">Sorteo</span>

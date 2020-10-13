@@ -7,6 +7,7 @@ export const saveTicketDevolutionEntity = async (
     apiURL: string,
     tkns:string
 ):  Promise<ZServiceResponse> => {
+  let errorShown = false;
   try {
 
     let devEntity = devolutionEntity as any;
@@ -28,7 +29,12 @@ export const saveTicketDevolutionEntity = async (
     if (response.status !== 200) {
 
       const errorInfoGral = await response.json();
-      alert(JSON.stringify(errorInfoGral));
+
+      setTimeout(() => {        
+        alert(JSON.stringify(errorInfoGral));
+      }, 1700);
+
+      errorShown = true;
 
       const errorInfo = errorInfoGral as IAzenErrorInfo;
       if(errorInfo){
@@ -44,7 +50,9 @@ export const saveTicketDevolutionEntity = async (
     return zresponse;
     
   } catch (err) {
-    alert(`Error no identificado\n${JSON.stringify(err)}`);
+    if(!errorShown){      
+      alert(`Error no identificado\n${JSON.stringify(err)}`);
+    }
     throw err;
   }
 };

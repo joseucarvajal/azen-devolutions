@@ -113,8 +113,20 @@ export const useTicketDevolutionActions = () => {
     }
   };
 
+  const fraction_1 = [
+    '90150004640624007003', '90150004640624007001',
+    '90150004640634007002', '90150004640624123003', '90150004640624007003',
+    '90150004640624008003'];
+
+  const fraction_N = [
+    '90150004640624007003', '90150004640624007001',
+    '90150004640624007002', '90150004640624123003', '90150004640624007003',
+    '90150004640624008003'];
+  
+  const input = fraction_N;
+
   const startScanningFakeWeb = async () => {
-    const max = 10;
+    const max = input.length;
     let counter = 0;
     let data = {
       cancelled: false,
@@ -122,15 +134,12 @@ export const useTicketDevolutionActions = () => {
     };
     while (!data.cancelled) {
       data = await produceScanFakeNumber(max, counter);
-      if (!data.cancelled) {
-        if (data.text !== "x") {
-          console.log("data: " + data.text);
-          addTicket(data.text);
-          counter++;
-        }
+      if (!data.cancelled) {                
+        addTicket(data.text);
+        counter++;        
       }
     }
-  };
+  };  
 
   const produceScanFakeNumber = (
     max: number,
@@ -151,38 +160,30 @@ export const useTicketDevolutionActions = () => {
           });
           return;
         }
-        */
+        */        
 
-        
-        //Reading by fractions
-        if (counter === 0) {
-          console.log("one");
-          resolve({
-            cancelled: counter === max,
-            text: "90150004640624007001",
-          });
-          return;
-        } else if (counter === 1) {
-          console.log("two");
-          resolve({
-            cancelled: counter === max,
-            text: "90150004640624007003",
-          });
-          return;
-        } else {
+        if(counter === max){
           resolve({
             cancelled: true,
-            text: '',
-          });
+            text: input[counter],
+           });  
+           return;
         }
-        
 
+        console.log('lectura (' + counter + '): ', input[counter]);
+       resolve({
+        cancelled: false,
+        text: input[counter],
+       });                
+
+       /*
         const codigo = `90150004640${nro}${serie}${fraccion}`;
         clearTimeout(timer);
         resolve({
           cancelled: counter === max - 1,
           text: codigo,
         });
+        */
       }, 100);
     });
   };
@@ -260,7 +261,7 @@ export const useTicketDevolutionActions = () => {
         showErrorMessage(JSON.stringify(uploadResult.response));
       }
     } catch (err) {
-      showErrorMessage(err.toString());
+      showErrorMessage(JSON.stringify(err));
     }
   };
 
@@ -307,7 +308,7 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
 
   useEffect(() => {
 
-    console.log({state});
+    //console.log({state});
 
     if (readingInProgress === true) {
       return;

@@ -34,6 +34,11 @@ export interface ITicket {
      * Scanning order
      */
     readingOrder: number;
+
+    /**
+     * Fractions values when various fractions are read from the same ticket
+     */
+    fracciones: string[];
 }
 
 
