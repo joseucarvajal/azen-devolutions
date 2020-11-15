@@ -1,2 +1,19 @@
 /**Custom scss */
 @import "../src/sass/main";
+
+.alert-button-inner {
+    color: white;
+    background-color: var(--azn-font-color-s);
+    padding: 0.3rem;
+    border-radius: 0.4rem;
+}
+
+.bg-class {
+    --background: linear-gradient(
+        197deg,
+        rgba(100, 100, 100, 1) 0%,
+        rgba(63, 63, 63, 1) 13.5%,
+        rgba(29, 29, 29, 1) 33.33%,
+        rgba(0, 0, 0, 1) 100%
+    ) !important;
+}

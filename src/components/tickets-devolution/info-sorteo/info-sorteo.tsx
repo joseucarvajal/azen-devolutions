@@ -13,7 +13,7 @@ const TicketCountList: React.FC = () => {
   return (
     <>
       <div className="info-sorteo">
-        <div className="info-sorteo__header">Información sorteo</div>
+        <div className="info-sorteo__header">Información del sorteo</div>
         {sorteo ? (
           <div className="info-sorteo__info">
             <div className="info-sorteo__info-row">

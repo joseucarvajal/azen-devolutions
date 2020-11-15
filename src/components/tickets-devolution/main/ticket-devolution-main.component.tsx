@@ -118,7 +118,7 @@ const TicketDevolutionMain: React.FC = () => {
             {ticketDevolutionCounterReport?.fractionsTotalCount > 0 ? (
               <div className="send-devolution">
                 <IonButton
-                  color="secondary"
+                  color="tertiary"
                   size="small"
                   className="azn-button-capitalize send-devolution__btn"
                   onClick={onSendReportFile}

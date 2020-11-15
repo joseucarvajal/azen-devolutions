@@ -1,33 +1,38 @@
 import React, { FormEvent } from "react";
 
-import azenLogo from "../../../assets/img/azen-logo.jpg";
+import logoMicrocupos from "../../../assets/img/logo.png";
+import logoLoteria from "../../../assets/img/logos-login.png";
 
 import "./authentication-main.style.scss";
 
-import { IonContent, IonPage, IonIcon, IonButton, IonHeader, IonToolbar, IonButtons } from "@ionic/react";
+import {
+  IonContent,
+  IonPage,
+  IonIcon,
+  IonButton,
+} from "@ionic/react";
 import { personOutline, keyOutline } from "ionicons/icons";
 import { useAuthentication } from "../../../providers/authentication/authentication.hooks";
 import GlobalSetupForm from "../../global-setup/globa-setup-form/global-setup-form";
 
 const AuthenticationMain: React.FC = () => {
-
   const [
     { userName, password },
-    { setAuthenticationValues, authenticateUser }
+    { setAuthenticationValues, authenticateUser },
   ] = useAuthentication();
 
   const onUserNameChange = (e: FormEvent<HTMLInputElement>) => {
     setAuthenticationValues({
       userName: e.currentTarget.value,
-      password: password
+      password: password,
     });
   };
 
   const onPasswordChange = (e: FormEvent<HTMLInputElement>) => {
     setAuthenticationValues({
       userName: userName,
-      password: e.currentTarget.value
-    });    
+      password: e.currentTarget.value,
+    });
   };
 
   const onAuthSubmit = (e: FormEvent<HTMLElement>) => {
@@ -37,16 +42,13 @@ const AuthenticationMain: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="end">
-            <GlobalSetupForm/>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
       <IonContent>
         <div className="auth">
-          <h1 className="azn-heading-1 auth__heading">Azen devoluciones</h1>
+          <GlobalSetupForm />
+
+          <div className="auth__heading">
+            <img className="auth__heading-img" src={logoMicrocupos} />
+          </div>
 
           <div className="auth__box">
             <div className="auth__box-header">Datos de ingreso</div>
@@ -85,22 +87,26 @@ const AuthenticationMain: React.FC = () => {
               </div>
               <div className="auth__box-form-row auth__box-send-btn">
                 <IonButton
-                  color="secondary"
+                  color="primary"
                   type="submit"
                   size="small"
-                  className="azn-button-capitalize send-devolution__btn"
+                  className="azn-button-capitalize bg-class"
                 >
-                  Ingresar
+                  Ingreso
                 </IonButton>
               </div>
             </form>
           </div>
 
-          <img
-            src={azenLogo}
-            alt="Logo Azen consultoría en sistemas"
+          <div
             className="auth__logo"
-          />
+          >
+            <img
+              src={logoLoteria}
+              alt="Logo Azen consultoría en sistemas"
+              className="auth__logo-img"
+            />
+          </div>
         </div>
       </IonContent>
     </IonPage>

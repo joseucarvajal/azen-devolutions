@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 
-import { IonButton, IonIcon, IonAlert } from "@ionic/react";
+import {
+  IonButton,
+  IonIcon,
+  IonAlert,
+  IonFab,
+  IonFabButton,
+} from "@ionic/react";
 import { settingsSharp } from "ionicons/icons";
 import { useGlobalSetup } from "../../../providers/global-setup/global-setup.hooks";
 
 const GlobalSetupForm: React.FC = () => {
-
-  const [{apiBaseURL}, {setApiBaseURL} ] = useGlobalSetup();
+  const [{ apiBaseURL }, { setApiBaseURL }] = useGlobalSetup();
 
   const [showForm, setShowForm] = useState(false);
 
@@ -16,10 +21,16 @@ const GlobalSetupForm: React.FC = () => {
 
   return (
     <>
-      <IonButton onClick={toogleShowForm}>
-        <IonIcon icon={settingsSharp} />
-        <span className="pop-over-btn">Configuración</span>
-      </IonButton>
+      <IonFab
+        vertical="top"
+        horizontal="end"
+        slot="fixed"
+        onClick={toogleShowForm}
+      >
+        <IonFabButton>
+          <IonIcon icon={settingsSharp} />
+        </IonFabButton>
+      </IonFab>
 
       <IonAlert
         isOpen={showForm}
@@ -28,7 +39,7 @@ const GlobalSetupForm: React.FC = () => {
           {
             name: "apiURL",
             type: "text",
-            value: apiBaseURL,          
+            value: apiBaseURL,
             placeholder: "Escriba la dirección aquí",
           },
         ]}
@@ -37,6 +48,7 @@ const GlobalSetupForm: React.FC = () => {
             text: "Cancelar",
             role: "cancel",
             handler: toogleShowForm,
+            cssClass: 'azn-label-btn'            
           },
           {
             text: "Guardar",

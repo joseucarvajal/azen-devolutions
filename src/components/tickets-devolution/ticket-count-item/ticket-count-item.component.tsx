@@ -50,7 +50,7 @@ const TicketCountItem: React.FC<Props> = ({
         )}
         <div className="ticket-count-item__actions">
           <IonButton
-            color="secondary"
+            color="tertiary"
             size="small"
             className="azn-button-capitalize ticket-count-item__btn"
             disabled={fractionsCount === 0}
@@ -61,7 +61,7 @@ const TicketCountItem: React.FC<Props> = ({
             Revisar
           </IonButton>
           <IonButton
-            color="secondary"
+            color="tertiary"
             size="small"
             className="azn-button-capitalize ticket-count-item__btn"
             style={{ color: "white" }}
