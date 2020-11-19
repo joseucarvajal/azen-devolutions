@@ -30,7 +30,6 @@ const DigitWord: React.FC<IProps> = ({ digit, digitValueStyle, displayNumeroText
   return (
     <div className="digit" style={digitStyle}>
       <span className="digit__value" style={digitValueStyle}>{digit}</span>
-      {displayNumeroText && <span className={digitClass}>{digitWords[+digit]}</span>}      
     </div>
   );
 };

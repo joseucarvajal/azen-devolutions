@@ -1,17 +1,11 @@
-
 .footer-info {
-
-    display: flex;
-    align-items: flex-end;
+    display: flex;    
     align-items: center;
-    color: #343334;
-    padding: .2rem .5rem .6rem;
-
-    max-width: 90%;
+    color: #343334;        
 
     font-size: .85rem;
 
-    &__img{
-        margin-right: 1rem;
+    &__img {        
+        width: 100%;
     }
 }

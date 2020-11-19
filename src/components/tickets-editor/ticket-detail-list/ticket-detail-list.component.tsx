@@ -26,7 +26,7 @@ const TicketDetailList: React.FC<IProps> = (props) => {
   const virtualizedCache = React.useRef(
     new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 100,
+      defaultHeight: 110,
     })
   );
 
@@ -40,7 +40,7 @@ const TicketDetailList: React.FC<IProps> = (props) => {
   return (
     <>
       <Tip>
-        <span>Seleccione un número para modificarlo</span>
+        <span>Seleccione un número para cambiar los datos de lectura</span>
       </Tip>
 
       <div style={{ height: "100vh" }}>
@@ -56,16 +56,19 @@ const TicketDetailList: React.FC<IProps> = (props) => {
                 const ticket = ticketList[index];
                 return (
                   <CellMeasurer
-                    key={key}
+                    key={key}                    
                     cache={virtualizedCache.current}
                     parent={parent}
                     columnIndex={0}
                     rowIndex={index}
                   >
-                    <div style={style}>
+                    <div 
+                      key={ticket.codigo}
+                      style={style}
+                      className="ticket-detail-item"
+                    >                      
                       <div
                         className="ticket-detail-ticket"
-                        key={ticket.codigo}
                         onClick={() => {
                           setSelectedTicket(ticket);
                         }}

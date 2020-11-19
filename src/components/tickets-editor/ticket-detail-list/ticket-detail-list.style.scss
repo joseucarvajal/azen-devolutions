@@ -4,5 +4,9 @@
 }
 
 .ticket-detail-ticket:not(:first-child) {
-    margin-top: .5rem;
+    padding-top: .5rem;
+}
+
+.ticket-detail-item {
+    padding-bottom: .8rem;
 }

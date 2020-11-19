@@ -261,7 +261,7 @@ export const useTicketDevolutionActions = () => {
         showErrorMessage(JSON.stringify(uploadResult.response));
       }
     } catch (err) {
-      showErrorMessage(JSON.stringify(err));
+      showErrorMessage(err.message);
     }
   };
 

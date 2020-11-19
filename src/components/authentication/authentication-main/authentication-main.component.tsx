@@ -46,6 +46,8 @@ const AuthenticationMain: React.FC = () => {
         <div className="auth">
           <GlobalSetupForm />
 
+          <div></div>
+          
           <div className="auth__heading">
             <img className="auth__heading-img" src={logoMicrocupos} />
           </div>

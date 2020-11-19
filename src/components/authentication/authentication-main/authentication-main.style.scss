@@ -28,11 +28,14 @@
         justify-content: center;
         &-img {
             position: relative;
-            width: 65%;
+            top: .5rem;            
+            width: 53%;
         }
     }
 
     &__box {
+        position: relative; 
+        top: 1rem;
         border: var(--azn-border-1);
         box-shadow: var(--azn-shadow-style-2);
         background-color: white;
@@ -123,7 +126,9 @@
         display: flex;        
         justify-content: center;
         &-img{
-            width: 90%;
+            position: relative; 
+            top: 1.5rem;
+            width: 45%;
         }
     }
 }

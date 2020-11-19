@@ -44,7 +44,7 @@ const TicketSearch: React.FC<IProps> = (props) => {
             required
           ></IonInput>
           <IonButton
-            color="secondary"
+            color="tertiary"
             type="submit"
             className="azn-button-capitalize"
           >

@@ -1,5 +1,9 @@
 .action-indicator {
 
+    &__loading {
+        color: var(--azn-font-color-s);
+    }
+
     &__success {
         color: var(--ion-color-success);
     }

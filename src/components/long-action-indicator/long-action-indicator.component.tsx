@@ -30,7 +30,7 @@ const LongActionIndicator: React.FC = () => {
 
   return (
     <>
-      <IonLoading isOpen={isLoading} message={loadingMessage} spinner="lines" />
+      <IonLoading mode="ios" cssClass="action-indicator__loading" isOpen={isLoading} message={loadingMessage} spinner="lines" />
 
       <IonToast
         isOpen={resultMessage.length > 0}

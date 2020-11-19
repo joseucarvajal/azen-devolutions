@@ -37,7 +37,7 @@ export const saveTicketDevolutionEntity = async (
       errorShown = true;
 
       const errorInfo = errorInfoGral as IAzenErrorInfo;
-      if(errorInfo){
+      if(errorInfo){        
         throw new Error(errorInfo.Title);
       }
             
