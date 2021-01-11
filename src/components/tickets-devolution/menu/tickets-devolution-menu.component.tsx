@@ -14,16 +14,19 @@ import {
 } from "@ionic/react";
 import {
   pencilOutline,
-  businessOutline,
   ellipsisVerticalOutline,
   barcodeOutline,
-  calculatorOutline,
-  calculatorSharp,
+  shareSocialOutline,
+  checkmarkCircleOutline,
 } from "ionicons/icons";
 
 import { OptionMenu } from "../../../providers/tickets-devolution/tickets-devolution.types";
 import { useTicketDevolutionReportState } from "../../../providers/tickets-devolution/tickets-devolution.report.hooks";
-import { useTicketDevolutionState, useTicketDevolutionActions } from "../../../providers/tickets-devolution/tickets-devolution.hook";
+import {
+  useTicketDevolutionState,
+  useTicketDevolution,
+} from "../../../providers/tickets-devolution/tickets-devolution.hook";
+import { useAuthenticationState } from "../../../providers/authentication/authentication.hooks";
 
 interface IMenuOption {
   icon: string;
@@ -37,8 +40,10 @@ interface IProps {
 
 const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
 
+  const { userName: agente } = useAuthenticationState();
+
   const { leerXFracciones } = useTicketDevolutionState();
-  const { setLeerXFracciones } = useTicketDevolutionActions();
+  const { setLeerXFracciones, shareDevolutionFileViaWhatsApp } = useTicketDevolution(agente);
   const ticketDevolutionCounterReport = useTicketDevolutionReportState();
   const [menuOptions, setMenuOptions] = useState<IMenuOption[]>([]);
 
@@ -57,11 +62,18 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
     ];
 
     if (ticketDevolutionCounterReport.ticketsTotalCount) {
-      menuOpts.unshift({
-        icon: calculatorSharp,
-        label: "Revisar numeración",
-        option: "VER_NUMERACION",
-      });
+      menuOpts.unshift(
+        {
+          icon: checkmarkCircleOutline,
+          label: "Revisar numeración",
+          option: "VER_NUMERACION",
+        },
+        {
+          icon: shareSocialOutline,
+          label: "Compartir lectura",
+          option: "SHARE_READING_FILE",
+        }
+      );
     }
 
     setMenuOptions(menuOpts);
@@ -79,7 +91,12 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
   };
 
   const onOptionClick = (option: OptionMenu) => {
-    handleOptionClick(option);
+    if (option === "SHARE_READING_FILE") {
+      shareDevolutionFileViaWhatsApp();
+    } else {
+      handleOptionClick(option);
+    }
+
     setShowMenu(false);
   };
 
@@ -101,8 +118,19 @@ const TicketsDevolutionMenu: React.FC<IProps> = (props) => {
           {menuOptions.map((optionItem) =>
             optionItem.option === "TOGGLE_LECTURA_FRACCION" ? (
               <IonItem key={optionItem.option}>
-                  <IonToggle mode="ios" color="secondary" checked={leerXFracciones} onIonChange={e => setLeerXFracciones(e.detail.checked)} />
-                  <span onClick={()=>{setLeerXFracciones(!leerXFracciones);}}>&nbsp;Lectura por fracciones</span>
+                <IonToggle
+                  mode="ios"
+                  color="secondary"
+                  checked={leerXFracciones}
+                  onIonChange={(e) => setLeerXFracciones(e.detail.checked)}
+                />
+                <span
+                  onClick={() => {
+                    setLeerXFracciones(!leerXFracciones);
+                  }}
+                >
+                  &nbsp;Lectura por fracciones
+                </span>
               </IonItem>
             ) : (
               <IonItem

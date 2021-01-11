@@ -1,5 +1,4 @@
 import { GlobalSetupState, SET_API_URL } from "./global-setup.types";
-import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import {
   GlobalSetupDataContext,
   GlobalSetupActionsContext,

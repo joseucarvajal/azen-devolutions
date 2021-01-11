@@ -26,7 +26,7 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: "Devoluciones v.1.3",
+    title: "Devoluciones v.1.4",
     url: "/ticket-devolution/Inbox",
     iosIcon: arrowUndo,
     mdIcon: arrowUndo,

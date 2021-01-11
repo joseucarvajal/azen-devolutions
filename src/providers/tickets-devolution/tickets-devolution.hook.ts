@@ -13,7 +13,6 @@ import {
   getTicketCounterReport as utilsGetTicketCounterReport,
   getFileReportStr as buildFileReportStr,
   getDevolutionFileName as buildDevolutionFileName,
-  padLeft,
 } from "./tickets-devolution.utils";
 
 import { useLongActionIndicatorActions } from "../long-action-indicator/long-action-indicator.hooks";
@@ -37,6 +36,7 @@ import { useContextValue } from "../../shared/hooks/use-context-value-hook";
 import { useGlobalSetupState } from "../global-setup/global-setup.hooks";
 import { useAuthentication } from "../authentication/authentication.hooks";
 import { saveTicketDevolutionEntity } from "./tickets-devolution.api";
+import { shareFileViaWhatsApp } from "../../shared/social-sharing/socialshare.reading.file";
 
 export const useTicketDevolutionState = (): ITicketsDevolutionState => {
   return useContextValue<ITicketsDevolutionState>(
@@ -47,6 +47,7 @@ export const useTicketDevolutionState = (): ITicketsDevolutionState => {
 
 export interface ITicketDevolutionActions {
   readingInProgress: boolean;
+  shareDevolutionFileViaWhatsApp: (state: ITicketsDevolutionState, agente: string) => void;
   forceCounterReportUdate: boolean;
   startScanning: () => Promise<void>;
   addTicket: (codigo: string) => void;
@@ -114,15 +115,22 @@ export const useTicketDevolutionActions = () => {
   };
 
   const fraction_1 = [
-    '90150004640624007001', '90150004640624007001',
-    '90150004640634007002', '90150004640624123003', '90150004640624007003',
-    '90150004640624008003', '90150004640624008004'];
+    "90150004640624007001",
+    "90150004640624007001",
+    "90150004640634007002",
+    "90150004640624123003",
+    "90150004640624007003",
+    "90150004640624008003",
+    "90150004640624008004",
+  ];
 
+  /*
   const fraction_N = [
     '90150004640624007001', '90150004640624007001',
     '90150004640624007002', '90150004640624123003', '90150004640624007003',
     '90150004640624008003'];
-  
+  */
+
   const input = fraction_1;
 
   const startScanningFakeWeb = async () => {
@@ -134,22 +142,24 @@ export const useTicketDevolutionActions = () => {
     };
     while (!data.cancelled) {
       data = await produceScanFakeNumber(max, counter);
-      if (!data.cancelled) {                
+      if (!data.cancelled) {
         addTicket(data.text);
-        counter++;        
+        counter++;
       }
     }
-  };  
+  };
 
   const produceScanFakeNumber = (
     max: number,
     counter: number
   ): Promise<any> => {
     return new Promise<any>((resolve, reject) => {
-      let timer = setTimeout(() => {
+      setTimeout(() => {
+        /*
         const serie = padLeft(Math.floor(Math.random() * 999), 3);
         const nro = padLeft(Math.floor(Math.random() * 9999), 4);
         const fraccion = padLeft(Math.floor(Math.random() * 4) + 1, 2);
+        */
 
         /*
         //Uncomment if you want to ignore a specific fraction
@@ -160,23 +170,23 @@ export const useTicketDevolutionActions = () => {
           });
           return;
         }
-        */        
+        */
 
-        if(counter === max){
+        if (counter === max) {
           resolve({
             cancelled: true,
             text: input[counter],
-           });  
-           return;
+          });
+          return;
         }
 
-        console.log('lectura (' + counter + '): ', input[counter]);
-       resolve({
-        cancelled: false,
-        text: input[counter],
-       });                
+        console.log("lectura (" + counter + "): ", input[counter]);
+        resolve({
+          cancelled: false,
+          text: input[counter],
+        });
 
-       /*
+        /*
         const codigo = `90150004640${nro}${serie}${fraccion}`;
         clearTimeout(timer);
         resolve({
@@ -186,6 +196,20 @@ export const useTicketDevolutionActions = () => {
         */
       }, 100);
     });
+  };
+
+  const shareDevolutionFileViaWhatsApp = async (
+    state: ITicketsDevolutionState,
+    agente: string
+  ) => {
+    try{
+      const fileName = buildDevolutionFileName(state, agente);
+      const dataToWrite = buildFileReportStr(state, agente);
+      await shareFileViaWhatsApp(state, agente, fileName, dataToWrite);
+    }
+    catch(err){
+      showErrorMessage(err.message);      
+    }
   };
 
   const updateTicketCantidad = (ticket: ITicket, newCounter: number) => {
@@ -225,6 +249,7 @@ export const useTicketDevolutionActions = () => {
       showLoading();
 
       const fileName = buildDevolutionFileName(state, agente);
+
       const dataToWrite = buildFileReportStr(state, agente);
       if (isPlatform("mobileweb")) {
         console.log(dataToWrite);
@@ -254,8 +279,6 @@ export const useTicketDevolutionActions = () => {
         );
         alert(zservicesResponse.data);
 
-        resetState();
-
         showSuccessMessage("Operación realizada con éxito");
       } else {
         showErrorMessage(JSON.stringify(uploadResult.response));
@@ -265,6 +288,7 @@ export const useTicketDevolutionActions = () => {
     }
   };
 
+  // eslint-disable-next-line
   const resetState = () => {
     dispatch({
       type: SET_NEW_TICKET_DEVOLUTION_STATE,
@@ -275,6 +299,7 @@ export const useTicketDevolutionActions = () => {
 
   return {
     readingInProgress,
+    shareDevolutionFileViaWhatsApp,
     forceCounterReportUdate,
     startScanning,
     addTicket,
@@ -291,6 +316,7 @@ export interface IUseTicketDevolution extends ITicketDevolutionActions {
   ticketDevolutionCounterReport: ITicketDevolutionReport;
 
   sendDevolutionFile: () => void;
+  shareDevolutionFileViaWhatsApp: () => void;
 }
 
 export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
@@ -307,7 +333,6 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
   ] = useTicketDevolutionReport();
 
   useEffect(() => {
-
     //console.log({state});
 
     if (readingInProgress === true) {
@@ -322,6 +347,10 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
     ticketDevolutionActions.sendDevolutionFile(state, agente);
   };
 
+  const shareDevolutionFileViaWhatsApp = () => {
+    ticketDevolutionActions.shareDevolutionFileViaWhatsApp(state, agente);
+  };
+
   return {
     state,
 
@@ -329,5 +358,6 @@ export const useTicketDevolution = (agente: string): IUseTicketDevolution => {
 
     ticketDevolutionCounterReport,
     sendDevolutionFile,
+    shareDevolutionFileViaWhatsApp
   } as IUseTicketDevolution;
 };

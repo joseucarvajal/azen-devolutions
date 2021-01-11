@@ -25,9 +25,9 @@ export const uploadFile = async (apiURL: string, fileName: string, fileContentSt
 
         return uploadResult;
     }
-    catch (err) {   
+    catch (err) {
         setTimeout(() => {        
-            alert(JSON.stringify(err));
+            alert('ERROR' + '\n' + JSON.stringify(err));
           }, 1700);        
         throw err;
     }

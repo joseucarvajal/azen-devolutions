@@ -49,7 +49,7 @@ const AuthenticationMain: React.FC = () => {
           <div></div>
           
           <div className="auth__heading">
-            <img className="auth__heading-img" src={logoMicrocupos} />
+            <img className="auth__heading-img" src={logoMicrocupos} alt="Logo Microcupos" />
           </div>
 
           <div className="auth__box">
@@ -64,6 +64,7 @@ const AuthenticationMain: React.FC = () => {
                     type="text"
                     className="auth__box-input"
                     placeholder="Usuario"
+                    autoCapitalize = 'none'
                     value={userName}
                     onChange={onUserNameChange}
                     required

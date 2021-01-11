@@ -6,7 +6,6 @@ import {
 } from "./authentication-types";
 import { authenticationReducer } from "./authentication-reducer";
 import { Context } from "react";
-import { isPlatform } from "@ionic/react";
 
 const initialState = {
   userName: '',

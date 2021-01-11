@@ -63,7 +63,7 @@ export const reducer = (
           if (!existingTicket.fracciones || existingTicket.fracciones.length === 0) {
             existingTicket.fracciones = [existingTicket.fraccion];
           }
-          if (existingTicket.fracciones.indexOf(newTicket.fraccion) == -1) {
+          if (existingTicket.fracciones.indexOf(newTicket.fraccion) === -1) {
             existingTicket.fracciones.push(newTicket.fraccion);
             existingTicket.cantidadFracciones++;
           }

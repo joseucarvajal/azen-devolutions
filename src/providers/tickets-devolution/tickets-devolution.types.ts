@@ -120,7 +120,7 @@ export interface IDevolutionEntity {
     archivoDevol: string;
 }
 
-export type OptionMenu = 'VER_NUMERACION' | 'DIGITAR_CODIGO' | "TOGGLE_LECTURA_FRACCION" | undefined ;
+export type OptionMenu = 'VER_NUMERACION' | 'DIGITAR_CODIGO' | "TOGGLE_LECTURA_FRACCION" | "SHARE_READING_FILE" | undefined ;
 
 
 export const ADD_LOTTERY_TICKET = "ADD_LOTTERY_TICKET";
