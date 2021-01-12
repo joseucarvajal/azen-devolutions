@@ -38,6 +38,9 @@ const GlobalSetupProvider: React.FC = ({ children }) => {
         if (isPlatform("mobileweb")) {
           initialStateFromStorage.apiBaseURL = "http://54.245.55.117:8080/";
         }
+        else{          
+          initialStateFromStorage.apiBaseURL = "http://54.245.55.117:8080/";
+        }
       } finally {
         dispatch({
           type: INITIALIZE_STATE,
